@@ -58,11 +58,6 @@ public class JD_Login extends javax.swing.JDialog {
         jtfUsuario.setToolTipText("Inserte su nombre de usuario");
         jtfUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(45, 125, 246)));
         jtfUsuario.setOpaque(false);
-        jtfUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfUsuarioActionPerformed(evt);
-            }
-        });
         jpBackground.add(jtfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 250, 26));
 
         ic_username.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/username.png"))); // NOI18N
@@ -71,11 +66,6 @@ public class JD_Login extends javax.swing.JDialog {
         jtfPassword.setToolTipText("Inserte su contraseña");
         jtfPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(45, 125, 246)));
         jtfPassword.setOpaque(false);
-        jtfPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfPasswordActionPerformed(evt);
-            }
-        });
         jpBackground.add(jtfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 250, 27));
 
         ic_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/lock.png"))); // NOI18N
@@ -88,13 +78,8 @@ public class JD_Login extends javax.swing.JDialog {
 
         jlServidor.setForeground(new java.awt.Color(102, 102, 102));
         jlServidor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jlServidor.setText("Establecer conexion con el servidor");
+        jlServidor.setText("Conexión");
         jlServidor.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jlServidor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlServidorMouseClicked(evt);
-            }
-        });
         jpBackground.add(jlServidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 210, 130, -1));
 
         jbCancelar.setText("Cancelar");
@@ -145,18 +130,6 @@ public class JD_Login extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jtfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfPasswordActionPerformed
-
-    private void jlServidorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlServidorMouseClicked
-
-    }//GEN-LAST:event_jlServidorMouseClicked
-
-    private void jtfUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfUsuarioActionPerformed
 
     private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
         String username = jtfUsuario.getText();
@@ -253,26 +226,28 @@ public class JD_Login extends javax.swing.JDialog {
             connPg = connPg.cargar();
             Connection conn = connPg.conectar();
             if (conn != null) {
-                jlServidor.setText("Servidor conectado.");
-                jlHiperv.setText(CAMBIAR);
-                jlHiperv.setToolTipText("Configurar otro servidor");
+                conectado();
             } else {
-                jlServidor.setText("Sin conexión establecida.");
-                jlHiperv.setText(CONECTAR);
-                jlHiperv.setToolTipText("Establecer conexión con el servidor");
+                no_conectado();
             }
         } catch (ClassNotFoundException e) {
-            jlServidor.setText("Sin conexión establecida.");
-            jlHiperv.setText(CONECTAR);
-            jlHiperv.setToolTipText("Establecer conexión con el servidor");
+            no_conectado();
         } catch (IOException e) {
-            jlServidor.setText("Sin conexión establecida.");
-            jlHiperv.setText(CONECTAR);
-            jlHiperv.setToolTipText("Establecer conexión con el servidor");
+            no_conectado();
         } catch (SQLException e) {
-            jlServidor.setText("Sin conexión establecida.");
-            jlHiperv.setText(CONECTAR);
-            jlHiperv.setToolTipText("Establecer conexión con el servidor");
+            no_conectado();
         }
+    }
+    
+    private void no_conectado(){
+        jlServidor.setText("Sin conexión establecida.");
+        jlHiperv.setText(CONECTAR);
+        jlHiperv.setToolTipText("Establecer conexión con el servidor");
+    }
+    
+    private void conectado(){
+        jlServidor.setText("Servidor conectado.");
+        jlHiperv.setText(CAMBIAR);
+        jlHiperv.setToolTipText("Configurar otro servidor");
     }
 }
