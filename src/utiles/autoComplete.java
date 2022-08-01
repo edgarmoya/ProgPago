@@ -15,6 +15,7 @@ public class autoComplete {
      * @param comboBox - Combo deseado
      * @param datos - Datos para el combox
      */
+    @SuppressWarnings("unchecked")
     public static void setAutoComplete(JComboBox comboBox, String[] datos) {
         comboBox.setEditable(true);
         comboBox.setModel(new javax.swing.DefaultComboBoxModel(datos));
