@@ -257,7 +257,7 @@ public class Combobox<E> extends JComboBox<E> {
             public ArrowButton() {
                 setContentAreaFilled(false);
                 setBorder(new EmptyBorder(5, 5, 5, 5));
-                setBackground(new Color(45, 125, 246));
+                setBackground(new Color(102, 102, 102));
             }
 
             @Override
