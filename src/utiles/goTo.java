@@ -3,9 +3,7 @@ package utiles;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-/**
- * @author Edgar Moya
- */
+
 public class goTo {             
     
     //Abrir JFrame desde otro JFrame 
@@ -23,7 +21,6 @@ public class goTo {
     //Abrir JDialog desde otro JDialog
     public static void dialog(JDialog origen, JDialog destino) {         
       origen.dispose();
-      destino.setVisible(true);
-      
+      destino.setVisible(true); 
     }
 }

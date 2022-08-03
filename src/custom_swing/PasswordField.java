@@ -23,9 +23,7 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-/**
- * @author Edgar Moya
- */
+
 public class PasswordField extends JPasswordField {
     
     public boolean isShowAndHide() {
@@ -59,7 +57,7 @@ public class PasswordField extends JPasswordField {
     private boolean show;
     private boolean mouseOver = false;
     private String labelText = "Label";
-    private Color lineColor = new Color(3, 155, 216);
+    private Color lineColor = new Color(45, 125, 246);
     private final Image eye;
     private final Image eye_hide;
     private boolean hide = true;

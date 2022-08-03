@@ -35,11 +35,10 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jbAceptar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jpIdentificacion = new javax.swing.JPanel();
-        jtfUsuario = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jtfPassword = new custom_swing.PasswordField();
+        jtfUsuario = new custom_swing.TextField();
         jlFondoHex = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -50,7 +49,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpParametros.setBackground(new java.awt.Color(255, 255, 255));
-        jpParametros.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(102, 102, 102)), "PARÁMETROS DE ACCESO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
+        jpParametros.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "PARÁMETROS DE ACCESO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
         jpParametros.setForeground(new java.awt.Color(0, 0, 0));
         jpParametros.setOpaque(false);
 
@@ -130,17 +129,9 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpBackground.add(jpParametros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 330, 210));
 
         jpIdentificacion.setBackground(new java.awt.Color(255, 255, 255));
-        jpIdentificacion.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(102, 102, 102)), "IDENTIFICACIÓN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
+        jpIdentificacion.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "IDENTIFICACIÓN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
         jpIdentificacion.setForeground(new java.awt.Color(0, 0, 0));
         jpIdentificacion.setOpaque(false);
-
-        jtfUsuario.setToolTipText("Inserte su nombre de usuario");
-        jtfUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(45, 125, 246)));
-        jtfUsuario.setOpaque(false);
-
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 10)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel2.setText("USUARIO");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/username.png"))); // NOI18N
 
@@ -156,6 +147,10 @@ public class JD_LoginBD extends javax.swing.JDialog {
             }
         });
 
+        jtfUsuario.setToolTipText("Inserte su nombre de usuario");
+        jtfUsuario.setLabelText("USUARIO");
+        jtfUsuario.setOpaque(false);
+
         javax.swing.GroupLayout jpIdentificacionLayout = new javax.swing.GroupLayout(jpIdentificacion);
         jpIdentificacion.setLayout(jpIdentificacionLayout);
         jpIdentificacionLayout.setHorizontalGroup(
@@ -167,28 +162,21 @@ public class JD_LoginBD extends javax.swing.JDialog {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpIdentificacionLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         jpIdentificacionLayout.setVerticalGroup(
             jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpIdentificacionLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel2)
-                .addGap(2, 2, 2)
-                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpIdentificacionLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel5))
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -303,7 +291,6 @@ public class JD_LoginBD extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -317,7 +304,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
     private javax.swing.JPanel jpIdentificacion;
     private javax.swing.JPanel jpParametros;
     private custom_swing.PasswordField jtfPassword;
-    private javax.swing.JTextField jtfUsuario;
+    private custom_swing.TextField jtfUsuario;
     // End of variables declaration//GEN-END:variables
 
     private void buscarServidor() {

@@ -1,6 +1,7 @@
 package custom_swing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,9 +18,7 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-/**
- * @author Edgar Moya
- */
+
 public class TextField extends JTextField {
      public String getLabelText() {
         return labelText;
@@ -43,7 +42,7 @@ public class TextField extends JTextField {
     private boolean show;
     private boolean mouseOver = false;
     private String labelText = "Label";
-    private Color lineColor = new Color(3, 155, 216);
+    private Color lineColor = new Color(45, 125, 246);
 
     public TextField() {
         setBorder(new EmptyBorder(20, 3, 10, 3));
@@ -124,7 +123,8 @@ public class TextField extends JTextField {
 
     private void createHintText(Graphics2D g2) {
         Insets in = getInsets();
-        g2.setColor(new Color(150, 150, 150));
+        g2.setColor(new Color(102, 102, 102));
+        g2.setFont(new Font("Calibri", Font.PLAIN, 10));
         FontMetrics ft = g2.getFontMetrics();
         Rectangle2D r2 = ft.getStringBounds(labelText, g2);
         double height = getHeight() - in.top - in.bottom;
