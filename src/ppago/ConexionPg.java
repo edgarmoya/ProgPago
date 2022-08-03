@@ -10,9 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * @author Edgar Moya
- */
 public class ConexionPg implements Serializable {
 
     private transient Connection conexion;    //transient porque "Connection" no es Serializable
@@ -119,8 +116,5 @@ public class ConexionPg implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    
-    
     
 }
