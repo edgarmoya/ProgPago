@@ -49,25 +49,20 @@ public class ConexionPg implements Serializable {
     }
 
     public void guardar(ConexionPg conn) throws IOException {
-        ObjectOutputStream fs = new ObjectOutputStream(new FileOutputStream("connection"));
+        ObjectOutputStream fs = new ObjectOutputStream(new FileOutputStream("connection.ppgo"));
         fs.writeObject(conn);
         fs.close();
     }
 
     //Cargar datos de un fichero binario
     public ConexionPg cargar() throws IOException, ClassNotFoundException {
-        ObjectInputStream fs = new ObjectInputStream(new FileInputStream("connection"));
+        ObjectInputStream fs = new ObjectInputStream(new FileInputStream("connection.ppgo"));
         ConexionPg conn = (ConexionPg) fs.readObject();
         fs.close(); 
         
         return conn;
     }
-    
-    //Borrar archivo "connection"
-    public void cerrar() {
         
-        
-    }
 
     public Connection getConexion() {
         return conexion;
