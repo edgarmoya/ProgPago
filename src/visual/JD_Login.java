@@ -220,6 +220,8 @@ public class JD_Login extends javax.swing.JDialog {
             if (Login.validarUser(connPg, t)) {
                 VentanaPrincipal vp = new VentanaPrincipal();
                 goTo.frame(this, vp);
+            }else{
+                JOptionPane.showMessageDialog(this, "Usuario incorrecto, compruebe los datos y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
