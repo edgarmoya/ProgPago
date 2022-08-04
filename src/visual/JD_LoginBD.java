@@ -20,7 +20,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        buscarServidor();
+        buscarServidor();        
     }
 
     @SuppressWarnings("unchecked")
@@ -34,7 +34,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jcbServidor = new custom_swing.Combobox();
         jcbBD = new custom_swing.Combobox();
         jpIdentificacion = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jlUsuario = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jtfPassword = new custom_swing.PasswordField();
         jtfUsuario = new custom_swing.TextField();
@@ -61,7 +61,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpParametros.setForeground(new java.awt.Color(0, 0, 0));
         jpParametros.setOpaque(false);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/globe.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/earth.png"))); // NOI18N
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/file.png"))); // NOI18N
 
@@ -90,13 +90,13 @@ public class JD_LoginBD extends javax.swing.JDialog {
                 .addGroup(jpParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpParametrosLayout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcbServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpParametrosLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbBD, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(10, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcbBD, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jpParametrosLayout.setVerticalGroup(
             jpParametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,9 +119,10 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpIdentificacion.setForeground(new java.awt.Color(0, 0, 0));
         jpIdentificacion.setOpaque(false);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/username.png"))); // NOI18N
+        jlUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/lock.png"))); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pass.png"))); // NOI18N
 
         jtfPassword.setToolTipText("Inserte su contraseña");
         jtfPassword.setLabelText("CONTRASEÑA");
@@ -142,14 +143,14 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpIdentificacionLayout.setHorizontalGroup(
             jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpIdentificacionLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlUsuario, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         jpIdentificacionLayout.setVerticalGroup(
@@ -157,12 +158,14 @@ public class JD_LoginBD extends javax.swing.JDialog {
             .addGroup(jpIdentificacionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpIdentificacionLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(8, 8, 8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -422,13 +425,13 @@ public class JD_LoginBD extends javax.swing.JDialog {
     private javax.swing.JPanel btnAceptar;
     private javax.swing.JPanel btnCancelar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private custom_swing.Combobox jcbBD;
     private custom_swing.Combobox jcbServidor;
     private javax.swing.JLabel jlFondoHex;
+    private javax.swing.JLabel jlUsuario;
     private javax.swing.JPanel jpBackground;
     private javax.swing.JPanel jpIdentificacion;
     private javax.swing.JPanel jpParametros;
