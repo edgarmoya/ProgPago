@@ -14,8 +14,7 @@ import utiles.autoComplete;
 import utiles.goTo;
 
 public class JD_LoginBD extends javax.swing.JDialog {
-
-    //Arreglar todas las excepciones
+  
     public JD_LoginBD(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -452,12 +451,12 @@ public class JD_LoginBD extends javax.swing.JDialog {
                 veDatos[i] = lista.get(i).toString();
             }
 
-            //Agregar datos al comoBox
+            //Agregar datos al comboBox
             autoComplete.setAutoComplete(jcbServidor, veDatos);
         } catch (UnknownHostException ex) {
-            //joptionpane
+            //no mostrar nada, no le saldrá al usuario ningun servidor a elegir
         } catch (SocketException ex) {
-            //joptionpane
+            //no mostrar nada, no le saldrá al usuario ningun servidor a elegir
         }
     }
 
@@ -482,9 +481,9 @@ public class JD_LoginBD extends javax.swing.JDialog {
 
             autoComplete.setAutoComplete(jcbBD, veDatos);
         } catch (ClassNotFoundException ex) {
-            //joptionpane
+             JOptionPane.showMessageDialog(this, "Error al conectar con el postgresql.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            //joptionpane
+            //no mostrar nada, no le saldrá al usuario ninguna BD a elegir
         }
     }
 }
