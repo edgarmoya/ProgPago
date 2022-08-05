@@ -11,6 +11,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
+        setIconImage(getIconImage());   
     }
     
     
