@@ -119,7 +119,8 @@ public class Login {
         }
     }
 
-    //Obtener lista dcon todas las base de datos 
+    
+    //Obtener lista con todas las base de datos 
     public static ArrayList<String> getListaBD(String user, String pass, String host) throws SQLException, ClassNotFoundException {
         ConexionPg c = new ConexionPg(user, pass, host, "");
         Connection conn = c.conectar();
@@ -172,7 +173,6 @@ public class Login {
 
     /**
      * Siempre devuelve localhost
-     *
      * @return String con el localhost de la computadora
      */
     public static String getLocalHost() {

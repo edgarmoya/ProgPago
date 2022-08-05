@@ -1,5 +1,7 @@
 package visual;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 
@@ -9,7 +11,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
+        setIconImage(getIconImage());   
     }
+    
+    
+    @Override
+    public Image getIconImage (){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_config.png"));
+        return res;
+    } 
 
     
     @SuppressWarnings("unchecked")
