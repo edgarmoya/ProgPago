@@ -15,8 +15,9 @@ import utiles.goTo;
 public class JD_Login extends javax.swing.JDialog {
 
     private ConexionPg connPg;
-    private String CAMBIAR = "<html><u>CAMBIAR</u></html>";
-    private String CONECTAR = "<html><u>CONECTAR</u></html>";
+    private boolean estadoConn = false;
+    private String CAMBIAR = "<html>Servidor conectado. <font color=\"#999999\"><b><u>CAMBIAR</u></b></font></html>";
+    private String CONECTAR = "<html>Sin conexión establecida. <font color=\"#999999\"><b><u>CONECTAR</u></b></font></html>";
 
     public JD_Login(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -32,7 +33,6 @@ public class JD_Login extends javax.swing.JDialog {
         jpBackground = new javax.swing.JPanel();
         ic_username = new javax.swing.JLabel();
         ic_password = new javax.swing.JLabel();
-        jlServidor = new javax.swing.JLabel();
         jlHiperv = new javax.swing.JLabel();
         jtfUsuario = new custom_swing.TextField();
         jtfPassword = new custom_swing.PasswordField();
@@ -55,13 +55,8 @@ public class JD_Login extends javax.swing.JDialog {
         ic_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pass.png"))); // NOI18N
         jpBackground.add(ic_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 90, -1, -1));
 
-        jlServidor.setForeground(new java.awt.Color(102, 102, 102));
-        jlServidor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jlServidor.setText("Conexión");
-        jlServidor.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jpBackground.add(jlServidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 130, 40));
-
         jlHiperv.setForeground(new java.awt.Color(102, 102, 102));
+        jlHiperv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlHiperv.setText("CONECTAR");
         jlHiperv.setToolTipText("Configurar otro servidor");
         jlHiperv.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -75,7 +70,7 @@ public class JD_Login extends javax.swing.JDialog {
                 jlHipervMouseExited(evt);
             }
         });
-        jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 90, 40));
+        jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 310, 40));
 
         jtfUsuario.setToolTipText("Inserte su nombre de usuario");
         jtfUsuario.setLabelText("USUARIO");
@@ -200,11 +195,11 @@ public class JD_Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jlHipervMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlHipervMouseEntered
-        jlHiperv.setForeground(new Color(45, 125, 246));
+        mouseEntered("#2d7df6");
     }//GEN-LAST:event_jlHipervMouseEntered
 
     private void jlHipervMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlHipervMouseExited
-        jlHiperv.setForeground(new Color(102, 102, 102));
+       mouseEntered("#999999");
     }//GEN-LAST:event_jlHipervMouseExited
 
     private void jlHipervMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlHipervMouseClicked
@@ -327,7 +322,6 @@ public class JD_Login extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jlFondoHex;
     private javax.swing.JLabel jlHiperv;
-    private javax.swing.JLabel jlServidor;
     private javax.swing.JPanel jpBackground;
     private custom_swing.PasswordField jtfPassword;
     private custom_swing.TextField jtfUsuario;
@@ -341,8 +335,10 @@ public class JD_Login extends javax.swing.JDialog {
             Connection conn = connPg.conectar();
             if (conn != null) {
                 conectado();
+                estadoConn = true;
             } else {
                 no_conectado();
+                estadoConn = false;
             }
         } catch (ClassNotFoundException e) {
             no_conectado();
@@ -354,14 +350,22 @@ public class JD_Login extends javax.swing.JDialog {
     }
     
     private void no_conectado(){
-        jlServidor.setText("Sin conexión establecida.");
         jlHiperv.setText(CONECTAR);
         jlHiperv.setToolTipText("Establecer conexión con el servidor");
     }
     
     private void conectado(){
-        jlServidor.setText("Servidor conectado.");
         jlHiperv.setText(CAMBIAR);
         jlHiperv.setToolTipText("Configurar otro servidor");
+    }
+    
+    private void mouseEntered(String color){              
+        CAMBIAR = "<html>Servidor conectado. <font color=\""+ color + "\"><b><u>CAMBIAR</u></b></font></html>";;
+        CONECTAR = "<html>Sin conexión establecida. <font color=\""+ color +"\"><b><u>CONECTAR</u></b></font></html>";
+        if(estadoConn){
+            jlHiperv.setText(CAMBIAR);
+        }else{
+            jlHiperv.setText(CONECTAR);
+        }     
     }
 }

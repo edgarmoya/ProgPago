@@ -352,7 +352,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
                 goTo.dialog(this, JDLogin);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Compruebe los datos ingresados y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La base de datos elegida no es válida, vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (FaltanDatosException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
