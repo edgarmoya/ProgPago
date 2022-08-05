@@ -4,6 +4,8 @@ import entidades.Tesorero;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,8 +25,15 @@ public class JD_Login extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        setIconImage(getIconImage());        
         conectarBD();
     }
+    
+    
+    public Image getIconImage (){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_iniciarsesion.png"));
+        return res;
+    }   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -70,7 +79,7 @@ public class JD_Login extends javax.swing.JDialog {
                 jlHipervMouseExited(evt);
             }
         });
-        jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 310, 40));
+        jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 310, 30));
 
         jtfUsuario.setToolTipText("Inserte su nombre de usuario");
         jtfUsuario.setLabelText("USUARIO");
@@ -178,7 +187,7 @@ public class JD_Login extends javax.swing.JDialog {
         jpBackground.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 110, 30));
 
         jlFondoHex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
-        jpBackground.add(jlFondoHex, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 240));
+        jpBackground.add(jlFondoHex, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 230));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

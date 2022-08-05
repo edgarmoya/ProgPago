@@ -3,6 +3,8 @@ package visual;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -19,8 +21,15 @@ public class JD_LoginBD extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        setIconImage(getIconImage()); 
         buscarServidor();        
     }
+    
+    
+    public Image getIconImage (){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_config.png"));
+        return res;
+    }  
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
