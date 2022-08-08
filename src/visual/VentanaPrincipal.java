@@ -1,17 +1,111 @@
 package visual;
 
+import custom_swing.Menu.Event.EventMenuSelected;
+import custom_swing.Menu.Event.EventShowPopupMenu;
+import custom_swing.Menu.Header;
+import custom_swing.Menu.Menu;
+import custom_swing.Menu.MenuItem;
+import custom_swing.Menu.PopupMenu;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import net.miginfocom.swing.MigLayout;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private MigLayout layout;
+    private Header header;
+    private Menu menu;
+    //private MainForm main;
+    private Animator animator;
     
     public VentanaPrincipal() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
-        setIconImage(getIconImage());   
+        setIconImage(getIconImage()); 
+        init();
+    }
+    
+    private void init() {
+        layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
+        bg.setLayout(layout);
+        menu = new Menu();
+        header = new Header();
+        //main = new MainForm();
+        menu.addEvent(new EventMenuSelected() {
+            @Override
+            public void menuSelected(int menuIndex, int subMenuIndex) {
+                System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
+                if (menuIndex == 0) {
+                    if (subMenuIndex == 0) {
+                        //main.showForm(new Form_Home());
+                    } else if (subMenuIndex == 1) {
+                        //main.showForm(new Form1());
+                    }
+                }
+            }
+        });
+        menu.addEventShowPopup(new EventShowPopupMenu() {
+            @Override
+            public void showPopup(Component com) {
+                MenuItem item = (MenuItem) com;
+                PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
+                int x = VentanaPrincipal.this.getX() + 52;
+                int y = VentanaPrincipal.this.getY() + com.getY() + 86;
+                popup.setLocation(x, y);
+                popup.setVisible(true);
+            }
+        });
+        menu.initMenuItem();
+        bg.add(menu, "w 230!, spany 2");    // Span Y 2cell
+        bg.add(header, "h 54!, wrap");
+        //bg.add(main, "w 100%, h 100%");
+        TimingTarget target = new TimingTargetAdapter() {
+            @Override
+            public void timingEvent(float fraction) {
+                double width;
+                if (menu.isShowMenu()) {
+                    width = 60 + (170 * (1f - fraction));
+                } else {
+                    width = 60 + (170 * fraction);
+                }
+                layout.setComponentConstraints(menu, "w " + width + "!, spany2");
+                menu.revalidate();
+            }
+
+            @Override
+            public void end() {
+                menu.setShowMenu(!menu.isShowMenu());
+                menu.setEnableMenu(true);
+            }
+        };
+        animator = new Animator(500, target);
+        animator.setResolution(0);
+        animator.setDeceleration(0.5f);
+        animator.setAcceleration(0.5f);
+        header.addMenuEvent(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (!animator.isRunning()) {
+                    animator.start();
+                }
+                menu.setEnableMenu(false);
+                if (menu.isShowMenu()) {
+                    menu.hideallMenu();
+                }
+            }
+        });
+        //  Init google icon font
+        //IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
+        //  Start with this form
+        //main.showForm(new Form_Home());
     }
     
     
@@ -26,88 +120,40 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpBackground = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree = new javax.swing.JTree();
-        jpTop = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtDatos = new javax.swing.JTable();
+        bg = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Tesorería");
 
-        jpBackground.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBackground(new java.awt.Color(204, 204, 204));
+        bg.setOpaque(true);
 
-        jTree.setBackground(new java.awt.Color(255, 255, 255));
-        jTree.setBorder(null);
-        jScrollPane1.setViewportView(jTree);
-
-        jpTop.setBackground(new java.awt.Color(45, 125, 246));
-
-        javax.swing.GroupLayout jpTopLayout = new javax.swing.GroupLayout(jpTop);
-        jpTop.setLayout(jpTopLayout);
-        jpTopLayout.setHorizontalGroup(
-            jpTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 958, Short.MAX_VALUE)
         );
-        jpTopLayout.setVerticalGroup(
-            jpTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jtDatos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jtDatos.setOpaque(false);
-        jScrollPane2.setViewportView(jtDatos);
-
-        javax.swing.GroupLayout jpBackgroundLayout = new javax.swing.GroupLayout(jpBackground);
-        jpBackground.setLayout(jpBackgroundLayout);
-        jpBackgroundLayout.setHorizontalGroup(
-            jpBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpBackgroundLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE))
-            .addComponent(jpTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jpBackgroundLayout.setVerticalGroup(
-            jpBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpBackgroundLayout.createSequentialGroup()
-                .addComponent(jpTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
-                    .addGroup(jpBackgroundLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 557, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -141,11 +187,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jTree;
-    private javax.swing.JPanel jpBackground;
-    private javax.swing.JPanel jpTop;
-    private javax.swing.JTable jtDatos;
+    private javax.swing.JLayeredPane bg;
     // End of variables declaration//GEN-END:variables
 }
