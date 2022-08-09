@@ -51,14 +51,11 @@ public class Menu extends javax.swing.JPanel {
     }
 
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Dashboard", "Home", "Buttons", "Cards", "Tabs", "Accordions", "Modals"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Charts", "Morris", "Flot", "Line"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Report", "Income", "Expense", "Profit"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Message", "Sender", "Inbox", "User"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Staff", "Sender", "Inbox", "User"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Student", "Menu 001", "Menu 002", "Menu 003"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Library", "Menu 001", "Menu 002", "Menu 003"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Holiday", "Menu 001", "Menu 002", "Menu 003"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Operaciones", "Prog. de Pago"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Tablero de Control", "Morris", "Flot", "Line"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Codificadores", "Clientes", "Destinos","Ejercicios", "Monedas", "Períodos"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Configuración", "General", "Clientes"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Seguridad", "Usuarios", "Permisos"));
     }
 
     private void addMenu(ModelMenu menu) {

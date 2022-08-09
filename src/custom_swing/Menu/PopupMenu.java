@@ -23,13 +23,13 @@ public class PopupMenu extends javax.swing.JDialog {
         panel.setLayout(new MigLayout("fill, wrap", "8[fill, 120]0", "0[35, fill]0[35, fill]0"));
         int subMenuIndex = -1;
         for (String st : subMenu) {
-            com.raven.swing.MenuButton item = new com.raven.swing.MenuButton(st, true);
+            MenuButton item = new MenuButton(st, true);
             item.setIndex(++subMenuIndex);
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     eventSelected.menuSelected(index, item.getIndex());
-                    closeMenu();
+                    closeMenu();                    
                 }
             });
             panel.add(item);
@@ -72,7 +72,7 @@ public class PopupMenu extends javax.swing.JDialog {
         show = false;
         animator.start();
     }
-    
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -81,6 +81,13 @@ public class PopupMenu extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -107,10 +114,10 @@ public class PopupMenu extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {                                     
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
         closeMenu();
-    }    
-
+    }//GEN-LAST:event_formWindowLostFocus
+      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private custom_swing.Menu.PanelPopup panel;
     // End of variables declaration//GEN-END:variables

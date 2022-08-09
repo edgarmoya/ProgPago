@@ -17,7 +17,6 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private MigLayout layout;
@@ -35,7 +34,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     private void init() {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
-        bg.setLayout(layout);
+        bg.setLayout(layout);  
         menu = new Menu();
         header = new Header();
         //main = new MainForm();
@@ -55,12 +54,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menu.addEventShowPopup(new EventShowPopupMenu() {
             @Override
             public void showPopup(Component com) {
-                MenuItem item = (MenuItem) com;
-                PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
+                MenuItem item = (MenuItem) com;               
+                PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());                                             
                 int x = VentanaPrincipal.this.getX() + 52;
                 int y = VentanaPrincipal.this.getY() + com.getY() + 86;
                 popup.setLocation(x, y);
-                popup.setVisible(true);
+                popup.setVisible(true);                              
             }
         });
         menu.initMenuItem();
@@ -96,14 +95,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 if (!animator.isRunning()) {
                     animator.start();
                 }
-                menu.setEnableMenu(false);
+                menu.setEnableMenu(false);                             
                 if (menu.isShowMenu()) {
                     menu.hideallMenu();
                 }
             }
-        });
-        //  Init google icon font
-        //IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
+        });       
         //  Start with this form
         //main.showForm(new Form_Home());
     }
@@ -132,11 +129,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 958, Short.MAX_VALUE)
+            .addGap(0, 859, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
