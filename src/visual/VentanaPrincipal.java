@@ -11,6 +11,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -51,6 +53,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         });
+        
+        //Evento cuando está ocultado el munú
+        //Muestra las opciones en un popup
         menu.addEventShowPopup(new EventShowPopupMenu() {
             @Override
             public void showPopup(Component com) {
@@ -62,9 +67,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 popup.setVisible(true);                              
             }
         });
+        
+        //Agregando componentes al panel
         menu.initMenuItem();
         bg.add(menu, "w 230!, spany 2");    // Span Y 2cell
-        bg.add(header, "h 54!, wrap");
+        bg.add(header, "h 80!, wrap");
         //bg.add(main, "w 100%, h 100%");
         TimingTarget target = new TimingTargetAdapter() {
             @Override
@@ -89,7 +96,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         animator.setResolution(0);
         animator.setDeceleration(0.5f);
         animator.setAcceleration(0.5f);
-        header.addMenuEvent(new ActionListener() {
+        
+        
+        /*********************
+        //Eventos del Header
+        **********************/
+        //Evento para mostrar y ocultar el menú
+        header.addMenuEvent(new ActionListener() {        
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (!animator.isRunning()) {
@@ -100,7 +113,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     menu.hideallMenu();
                 }
             }
-        });       
+        });   
+        
+        //Mouse clicked en jLabel OPCIONES
+        header.addOpcionesEvent(new MouseListener() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //No hacer nada
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //No hacer nada
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //No hacer nada
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //No hacer nada
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //Abrir popupMenu con todas las opciones
+            }                           
+        });
         //  Start with this form
         //main.showForm(new Form_Home());
     }

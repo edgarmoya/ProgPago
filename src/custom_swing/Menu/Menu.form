@@ -16,16 +16,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="sp" alignment="0" pref="0" max="32767" attributes="0"/>
-          <Component id="profile" alignment="1" min="-2" pref="230" max="-2" attributes="0"/>
+          <Component id="sp" alignment="0" pref="270" max="32767" attributes="0"/>
+          <Component id="profile" alignment="0" pref="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="profile" min="-2" pref="54" max="-2" attributes="0"/>
+              <Component id="profile" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="sp" pref="539" max="32767" attributes="0"/>
+              <Component id="sp" pref="495" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,7 +50,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="312" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="316" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

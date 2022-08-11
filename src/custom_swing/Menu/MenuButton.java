@@ -39,22 +39,24 @@ public class MenuButton extends JButton {
         setIcon(icon);
         init();
         setBorder(new EmptyBorder(1, 20, 1, 1));
+        setForeground(new Color(0, 0, 0));
     }
 
     public MenuButton(String text) {
         super(text);
         init();
         setBorder(new EmptyBorder(1, 50, 1, 1));
+        setForeground(new Color(0, 0, 0));
     }
 
     public MenuButton(String text, boolean subMenu) {
         super(text);
         init();
+        setForeground(new Color(255, 255, 255));
     }
 
     private void init() {
-        setContentAreaFilled(false);
-        setForeground(new Color(255, 255, 255));
+        setContentAreaFilled(false);        
         //Tamaño y tipo de letra del titulo del menu principal
         setFont(new Font("Calibri", Font.PLAIN, 15));
         setHorizontalAlignment(JButton.LEFT);
