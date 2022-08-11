@@ -65,17 +65,17 @@ public class Menu extends javax.swing.JPanel {
     private EventMenu getEventMenu() {
         return new EventMenu() {
             @Override
-            public boolean menuPressed(Component com, boolean open) {
+            public boolean menuPressed(Component com, boolean open) {                
                 if (enableMenu) {
                     if (isShowMenu()) {
                         if (open) {
-                            new MenuAnimation(layout, com).openMenu();
+                            new MenuAnimation(layout, com).openMenu();            
                         } else {
                             new MenuAnimation(layout, com).closeMenu();
                         }
                         return true;
                     } else {
-                        eventShowPopup.showPopup(com);
+                        eventShowPopup.showPopup(com);                       
                     }
                 }
                 return false;
@@ -91,6 +91,14 @@ public class Menu extends javax.swing.JPanel {
                 item.setOpen(false);
             }
         }
+    }
+    
+    public void setLogo(){
+        if(isShowMenu()){
+            profile.setIconProfile(new ImageIcon(getClass().getResource("/imagenes/logo_versat.png")));
+        }else{
+            profile.setIconProfile(new ImageIcon(getClass().getResource("/imagenes/logo_v.png")));
+        }     
     }
     
     @SuppressWarnings("unchecked")

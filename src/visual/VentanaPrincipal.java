@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -84,12 +85,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
                 layout.setComponentConstraints(menu, "w " + width + "!, spany2");
                 menu.revalidate();
+                //Cambia el logo a VERSAT
+                menu.setLogo();
             }
 
             @Override
             public void end() {
                 menu.setShowMenu(!menu.isShowMenu());
                 menu.setEnableMenu(true);
+                 //Cambia el logo a V
+                menu.setLogo();
             }
         };
         animator = new Animator(500, target);
@@ -110,7 +115,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
                 menu.setEnableMenu(false);                             
                 if (menu.isShowMenu()) {
-                    menu.hideallMenu();
+                    menu.hideallMenu();                   
                 }
             }
         });   
