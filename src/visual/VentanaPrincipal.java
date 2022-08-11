@@ -63,7 +63,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 MenuItem item = (MenuItem) com;               
                 PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());                                             
                 int x = VentanaPrincipal.this.getX() + 52;
-                int y = VentanaPrincipal.this.getY() + com.getY() + 86;
+                int y = VentanaPrincipal.this.getY() + com.getY() + 115;
                 popup.setLocation(x, y);
                 popup.setVisible(true);                              
             }
@@ -84,17 +84,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     width = 60 + (170 * fraction);
                 }
                 layout.setComponentConstraints(menu, "w " + width + "!, spany2");
-                menu.revalidate();
-                //Cambia el logo a VERSAT
-                menu.setLogo();
+                menu.revalidate();               
+                //Cambiar icono de flecha para la derecha o izquierda
+                cambiarFlecha();
             }
 
             @Override
             public void end() {
                 menu.setShowMenu(!menu.isShowMenu());
                 menu.setEnableMenu(true);
-                 //Cambia el logo a V
-                menu.setLogo();
+                 //Cambia el logo a VERSAT ó V
+                menu.setLogo();                   
             }
         };
         animator = new Animator(500, target);
@@ -153,7 +153,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_chart.png"));
         return res;
     } 
-
+    
+    //Cambiando el icono de la flecha al ocultar y mostrar
+    private void cambiarFlecha(){
+        if(menu.isShowMenu()){
+            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_right.png")));
+        }else{
+            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_left.png")));
+        }    
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
