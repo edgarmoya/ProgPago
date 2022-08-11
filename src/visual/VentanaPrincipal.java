@@ -108,7 +108,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     @Override
     public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_config.png"));
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_chart.png"));
         return res;
     } 
 
