@@ -4,7 +4,7 @@ import custom_swing.Menu.Event.EventMenu;
 import custom_swing.Menu.Event.EventMenuSelected;
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.GradientPaint;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -104,14 +104,12 @@ public class MenuItem extends javax.swing.JPanel {
         int height = getPreferredSize().height;
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //g2.setColor(new Color(255, 255, 255));
-        GradientPaint gra = new GradientPaint(0, 0, new Color(45, 125, 246), getWidth(), 0, new Color(93, 58, 196));
-        g2.setPaint(gra);
+        g2.setColor(new Color(45, 125, 246));                     
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g2.fillRect(0, 2, width, 38);
         g2.setComposite(AlphaComposite.SrcOver);
         g2.fillRect(0, 40, width, height - 40);
-        g2.setColor(new Color(100, 100, 100));
+        g2.setColor(new Color(255, 255, 255));
         g2.drawLine(30, 40, 30, height - 17);
         for (int i = 0; i < menu.getSubMenu().length; i++) {
             int y = ((i + 1) * 35 + 40) - 17;
@@ -123,11 +121,12 @@ public class MenuItem extends javax.swing.JPanel {
         super.paintComponent(grphcs);
     }
 
+    //Creando flecha del menú
     private void createArrowButton(Graphics2D g2) {
         int size = 4;
         int y = 19;
         int x = 205;
-        g2.setColor(new Color(230, 230, 230));
+        g2.setColor(new Color(255, 255, 255));
         float ay = alpha * size;
         float ay1 = (1f - alpha) * size;
         g2.drawLine(x, (int) (y + ay), x + 4, (int) (y + ay1));

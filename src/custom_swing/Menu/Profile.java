@@ -13,7 +13,7 @@ public class Profile extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(224, 224, 224));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ic_iniciarsesion.png"))); // NOI18N
         jLabel1.setText("Tesorería");

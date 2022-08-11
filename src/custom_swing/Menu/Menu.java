@@ -51,11 +51,11 @@ public class Menu extends javax.swing.JPanel {
     }
 
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Operaciones", "Prog. de Pago"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Tablero de Control", "Morris", "Flot", "Line"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Codificadores", "Clientes", "Destinos","Ejercicios", "Monedas", "Períodos"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Configuración", "General", "Clientes"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/earth.png")), "Seguridad", "Usuarios", "Permisos"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos","Ejercicios", "Monedas", "Períodos"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Clientes"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios", "Permisos"));
     }
 
     private void addMenu(ModelMenu menu) {
@@ -103,6 +103,7 @@ public class Menu extends javax.swing.JPanel {
 
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sp.setOpaque(false);
 
         panel.setOpaque(false);
 
@@ -139,7 +140,7 @@ public class Menu extends javax.swing.JPanel {
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gra = new GradientPaint(0, 0, new Color(45, 125, 246), getWidth(), 0, new Color(93, 58, 196));
+        GradientPaint gra = new GradientPaint(0, 0, new Color(45, 125, 246), getWidth(), 0, new Color(45, 125, 246));
         g2.setPaint(gra);
         g2.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(grphcs);

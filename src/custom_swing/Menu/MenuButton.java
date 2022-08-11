@@ -2,6 +2,7 @@ package custom_swing.Menu;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -54,6 +55,8 @@ public class MenuButton extends JButton {
     private void init() {
         setContentAreaFilled(false);
         setForeground(new Color(255, 255, 255));
+        //Tamaño y tipo de letra del titulo del menu principal
+        setFont(new Font("Calibri", Font.PLAIN, 15));
         setHorizontalAlignment(JButton.LEFT);
         addMouseListener(new MouseAdapter() {
             @Override
