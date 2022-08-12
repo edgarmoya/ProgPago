@@ -1,27 +1,22 @@
 package entidades;
 
 /**
- * @author Edgar Moya
+ *
+ * @author Lester
  */
 public class Tesorero {
-    
-    String usuario;
-    String nombre;
-    String contrasenna;
+    private String usuario;
+    private String nombre;
+    private String contrasenna;
+
+    public Tesorero() {
+    }
 
     public Tesorero(String usuario, String nombre, String contrasenna) {
-        this.usuario = usuario;
-        this.nombre = nombre;
-        this.contrasenna = contrasenna;
+        this.setUsuario(usuario);
+        this.setNombre(nombre);
+        this.setContrasenna(contrasenna);
     }
-
-    public Tesorero(String usuario, String contrasenna) {
-        this.usuario = usuario;
-        this.nombre = "";
-        this.contrasenna = contrasenna;
-    }
-    
-    
 
     public String getUsuario() {
         return usuario;
@@ -46,6 +41,12 @@ public class Tesorero {
     public void setContrasenna(String contrasenna) {
         this.contrasenna = contrasenna;
     }
+
+    @Override
+    public String toString() {
+        return "Tesorero{" + "usuario=" + usuario + ", nombre=" + nombre + ", contrasenna=" + contrasenna + '}';
+    }
     
     
 }
+
