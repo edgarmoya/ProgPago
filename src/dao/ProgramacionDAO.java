@@ -4,7 +4,6 @@ import entidades.Programacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 /**
  *
  * @author Lester
@@ -21,7 +20,7 @@ public class ProgramacionDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, programacion.getId_prog());
             stmt.setDouble(2, programacion.getImporte());
-            stmt.setLocalDateTime(3, programacion.getFecha());
+            stmt.setDate(3, programacion.getFecha());
             stmt.setString(4, programacion.getComentario());
             stmt.setString(5, programacion.getId_cliente());
             stmt.setInt(6, programacion.getId_anno());
@@ -43,4 +42,8 @@ public class ProgramacionDAO {
         
         return fueAgregado;
     }
+    
+    /*Obtener la fecha actual para agregar
+    Date date = new Date();
+    java.sql.Date datesql = new java.sql.Date(date.getTime());*/
 }

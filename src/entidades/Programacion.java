@@ -1,7 +1,6 @@
 package entidades;
 
-import java.time.LocalDateTime;
-
+import java.sql.Date;
 /**
  *
  * @author Lester
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 public class Programacion {
     private int id_prog;
     private double importe;
-    private LocalDateTime fecha;
+    private Date fecha;
     private String comentario;
     private String id_cliente;
     private int id_anno;
@@ -20,7 +19,7 @@ public class Programacion {
     public Programacion() {
     }
 
-    public Programacion(int id_prog, double importe, LocalDateTime fecha, String comentario, String id_cliente, int id_anno, String id_tipo, String id_siglas, String id_usuario) {
+    public Programacion(int id_prog, double importe, Date fecha, String comentario, String id_cliente, int id_anno, String id_tipo, String id_siglas, String id_usuario) {
         this.setId_prog(id_prog);
         this.setImporte(importe);
         this.setFecha(fecha);
@@ -48,11 +47,11 @@ public class Programacion {
         this.importe = importe;
     }
 
-    public LocalDateTime getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime  fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

@@ -11,6 +11,12 @@ public class Tesorero {
 
     public Tesorero() {
     }
+    
+    public Tesorero(String usuario, String contrasenna) {
+        this.usuario = usuario;
+        this.nombre = "";
+        this.contrasenna = contrasenna;
+    }
 
     public Tesorero(String usuario, String nombre, String contrasenna) {
         this.setUsuario(usuario);
