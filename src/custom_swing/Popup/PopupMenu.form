@@ -37,7 +37,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="custom_swing.Menu.PanelPopup" name="panel">
+    <Container class="custom_swing.Popup.PanelPopup" name="panel">
 
       <Layout>
         <DimensionLayout dim="0">

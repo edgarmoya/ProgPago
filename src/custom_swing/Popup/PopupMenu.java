@@ -1,6 +1,7 @@
-package custom_swing.Menu;
+package custom_swing.Popup;
 
 import custom_swing.Menu.Event.EventMenuSelected;
+import custom_swing.Menu.MenuButton;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class PopupMenu extends javax.swing.JDialog {
  
     private Animator animator;
@@ -77,7 +82,7 @@ public class PopupMenu extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel = new custom_swing.Menu.PanelPopup();
+        panel = new custom_swing.Popup.PanelPopup();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -115,10 +120,11 @@ public class PopupMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+        //Cuando se de un click fuera del popup se cierra
         closeMenu();
     }//GEN-LAST:event_formWindowLostFocus
       
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private custom_swing.Menu.PanelPopup panel;
+    private custom_swing.Popup.PanelPopup panel;
     // End of variables declaration//GEN-END:variables
 }

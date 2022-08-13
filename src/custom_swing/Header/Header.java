@@ -1,9 +1,13 @@
-package custom_swing.Menu;
+package custom_swing.Header;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Header extends javax.swing.JPanel {
 
     public Header() {

@@ -18,7 +18,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-
+/**
+ *
+ * @author Edgar Moya
+ */
 public class TextField extends JTextField {
      public String getLabelText() {
         return labelText;

@@ -2,6 +2,10 @@ package custom_swing.Menu;
 
 import javax.swing.ImageIcon;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Profile extends javax.swing.JPanel {
 
     public Profile() {
@@ -9,6 +13,7 @@ public class Profile extends javax.swing.JPanel {
         setOpaque(false);
     }
     
+    //Cambiar icono
     public void setIconProfile(ImageIcon icon){
         label.setIcon(icon);
     }

@@ -15,6 +15,10 @@ import ppago.Login;
 import utiles.autoComplete;
 import utiles.goTo;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class JD_LoginBD extends javax.swing.JDialog {
   
     public JD_LoginBD(java.awt.Frame parent, boolean modal) {

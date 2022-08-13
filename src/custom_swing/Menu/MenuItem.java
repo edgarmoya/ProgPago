@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.miginfocom.swing.MigLayout;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class MenuItem extends javax.swing.JPanel {
 
     public ModelMenu getMenu() {

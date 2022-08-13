@@ -2,10 +2,10 @@ package visual;
 
 import custom_swing.Menu.Event.EventMenuSelected;
 import custom_swing.Menu.Event.EventShowPopupMenu;
-import custom_swing.Menu.Header;
+import custom_swing.Header.Header;
 import custom_swing.Menu.Menu;
 import custom_swing.Menu.MenuItem;
-import custom_swing.Menu.PopupMenu;
+import custom_swing.Popup.PopupMenu;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;

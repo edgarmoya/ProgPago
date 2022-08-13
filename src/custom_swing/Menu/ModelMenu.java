@@ -2,11 +2,24 @@ package custom_swing.Menu;
 
 import javax.swing.Icon;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class ModelMenu {
     
     private Icon icon;
     private String menuName;
     private String subMenu[];
+    
+    public ModelMenu() {
+    }
+    
+    public ModelMenu(Icon icon, String menuName, String... subMenu) {
+        this.icon = icon;
+        this.menuName = menuName;
+        this.subMenu = subMenu;
+    }
 
     public Icon getIcon() {
         return icon;
@@ -30,14 +43,5 @@ public class ModelMenu {
 
     public void setSubMenu(String[] subMenu) {
         this.subMenu = subMenu;
-    }
-
-    public ModelMenu(Icon icon, String menuName, String... subMenu) {
-        this.icon = icon;
-        this.menuName = menuName;
-        this.subMenu = subMenu;
-    }
-
-    public ModelMenu() {
     }
 }

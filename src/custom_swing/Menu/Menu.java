@@ -13,6 +13,10 @@ import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 import scrollbar.ScrollBarCustom;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Menu extends javax.swing.JPanel {   
 
     public boolean isShowMenu() {
@@ -50,6 +54,7 @@ public class Menu extends javax.swing.JPanel {
         panel.setLayout(layout);
     }
 
+    //Añadiendo items al menú
     public void initMenuItem() {
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
@@ -93,6 +98,7 @@ public class Menu extends javax.swing.JPanel {
         }
     }
     
+    //Cambiando el logo de VERSAT dependiendo si está abierto o cerrado el menú
     public void setLogo(){
         if(isShowMenu()){
             profile.setIconProfile(new ImageIcon(getClass().getResource("/imagenes/logo_versat.png")));

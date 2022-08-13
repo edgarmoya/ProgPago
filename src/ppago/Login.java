@@ -19,6 +19,10 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Login {
 
     //faltaria validar en el login el maximo de caracteres permitidos en la bd, puede que se valide cuando el admin agregar un nuevo usuario

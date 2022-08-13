@@ -1,4 +1,4 @@
-package custom_swing.Menu;
+package custom_swing.Popup;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,6 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class PanelPopup extends JPanel {
     
     public PanelPopup() {
