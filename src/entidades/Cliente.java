@@ -7,7 +7,7 @@ package entidades;
 public class Cliente {
     private String cod_cliente;
     private String nombre;
-    private String nid;
+    private String nit;
     private String reeup;
     private String direccion;
     private String organismo;
@@ -17,10 +17,10 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String cod_cliente, String nombre, String nid, String reeup, String direccion, String organismo, String correo, boolean activo) {
+    public Cliente(String cod_cliente, String nombre, String nit, String reeup, String direccion, String organismo, String correo, boolean activo) {
         this.setCod_cliente(cod_cliente);
         this.setNombre(nombre);
-        this.setNid(nid);
+        this.setNit(nit);
         this.setReeup(reeup);
         this.setDireccion(direccion);
         this.setOrganismo(organismo);
@@ -44,12 +44,12 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getNid() {
-        return nid;
+    public String getNit() {
+        return nit;
     }
 
-    public void setNid(String nid) {
-        this.nid = nid;
+    public void setNit(String nit) {
+        this.nit = nit;
     }
 
     public String getReeup() {
@@ -94,7 +94,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "cod_cliente=" + cod_cliente + ", nombre=" + nombre + ", nid=" + nid + ", reeup=" + reeup + ", direccion=" + direccion + ", organismo=" + organismo + ", correo=" + correo + ", activo=" + activo + '}';
+        return "Cliente{" + "cod_cliente=" + cod_cliente + ", nombre=" + nombre + ", nit=" + nit + ", reeup=" + reeup + ", direccion=" + direccion + ", organismo=" + organismo + ", correo=" + correo + ", activo=" + activo + '}';
     }
     
     
