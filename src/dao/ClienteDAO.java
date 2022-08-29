@@ -20,7 +20,7 @@ public class ClienteDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, cliente.getCod_cliente());
             stmt.setString(2, cliente.getNombre());
-            stmt.setString(3, cliente.getNid());
+            stmt.setString(3, cliente.getNit());
             stmt.setString(4, cliente.getReeup());
             stmt.setString(5, cliente.getDireccion());
             stmt.setString(6, cliente.getOrganismo());

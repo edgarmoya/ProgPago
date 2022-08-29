@@ -51,7 +51,7 @@ public class Programacion {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Date  fecha) {
         this.fecha = fecha;
     }
 

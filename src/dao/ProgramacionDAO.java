@@ -42,8 +42,10 @@ public class ProgramacionDAO {
         
         return fueAgregado;
     }
-    
-    /*Obtener la fecha actual para agregar
+
+    /*
+    De esta manera se agregaría el date al postgresql
     Date date = new Date();
-    java.sql.Date datesql = new java.sql.Date(date.getTime());*/
+    java.sql.Date datesql = new java.sql.Date(date.getTime()); 
+    */    
 }
