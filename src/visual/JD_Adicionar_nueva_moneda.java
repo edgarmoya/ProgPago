@@ -202,6 +202,7 @@ public class JD_Adicionar_nueva_moneda extends javax.swing.JDialog {
             Moneda m = new Moneda();
             m.setSiglas(jtfsiglas.getText());
             m.setNombre(jtfnombre.getText());
+            m.setActivo(true);
 
             MonedaDAO mDAO = new MonedaDAO();
             if(mDAO.agregarMoneda(m)){

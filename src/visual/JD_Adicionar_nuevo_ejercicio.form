@@ -59,8 +59,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jtfanno" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
-                      <Component id="jtfdescripcion" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
+                      <Component id="jtfcod_ejercicio" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
+                      <Component id="jtfejercicio" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnAceptar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -75,9 +75,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="20" max="32767" attributes="0"/>
-                  <Component id="jtfanno" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jtfcod_ejercicio" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jtfdescripcion" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jtfejercicio" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnAceptar" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -89,22 +89,22 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="custom_swing.TextField" name="jtfanno">
+        <Component class="custom_swing.TextField" name="jtfcod_ejercicio">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder/>
               </Border>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Inserte el a&#xf1;o del ejercicio"/>
-            <Property name="labelText" type="java.lang.String" value="A&#xd1;O*"/>
+            <Property name="toolTipText" type="java.lang.String" value="Inserte el c&#xf3;digo del ejercicio"/>
+            <Property name="labelText" type="java.lang.String" value="C&#xd3;DIGO*"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="custom_swing.TextField" name="jtfdescripcion">
+        <Component class="custom_swing.TextField" name="jtfejercicio">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Inserte la descripci&#xf3;n del ejercicio"/>
-            <Property name="labelText" type="java.lang.String" value="DESCRIPCI&#xd3;N*"/>
+            <Property name="toolTipText" type="java.lang.String" value="Inserte el ejercicio del ejercicio"/>
+            <Property name="labelText" type="java.lang.String" value="EJERCICIO*"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
         </Component>

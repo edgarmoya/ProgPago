@@ -5,36 +5,36 @@ package entidades;
  * @author Lester
  */
 public class Ejercicio {
-    private int anno;
-    private String descripcion;
+    private int cod_ejercicio;
+    private String ejercicio;
 
     public Ejercicio() {
     }
 
-    public Ejercicio(int anno, String descripcion) {
-        this.setAnno(anno);
-        this.setDescripcion(descripcion);
+    public Ejercicio(int cod_ejercicio, String ejercicio) {
+        this.setCod_ejercicio(cod_ejercicio);
+        this.setEjercicio(ejercicio);
     }
 
-    public int getAnno() {
-        return anno;
+    public int getCod_ejercicio() {
+        return cod_ejercicio;
     }
 
-    public void setAnno(int anno) {
-        this.anno = anno;
+    public void setCod_ejercicio(int cod_ejercicio) {
+        this.cod_ejercicio = cod_ejercicio;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getEjercicio() {
+        return ejercicio;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setEjercicio(String ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
     @Override
     public String toString() {
-        return "Ejercicio{" + "anno=" + anno + ", descripcion=" + descripcion + '}';
+        return "Ejercicio{" + "cod_ejercicio=" + cod_ejercicio + ", ejercicio=" + ejercicio + '}';
     }
     
     

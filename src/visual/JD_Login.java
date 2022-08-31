@@ -1,6 +1,6 @@
 package visual;
 
-import entidades.Tesorero;
+import entidades.Usuario;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
 import java.awt.Color;
@@ -219,9 +219,10 @@ public class JD_Login extends javax.swing.JDialog {
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
         String username = jtfUsuario.getText();
         String password = String.valueOf(jtfPassword.getPassword());
-        Tesorero t = new Tesorero(username, password);
+        boolean activate = true;
+        Usuario u = new Usuario(username, password, activate);
         try {
-            if (Login.validarUser(connPg, t)) {
+            if (Login.validarUser(connPg, u)) {
                 VentanaPrincipal vp = new VentanaPrincipal();
                 goTo.frame(this, vp);
             }else{

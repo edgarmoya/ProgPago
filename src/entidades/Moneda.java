@@ -7,13 +7,15 @@ package entidades;
 public class Moneda {
     private String siglas;
     private String nombre;
+    private boolean activo;
 
     public Moneda() {
     }
 
-    public Moneda(String siglas, String nombre) {
+    public Moneda(String siglas, String nombre, boolean activo) {
         this.setSiglas(siglas);
         this.setNombre(nombre);
+        this.setActivo(activo);
     }
 
     public String getSiglas() {
@@ -32,10 +34,17 @@ public class Moneda {
         this.nombre = nombre;
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
     @Override
     public String toString() {
-        return "Moneda{" + "siglas=" + siglas + ", nombre=" + nombre + '}';
+        return "Moneda{" + "siglas=" + siglas + ", nombre=" + nombre + ", activo=" + activo + '}';
     }
-    
-    
+  
 }

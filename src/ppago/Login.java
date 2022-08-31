@@ -1,6 +1,6 @@
 package ppago;
 
-import entidades.Tesorero;
+import entidades.Usuario;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class Login {
 
 
     //Método para validar el usuario y contraseña 
-    public static boolean validarUser(ConexionPg connPg, Tesorero t) throws SQLException, ConnectionException, FaltanDatosException {
+    public static boolean validarUser(ConexionPg connPg, Usuario t) throws SQLException, ConnectionException, FaltanDatosException {
         if (!t.getUsuario().isEmpty() && !t.getContrasenna().isEmpty()) {
             Connection conn = connPg.getConexion();
             if (conn != null) {

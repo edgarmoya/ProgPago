@@ -6,18 +6,16 @@ package entidades;
  */
 public class Destino {
     private String id_destino;
-    private double importe;
     private String nombre;
-    private int id_prog;
+    private boolean activo;
 
     public Destino() {
     }
 
-    public Destino(String id_destino, double importe, String nombre, int id_prog) {
+    public Destino(String id_destino, String nombre) {
         this.setId_destino(id_destino);
-        this.setImporte(importe);
         this.setNombre(nombre);
-        this.setId_prog(id_prog);
+        this.setActivo(activo);
     }
 
     public String getId_destino() {
@@ -28,14 +26,6 @@ public class Destino {
         this.id_destino = id_destino;
     }
 
-    public double getImporte() {
-        return importe;
-    }
-
-    public void setImporte(double importe) {
-        this.importe = importe;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -44,18 +34,17 @@ public class Destino {
         this.nombre = nombre;
     }
 
-    public int getId_prog() {
-        return id_prog;
+    public boolean isActivo() {
+        return activo;
     }
 
-    public void setId_prog(int id_prog) {
-        this.id_prog = id_prog;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     @Override
     public String toString() {
-        return "Destino{" + "id_destino=" + id_destino + ", importe=" + importe + ", nombre=" + nombre + ", id_prog=" + id_prog + '}';
+        return "Destino{" + "id_destino=" + id_destino + ", nombre=" + nombre + ", activo=" + activo + '}';
     }
-    
-    
+
 }
