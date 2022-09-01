@@ -1,6 +1,6 @@
 package dao;
 import ppago.ConexionPg;
-import entidades.Tesorero;
+import entidades.Usuario_rol;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -8,19 +8,18 @@ import java.sql.SQLException;
  *
  * @author Lester
  */
-public class TesoreroDAO {
+public class Usuario_rolDAO {
     private ConexionPg conexion = new ConexionPg();
     
-    public boolean agregarTesorero (Tesorero tesorero) throws SQLException, ClassNotFoundException {
+    public boolean agregarUsuario_rol (Usuario_rol usuario_rol) throws SQLException, ClassNotFoundException {
         
         boolean fueAgregado = false;
         Connection conn = conexion.conectar();
         try{
-            String sql = "insert into tesorero values (?,?,?)";
+            String sql = "insert into usuario_rol values (?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, tesorero.getUsuario());
-            stmt.setString(2, tesorero.getNombre());
-            stmt.setString(3, tesorero.getContrasenna());
+            stmt.setInt(1, usuario_rol.getId_rol());
+            stmt.setString(2, usuario_rol.getId_usuario());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();
@@ -29,7 +28,7 @@ public class TesoreroDAO {
             
         } catch (Exception e){
             
-            System.out.println("Error al agregar tesorero "+e.getMessage());
+            System.out.println("Error al agregar tesorero_rol "+e.getMessage());
         } finally{
             conn.close();
         }

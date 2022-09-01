@@ -10,28 +10,28 @@ import java.sql.Date;
  */
 public class Programacion {
     private int id_prog;
-    private double importe;
     private Date fecha;
     private String comentario;
     private String id_cliente;
-    private int id_anno;
+    private int id_ejercicio;
     private String id_tipo;
     private String id_siglas;
     private String id_usuario;
+    private byte estado;
 
     public Programacion() {
     }
 
-    public Programacion(int id_prog, double importe, Date fecha, String comentario, String id_cliente, int id_anno, String id_tipo, String id_siglas, String id_usuario) {
+    public Programacion(int id_prog, Date fecha, String comentario, String id_cliente, int id_ejercicio, String id_tipo, String id_siglas, String id_usuario, byte estado) {
         this.setId_prog(id_prog);
-        this.setImporte(importe);
         this.setFecha(fecha);
         this.setComentario(comentario);
         this.setId_cliente(id_cliente);
-        this.setId_anno(id_anno);
+        this.setId_ejercicio(id_ejercicio);
         this.setId_tipo(id_tipo);
         this.setId_siglas(id_siglas);
         this.setId_usuario(id_usuario);
+        this.setEstado(estado);
     }
 
     public int getId_prog() {
@@ -42,19 +42,11 @@ public class Programacion {
         this.id_prog = id_prog;
     }
 
-    public double getImporte() {
-        return importe;
-    }
-
-    public void setImporte(double importe) {
-        this.importe = importe;
-    }
-
     public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date  fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -74,12 +66,12 @@ public class Programacion {
         this.id_cliente = id_cliente;
     }
 
-    public int getId_anno() {
-        return id_anno;
+    public int getId_ejercicio() {
+        return id_ejercicio;
     }
 
-    public void setId_anno(int id_anno) {
-        this.id_anno = id_anno;
+    public void setId_ejercicio(int id_ejercicio) {
+        this.id_ejercicio = id_ejercicio;
     }
 
     public String getId_tipo() {
@@ -106,10 +98,17 @@ public class Programacion {
         this.id_usuario = id_usuario;
     }
 
+    public byte getEstado() {
+        return estado;
+    }
+
+    public void setEstado(byte estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "Programacion{" + "id_prog=" + id_prog + ", importe=" + importe + ", fecha=" + fecha + ", comentario=" + comentario + ", id_cliente=" + id_cliente + ", id_anno=" + id_anno + ", id_tipo=" + id_tipo + ", id_siglas=" + id_siglas + ", id_usuario=" + id_usuario + '}';
+        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", comentario=" + comentario + ", id_cliente=" + id_cliente + ", id_ejercicio=" + id_ejercicio + ", id_tipo=" + id_tipo + ", id_siglas=" + id_siglas + ", id_usuario=" + id_usuario + ", estado=" + estado + '}';
     }
-    
-    
+     
 }

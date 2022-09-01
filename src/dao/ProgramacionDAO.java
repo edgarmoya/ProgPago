@@ -19,14 +19,14 @@ public class ProgramacionDAO {
             String sql = "insert into programacion values (?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, programacion.getId_prog());
-            stmt.setDouble(2, programacion.getImporte());
-            stmt.setDate(3, programacion.getFecha());
-            stmt.setString(4, programacion.getComentario());
-            stmt.setString(5, programacion.getId_cliente());
-            stmt.setInt(6, programacion.getId_anno());
-            stmt.setString(7, programacion.getId_tipo());
-            stmt.setString(8, programacion.getId_siglas());
-            stmt.setString(9, programacion.getId_usuario());
+            stmt.setDate(2, programacion.getFecha());
+            stmt.setString(3, programacion.getComentario());
+            stmt.setString(4, programacion.getId_cliente());
+            stmt.setInt(5, programacion.getId_ejercicio());
+            stmt.setString(6, programacion.getId_tipo());
+            stmt.setString(7, programacion.getId_siglas());
+            stmt.setString(8, programacion.getId_usuario());
+            stmt.setByte(9, programacion.getEstado());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

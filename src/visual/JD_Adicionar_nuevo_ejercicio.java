@@ -42,8 +42,8 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
     private void initComponents() {
 
         jpNuevo_ejercicio = new javax.swing.JPanel();
-        jtfanno = new custom_swing.TextField();
-        jtfdescripcion = new custom_swing.TextField();
+        jtfcod_ejercicio = new custom_swing.TextField();
+        jtfejercicio = new custom_swing.TextField();
         btnAceptar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JPanel();
@@ -54,14 +54,14 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
         jpNuevo_ejercicio.setBackground(new java.awt.Color(255, 255, 255));
         jpNuevo_ejercicio.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "NUEVO EJERCICIO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jtfanno.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfanno.setToolTipText("Inserte el año del ejercicio");
-        jtfanno.setLabelText("AÑO*");
-        jtfanno.setOpaque(false);
+        jtfcod_ejercicio.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jtfcod_ejercicio.setToolTipText("Inserte el código del ejercicio");
+        jtfcod_ejercicio.setLabelText("CÓDIGO*");
+        jtfcod_ejercicio.setOpaque(false);
 
-        jtfdescripcion.setToolTipText("Inserte la descripción del ejercicio");
-        jtfdescripcion.setLabelText("DESCRIPCIÓN*");
-        jtfdescripcion.setOpaque(false);
+        jtfejercicio.setToolTipText("Inserte el ejercicio del ejercicio");
+        jtfejercicio.setLabelText("EJERCICIO*");
+        jtfejercicio.setOpaque(false);
 
         btnAceptar.setBackground(new java.awt.Color(45, 125, 246));
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -160,8 +160,8 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
             .addGroup(jpNuevo_ejercicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfanno, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfcod_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jpNuevo_ejercicioLayout.createSequentialGroup()
                         .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
@@ -172,9 +172,9 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
             jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_ejercicioLayout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jtfanno, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfcod_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jtfdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,8 +193,6 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
             .addComponent(jpNuevo_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jpNuevo_ejercicio.getAccessibleContext().setAccessibleName("NUEVO EJERCICIO");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -202,8 +200,8 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
 
         try{
             Ejercicio e = new Ejercicio();
-            e.setAnno(Integer.parseInt(jtfanno.getText()));
-            e.setDescripcion(jtfdescripcion.getText());
+            e.setCod_ejercicio(Integer.parseInt(jtfcod_ejercicio.getText()));
+            e.setEjercicio(jtfejercicio.getText());
 
             EjercicioDAO eDAO = new EjercicioDAO();
             if(eDAO.agregarEjercicio(e)){
@@ -218,8 +216,8 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void limpiar(){
-        jtfanno.setText("");
-        jtfdescripcion.setText("");       
+        jtfcod_ejercicio.setText("");
+        jtfejercicio.setText("");       
     }
     
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
@@ -316,8 +314,8 @@ public class JD_Adicionar_nuevo_ejercicio extends javax.swing.JDialog {
     private javax.swing.JPanel btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jpNuevo_ejercicio;
-    private custom_swing.TextField jtfanno;
-    private custom_swing.TextField jtfdescripcion;
+    private custom_swing.TextField jtfcod_ejercicio;
+    private custom_swing.TextField jtfejercicio;
     private javax.swing.JLabel labelCancelar;
     // End of variables declaration//GEN-END:variables
 }

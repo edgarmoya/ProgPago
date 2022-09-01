@@ -16,10 +16,11 @@ public class MonedaDAO {
         boolean fueAgregado = false;
         Connection conn = conexion.conectar();
         try{
-            String sql = "insert into moneda values (?,?)";
+            String sql = "insert into moneda values (?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, moneda.getSiglas());
             stmt.setString(2, moneda.getNombre());
+             stmt.setByte(3, moneda.getActivo());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

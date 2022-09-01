@@ -6,35 +6,25 @@ package entidades;
  * @author Lester
  */
 public class Periodo {
-    private String id_periodo;
-    private double importe;
+    private int id_periodo;
     private String nombre;
-    private String id_destino;
+    private int id_ejercicio;
 
     public Periodo() {
     }
 
-    public Periodo(String id_periodo, double importe, String nombre, String id_destino) {
+    public Periodo(int id_periodo, String nombre, int id_ejercicio) {
         this.setId_periodo(id_periodo);
-        this.setImporte(importe);
         this.setNombre(nombre);
-        this.setId_destino(id_destino);
+        this.setId_ejercicio(id_ejercicio);
     }
 
-    public String getId_periodo() {
+    public int getId_periodo() {
         return id_periodo;
     }
 
-    public void setId_periodo(String id_periodo) {
+    public void setId_periodo(int id_periodo) {
         this.id_periodo = id_periodo;
-    }
-
-    public double getImporte() {
-        return importe;
-    }
-
-    public void setImporte(double importe) {
-        this.importe = importe;
     }
 
     public String getNombre() {
@@ -45,18 +35,17 @@ public class Periodo {
         this.nombre = nombre;
     }
 
-    public String getId_destino() {
-        return id_destino;
+    public int getId_ejercicio() {
+        return id_ejercicio;
     }
 
-    public void setId_destino(String id_destino) {
-        this.id_destino = id_destino;
+    public void setId_ejercicio(int id_ejercicio) {
+        this.id_ejercicio = id_ejercicio;
     }
 
     @Override
     public String toString() {
-        return "Periodo{" + "id_periodo=" + id_periodo + ", importe=" + importe + ", nombre=" + nombre + ", id_destino=" + id_destino + '}';
+        return "Periodo{" + "id_periodo=" + id_periodo + ", nombre=" + nombre + ", id_ejercicio=" + id_ejercicio + '}';
     }
-    
     
 }

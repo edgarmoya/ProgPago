@@ -16,12 +16,11 @@ public class DestinoDAO {
         boolean fueAgregado = false;
         Connection conn = conexion.conectar();
         try{
-            String sql = "insert into destino values (?,?,?,?)";
+            String sql = "insert into destino values (?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, destino.getId_destino());
-            stmt.setDouble(2, destino.getImporte());
-            stmt.setString(3, destino.getNombre());
-            stmt.setInt(4, destino.getId_prog());
+            stmt.setString(2, destino.getNombre());
+            stmt.setByte(3, destino.getActivo());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

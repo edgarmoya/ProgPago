@@ -16,12 +16,11 @@ public class PeriodoDAO {
         boolean fueAgregado = false;
         Connection conn = conexion.conectar();
         try{
-            String sql = "insert into periodo values (?,?,?,?)";
+            String sql = "insert into periodo values (?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, periodo.getId_periodo());
-            stmt.setDouble(2, periodo.getImporte());
-            stmt.setString(3, periodo.getNombre());
-            stmt.setString(4, periodo.getId_destino());
+            stmt.setInt(1, periodo.getId_periodo());
+            stmt.setString(2, periodo.getNombre());
+            stmt.setInt(3, periodo.getId_ejercicio());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();
