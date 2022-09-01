@@ -20,7 +20,7 @@ public class DestinoDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, destino.getId_destino());
             stmt.setString(2, destino.getNombre());
-            stmt.setBoolean(3, destino.isActivo());
+            stmt.setByte(3, destino.getActivo());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

@@ -219,7 +219,7 @@ public class JD_Login extends javax.swing.JDialog {
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
         String username = jtfUsuario.getText();
         String password = String.valueOf(jtfPassword.getPassword());
-        boolean activate = true;
+        byte activate = 1;
         Usuario u = new Usuario(username, password, activate);
         try {
             if (Login.validarUser(connPg, u)) {

@@ -21,7 +21,7 @@ public class UsuarioDAO {
             stmt.setString(1, usuario.getUsuario());
             stmt.setString(2, usuario.getNombre());
             stmt.setString(3, usuario.getContrasenna());
-            stmt.setBoolean(4, usuario.isActivo());
+            stmt.setByte(4, usuario.getActivo());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

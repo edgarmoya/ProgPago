@@ -26,7 +26,7 @@ public class ProgramacionDAO {
             stmt.setString(6, programacion.getId_tipo());
             stmt.setString(7, programacion.getId_siglas());
             stmt.setString(8, programacion.getId_usuario());
-            stmt.setBoolean(9, programacion.isEstado());
+            stmt.setByte(9, programacion.getEstado());
             
             //ejecutamos la sentencia
             int cantidad = stmt.executeUpdate();

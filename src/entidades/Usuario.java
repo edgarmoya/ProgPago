@@ -8,19 +8,19 @@ public class Usuario {
     private String usuario;
     private String nombre;
     private String contrasenna;
-    private boolean activo;
+    private byte activo;
 
     public Usuario() {
     }
     
-    public Usuario(String usuario, String contrasenna, boolean activo) {
+    public Usuario(String usuario, String contrasenna, byte activo) {
         this.usuario = usuario;
         this.nombre = "";
         this.contrasenna = contrasenna;
         this.activo = activo;
     }
 
-    public Usuario(String usuario, String nombre, String contrasenna) {
+    public Usuario(String usuario, String nombre, String contrasenna, byte activo) {
         this.setUsuario(usuario);
         this.setNombre(nombre);
         this.setContrasenna(contrasenna);
@@ -51,11 +51,11 @@ public class Usuario {
         this.contrasenna = contrasenna;
     }
 
-    public boolean isActivo() {
+    public byte getActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    public void setActivo(byte activo) {
         this.activo = activo;
     }
 

@@ -17,12 +17,12 @@ public class Programacion {
     private String id_tipo;
     private String id_siglas;
     private String id_usuario;
-    private boolean estado;
+    private byte estado;
 
     public Programacion() {
     }
 
-    public Programacion(int id_prog, Date fecha, String comentario, String id_cliente, int id_ejercicio, String id_tipo, String id_siglas, String id_usuario, boolean estado) {
+    public Programacion(int id_prog, Date fecha, String comentario, String id_cliente, int id_ejercicio, String id_tipo, String id_siglas, String id_usuario, byte estado) {
         this.setId_prog(id_prog);
         this.setFecha(fecha);
         this.setComentario(comentario);
@@ -98,11 +98,11 @@ public class Programacion {
         this.id_usuario = id_usuario;
     }
 
-    public boolean isEstado() {
+    public byte getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(byte estado) {
         this.estado = estado;
     }
 

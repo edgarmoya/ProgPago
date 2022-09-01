@@ -7,12 +7,12 @@ package entidades;
 public class Destino {
     private String id_destino;
     private String nombre;
-    private boolean activo;
+    private byte activo;
 
     public Destino() {
     }
 
-    public Destino(String id_destino, String nombre) {
+    public Destino(String id_destino, String nombre, byte activo) {
         this.setId_destino(id_destino);
         this.setNombre(nombre);
         this.setActivo(activo);
@@ -34,11 +34,11 @@ public class Destino {
         this.nombre = nombre;
     }
 
-    public boolean isActivo() {
+    public byte getActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    public void setActivo(byte activo) {
         this.activo = activo;
     }
 
