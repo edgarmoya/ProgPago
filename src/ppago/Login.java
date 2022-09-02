@@ -19,6 +19,10 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Login {
 
     //faltaria validar en el login el maximo de caracteres permitidos en la bd, puede que se valide cuando el admin agregar un nuevo usuario
@@ -32,7 +36,7 @@ public class Login {
             if (conn != null) {
                 try {
                     //Query para obtener la cantidad de tesoreros donde ese usuario coincida con la contraseña
-                    String query = "SELECT COUNT(*) AS cant FROM tesorero WHERE usuario = ? AND contrasenna = crypt(?, contrasenna)";                   
+                    String query = "SELECT COUNT(*) AS cant FROM usuario WHERE usuario = ? AND contrasenna = crypt(?, contrasenna)";                   
                     PreparedStatement stmt = conn.prepareStatement(query);
                     stmt.setString(1, t.getUsuario());
                     stmt.setString(2, t.getContrasenna());
@@ -84,7 +88,7 @@ public class Login {
      * @throws SQLException
      */
     public static boolean validarBD(String username, String password, String servidor, String bd) throws ClassNotFoundException, SQLException, IOException, ConnectionException, FaltanDatosException {
-        List<String> lista = Arrays.asList("rol", "tesorero_rol", "tesorero", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo");
+        List<String> lista = Arrays.asList("rol", "usuario_rol", "usuario", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo");
         if (!username.isEmpty() && !password.isEmpty() && servidor != null && bd != null) {
             ConexionPg c = new ConexionPg(username, password, servidor, bd);
             Connection conn = c.conectar();

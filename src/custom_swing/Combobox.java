@@ -34,7 +34,10 @@ import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import scrollbar.ScrollBarCustom;
 
-
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Combobox<E> extends JComboBox<E> {
     
     public String getLabeText() {

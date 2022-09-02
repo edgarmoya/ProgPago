@@ -14,6 +14,10 @@ import ppago.ConexionPg;
 import ppago.Login;
 import utiles.goTo;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class JD_Login extends javax.swing.JDialog {
 
     private ConexionPg connPg;
