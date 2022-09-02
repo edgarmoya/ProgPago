@@ -54,6 +54,24 @@ public class Button extends JButton {
                 }
                 animator.start();
             }
+            
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                //Color del botón cuando el mouse está encima
+                //setBackground(new Color(32, 112, 233));
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent me) {
+                //Color del botón cuando el mouse no está encima
+                //setBackground(new Color(45, 125, 246));
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                //Color del botón luego de ser presionado
+                //setBackground(new Color(45, 125, 246));
+            }
         });
         TimingTarget target = new TimingTargetAdapter() {
             @Override
@@ -77,7 +95,7 @@ public class Button extends JButton {
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, width, height, height, height);
+        g2.fillRoundRect(0, 0, width, height, 0, 0);
         if (pressedPoint != null) {
             g2.setColor(effectColor);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
@@ -87,4 +105,18 @@ public class Button extends JButton {
         grphcs.drawImage(img, 0, 0, null);
         super.paintComponent(grphcs);
     }
+
+    @Override
+    public void setEnabled(boolean b) {
+        super.setEnabled(b);
+        if (b){
+            setBackground(new Color(45, 125, 246));
+            setForeground(new Color(255, 255, 255));
+        }else{
+            setBackground(new Color(204, 204, 204));
+            setForeground(new Color(102, 102, 102));
+        }       
+    }
+    
+    
 }

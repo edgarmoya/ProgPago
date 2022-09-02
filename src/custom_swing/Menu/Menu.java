@@ -18,6 +18,12 @@ import scrollbar.ScrollBarCustom;
  * @author Edgar Moya
  */
 public class Menu extends javax.swing.JPanel {   
+    
+    private final MigLayout layout;
+    private EventMenuSelected event;
+    private EventShowPopupMenu eventShowPopup;
+    private boolean enableMenu = true;
+    private boolean showMenu = true;
 
     public boolean isShowMenu() {
         return showMenu;
@@ -37,13 +43,7 @@ public class Menu extends javax.swing.JPanel {
 
     public void addEventShowPopup(EventShowPopupMenu eventShowPopup) {
         this.eventShowPopup = eventShowPopup;
-    }
-
-    private final MigLayout layout;
-    private EventMenuSelected event;
-    private EventShowPopupMenu eventShowPopup;
-    private boolean enableMenu = true;
-    private boolean showMenu = true;
+    }    
 
     public Menu() {
         initComponents();
@@ -56,9 +56,9 @@ public class Menu extends javax.swing.JPanel {
 
     //Añadiendo items al menú
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos","Ejercicios", "Monedas", "Períodos"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Períodos", "Tipo de Financiamiento"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Clientes"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios", "Permisos"));
     }

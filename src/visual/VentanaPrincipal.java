@@ -13,23 +13,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import ppago.ConexionPg;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private Connection conn;
     private MigLayout layout;
     private Header header;
     private Menu menu;
-    //private MainForm main;
+    private MainForm mainForm;
     private Animator animator;
     
     public VentanaPrincipal() {
         initComponents();
+        setConnection();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
         setIconImage(getIconImage()); 
         init();
@@ -40,16 +46,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         bg.setLayout(layout);  
         menu = new Menu();
         header = new Header();
-        //main = new MainForm();
+        mainForm = new MainForm();
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
-                System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
-                if (menuIndex == 0) {
+                if (menuIndex == 0) {         //Menú Operaciones
                     if (subMenuIndex == 0) {
                         //main.showForm(new Form_Home());
-                    } else if (subMenuIndex == 1) {
-                        //main.showForm(new Form1());
+                    }
+                }else if(menuIndex == 1){     //Menu Tablero de Control
+                    if (subMenuIndex == 0){
+                        
+                    }
+                }else if(menuIndex == 2){     //Menu Codificadores
+                    if(subMenuIndex == 0){
+                        mainForm.showForm(new ClienteForm());
                     }
                 }
             }
@@ -71,9 +82,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         //Agregando componentes al panel
         menu.initMenuItem();
-        bg.add(menu, "w 230!, spany 2");    // Span Y 2cell
+        bg.add(menu, "w 230!, spany 3");    // SpanY 3cell
         bg.add(header, "h 80!, wrap");
-        //bg.add(main, "w 100%, h 100%");
+        // bg.add(herramientas, "h 36!, spanx, wrap");
+        bg.add(mainForm, "w 100%, h 100%");
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction) {
@@ -83,7 +95,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 } else {
                     width = 60 + (170 * fraction);
                 }
-                layout.setComponentConstraints(menu, "w " + width + "!, spany2");
+                layout.setComponentConstraints(menu, "w " + width + "!, spany3");
                 menu.revalidate();               
                 //Cambiar icono de flecha para la derecha o izquierda
                 cambiarFlecha();
@@ -143,14 +155,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 //Abrir popupMenu con todas las opciones
             }                           
         });
-        //  Start with this form
-        //main.showForm(new Form_Home());
+        //Iniciar formulario principal
+        //main.showForm(new Form_Home());           
     }
     
     
     @Override
     public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_chart.png"));
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_v.png"));
         return res;
     } 
     
@@ -161,6 +173,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }else{
             header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_left.png")));
         }    
+    }
+    
+    //Establecer una conexión
+    public void setConnection(){     
+        try {
+            ConexionPg connPg = new ConexionPg();
+            connPg = connPg.cargar();
+            conn = connPg.conectar();
+        } catch (IOException ex) {
+            //
+        } catch (ClassNotFoundException ex) {
+            //
+        } catch (SQLException ex) {
+            //
+        }      
+    }
+    
+    //Obtener conexión
+    public Connection getConnection(){     
+        return conn;
     }
     
     @SuppressWarnings("unchecked")
@@ -209,7 +241,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

@@ -1,0 +1,201 @@
+package utiles;
+
+import custom_swing.Button;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+/**
+ *
+ * @author Edgar Moya
+ */
+public class keyboradUtil {
+
+    /**
+     * Validar el máximo de caracteres permitidos en un JTextField
+     *
+     * @param jtf jtextfield a validar
+     * @param cant máximo caracteres permitidos
+     */
+    public static void maxLength(JTextField jtf, int cant) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (jtf.getText().length() >= cant) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // Nada
+            }
+        });
+    }
+
+    /**
+     * Permitir solo números en determinado JTextField
+     *
+     * @param jtf jtextfield a validar
+     */
+    public static void soloNumeros(JTextField jtf) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                int key = e.getKeyChar();
+                boolean isNum = key >= 48 && key <= 57;
+                if (!isNum) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // Nada
+            }
+        });
+    }
+
+    /**
+     * Comprobar si es un correo válido
+     *
+     * @param jtf jtextfield a validar
+     */
+    public static void isCorreo(JTextField jtf) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (isCorreo(jtf.getText()) == false) {
+                        JOptionPane.showMessageDialog(null, "Correo electónico incorrecto, verifíquelo antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
+                        jtf.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Método para cambiar al siguiente campo cuando se presiona ENTER
+     *
+     * @param jtf1 JTextField donde se está escribiendo
+     * @param jtf2 JTextField hacia donde irá el cursor
+     */
+    public static void siguienteCampo(JTextField jtf1, JTextField jtf2) {
+        jtf1.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    jtf2.requestFocus(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Método para cambiar al siguiente campo cuando se presiona ENTER Cuando es
+     * el último campo y el siguiente es un botón
+     *
+     * @param jtf JTextField donde se está escribiendo
+     * @param btn Button hacia donde irá el cursor
+     * @param btnAlt Button alterno hacia donde irá el cursor si btn está inactivo
+     */
+    public static void siguienteCampo(JTextField jtf, Button btn, Button btnAlt) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (btn.isEnabled()) {
+                        btn.requestFocus();
+                    }else{
+                        btnAlt.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Método para cambiar el focus al siguiente botón
+     *
+     * @param btn1 Botón focalizado
+     * @param btn2 Botón destino
+     */
+    public static void focusButton(Button btn1, Button btn2) {
+        btn1.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (btn2.isEnabled()) {
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        btn2.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    // Validar el correo elctrónico
+    private static boolean isCorreo(String correo) {
+        if (correo.isEmpty()) {
+            return true;
+        } else {
+            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+            Matcher comparar = patron.matcher(correo);
+            return comparar.find();
+        }
+    }
+
+}
