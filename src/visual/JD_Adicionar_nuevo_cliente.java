@@ -5,6 +5,7 @@ import entidades.Cliente;
 import dao.ClienteDAO;
 import excepciones.BDException;
 import excepciones.ConnectionException;
+import excepciones.CorreoException;
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
 import excepciones.ReeupException;
@@ -28,7 +29,7 @@ public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
         focusButtons();
         maxLength();
         soloNumeros();
-        keyboradUtil.isCorreo(jtfcorreo);
+        keyboradUtil.isCorreo(jtfcorreo);                
     }
 
     public Image getIconImage() {
@@ -111,7 +112,7 @@ public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
         jtfdireccion.setLabelText("DIRECCIÓN");
         jtfdireccion.setOpaque(false);
 
-        jtftelefono.setToolTipText("Inserte la dirección del cliente");
+        jtftelefono.setToolTipText("Inserte el teléfono del cliente");
         jtftelefono.setLabelText("TELÉFONO");
         jtftelefono.setOpaque(false);
 
@@ -127,7 +128,6 @@ public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
         });
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
         btnAceptar.setText("Aceptar");
         btnAceptar.setToolTipText("Agregar nuevo cliente");
         btnAceptar.setEnabled(false);
@@ -275,6 +275,8 @@ public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (LongitudException lon) {
             JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CorreoException ce) {
+            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {

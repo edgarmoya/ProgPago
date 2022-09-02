@@ -3,6 +3,9 @@ package entidades;
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
 import excepciones.ReeupException;
+import excepciones.CorreoException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -126,7 +129,7 @@ public class Cliente {
     }
 
     // Validar TODO
-    public boolean isValido() throws FaltanDatosException, LongitudException, ReeupException {
+    public boolean isValido() throws FaltanDatosException, LongitudException, ReeupException, CorreoException {
         // Validar datos no nulos
         if (cod_cliente.isEmpty() || nombre.isEmpty()) {
             throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
@@ -136,8 +139,12 @@ public class Cliente {
             throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
         }
         // Validar reeup
-        if (!validReeup()) {
+        if (!isReeup()) {
             throw new ReeupException("REEUP no válido, verifique antes de continuar.");
+        }
+        // Validar reeup
+        if (!isCorreo(correo)) {
+            throw new CorreoException("Correo electrónico no válido, verifique antes de continuar.");
         }
 
         return true;
@@ -154,12 +161,23 @@ public class Cliente {
     }
 
     // Validar reeup
-    private boolean validReeup() {
+    private boolean isReeup() {
         if (reeup.length() == 0 || reeup.length() == 8 || reeup.length() == 9) {
             return true;
         }
         return false;
     }  
+    
+    // Validar el correo elctrónico
+    public boolean isCorreo(String correo) {
+        if (correo.isEmpty()) {
+            return true;
+        } else {
+            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+            Matcher comparar = patron.matcher(correo);
+            return comparar.find();
+        }
+    }
 
     @Override
     public String toString() {

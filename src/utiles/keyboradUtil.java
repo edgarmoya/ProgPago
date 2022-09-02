@@ -1,6 +1,9 @@
 package utiles;
 
 import custom_swing.Button;
+import entidades.Cliente;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.regex.Matcher;
@@ -75,6 +78,7 @@ public class keyboradUtil {
      * @param jtf jtextfield a validar
      */
     public static void isCorreo(JTextField jtf) {
+        Cliente c = new Cliente();
         jtf.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -88,8 +92,8 @@ public class keyboradUtil {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (isCorreo(jtf.getText()) == false) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (c.isCorreo(jtf.getText()) == false) {
                         JOptionPane.showMessageDialog(null, "Correo electónico incorrecto, verifíquelo antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
                         jtf.requestFocus();
                     }
@@ -131,7 +135,8 @@ public class keyboradUtil {
      *
      * @param jtf JTextField donde se está escribiendo
      * @param btn Button hacia donde irá el cursor
-     * @param btnAlt Button alterno hacia donde irá el cursor si btn está inactivo
+     * @param btnAlt Button alterno hacia donde irá el cursor si btn está
+     * inactivo
      */
     public static void siguienteCampo(JTextField jtf, Button btn, Button btnAlt) {
         jtf.addKeyListener(new KeyListener() {
@@ -150,7 +155,7 @@ public class keyboradUtil {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (btn.isEnabled()) {
                         btn.requestFocus();
-                    }else{
+                    } else {
                         btnAlt.requestFocus();
                     }
                 }
@@ -186,16 +191,4 @@ public class keyboradUtil {
             }
         });
     }
-
-    // Validar el correo elctrónico
-    private static boolean isCorreo(String correo) {
-        if (correo.isEmpty()) {
-            return true;
-        } else {
-            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-            Matcher comparar = patron.matcher(correo);
-            return comparar.find();
-        }
-    }
-
 }

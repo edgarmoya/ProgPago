@@ -213,7 +213,7 @@
             </Component>
             <Component class="custom_swing.TextField" name="jtftelefono">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="Inserte la direcci&#xf3;n del cliente"/>
+                <Property name="toolTipText" type="java.lang.String" value="Inserte el tel&#xe9;fono del cliente"/>
                 <Property name="labelText" type="java.lang.String" value="TEL&#xc9;FONO"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
@@ -246,9 +246,6 @@
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                     <EmptyBorder/>
                   </Border>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Aceptar"/>
                 <Property name="toolTipText" type="java.lang.String" value="Agregar nuevo cliente"/>
