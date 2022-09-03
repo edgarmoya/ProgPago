@@ -1,15 +1,15 @@
 package utiles;
 
 import custom_swing.Button;
+import custom_swing.Combobox;
 import entidades.Cliente;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -132,7 +132,6 @@ public class keyboradUtil {
     /**
      * Método para cambiar al siguiente campo cuando se presiona ENTER Cuando es
      * el último campo y el siguiente es un botón
-     *
      * @param jtf JTextField donde se está escribiendo
      * @param btn Button hacia donde irá el cursor
      * @param btnAlt Button alterno hacia donde irá el cursor si btn está
@@ -164,8 +163,95 @@ public class keyboradUtil {
     }
 
     /**
+     * Método para cambiar al siguiente campo cuando se presiona ENTER 
+     * Cuando el siguiente es un ComboBox
+     * @param jtf JTextField donde se está escribiendo
+     * @param combo ComoBox hacia donde irá el cursor
+     */
+    public static void siguienteCampo(JTextField jtf, Combobox combo) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    combo.requestFocus(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Método para cambiar al siguiente campo cuando se presiona ENTER 
+     * @param combo ComboBox donde se está escribiendo
+     * @param jtf JTextField hacia donde irá el cursor
+     */
+    public static void siguienteCampo(Combobox combo, JTextField jtf) {
+        JTextComponent editor = (JTextComponent) combo.getEditor().getEditorComponent();
+        editor.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    jtf.requestFocus(true);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Método para cambiar al siguiente campo cuando se presiona ENTER 
+     * Cuando es el último campo y el siguiente es un botón
+     * @param combo ComboBox donde se está escribiendo
+     * @param btn Button hacia donde irá el cursor
+     * @param btnAlt Button alterno hacia donde irá el cursor si btn está
+     * inactivo
+     */
+    public static void siguienteCampo(Combobox combo, Button btn, Button btnAlt) {
+        JTextComponent editor = (JTextComponent) combo.getEditor().getEditorComponent();
+        editor.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // Nada
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (btn.isEnabled()) {
+                        btn.requestFocus();
+                    } else {
+                        btnAlt.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
      * Método para cambiar el focus al siguiente botón
-     *
      * @param btn1 Botón focalizado
      * @param btn2 Botón destino
      */
