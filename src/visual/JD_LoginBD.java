@@ -28,6 +28,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
         setIconImage(getIconImage()); 
         
         buscarServidor();  
+        focusButtons();
         siguienteCampo();
     }
     
@@ -476,5 +477,11 @@ public class JD_LoginBD extends javax.swing.JDialog {
         } else {
             btnAceptar.setEnabled(true);
         }
-    }  
+    }
+    
+    // Método para cambiar el focus al siguiente botón 
+    private void focusButtons(){
+        keyboradUtil.focusButton(btnAceptar, btnCancelar);
+        keyboradUtil.focusButton(btnCancelar, btnAceptar);
+    }
 }
