@@ -3,16 +3,21 @@ package visual;
 import entidades.Usuario;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import ppago.ConexionPg;
 import ppago.Login;
 import utiles.goTo;
+import utiles.keyboradUtil;
 
 /**
  *
@@ -30,10 +35,12 @@ public class JD_Login extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(getIconImage());        
-        conectarBD();
+        
+        conectarBD();       
+        siguienteCampo();
+        focusButtons();
     }
-    
-    
+       
     public Image getIconImage (){
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_iniciarsesion.png"));
         return res;
@@ -49,23 +56,21 @@ public class JD_Login extends javax.swing.JDialog {
         jlHiperv = new javax.swing.JLabel();
         jtfUsuario = new custom_swing.TextField();
         jtfPassword = new custom_swing.PasswordField();
-        btnAceptar = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        btnCancelar = new javax.swing.JPanel();
-        labelCancelar = new javax.swing.JLabel();
+        btnAceptar = new custom_swing.Button();
+        btnCancelar = new custom_swing.Button();
         jlFondoHex = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Iniciar Sesión");
+        setTitle("Autenticación");
         setResizable(false);
 
         jpBackground.setBackground(new java.awt.Color(255, 255, 255));
         jpBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ic_username.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
+        ic_username.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login_user.png"))); // NOI18N
         jpBackground.add(ic_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 30, -1, 25));
 
-        ic_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pass.png"))); // NOI18N
+        ic_password.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login_pass.png"))); // NOI18N
         jpBackground.add(ic_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 90, -1, -1));
 
         jlHiperv.setForeground(new java.awt.Color(102, 102, 102));
@@ -86,108 +91,48 @@ public class JD_Login extends javax.swing.JDialog {
         jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 310, 30));
 
         jtfUsuario.setToolTipText("Inserte su nombre de usuario");
-        jtfUsuario.setLabelText("USUARIO");
+        jtfUsuario.setLabelText("USUARIO*");
         jtfUsuario.setOpaque(false);
-        jpBackground.add(jtfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 270, -1));
+        jtfUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfUsuarioKeyReleased(evt);
+            }
+        });
+        jpBackground.add(jtfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 275, -1));
 
         jtfPassword.setToolTipText("Inserte su contraseña");
-        jtfPassword.setLabelText("CONTRASEÑA");
+        jtfPassword.setLabelText("CONTRASEÑA*");
         jtfPassword.setOpaque(false);
         jtfPassword.setShowAndHide(true);
-        jpBackground.add(jtfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 270, -1));
-
-        btnAceptar.setBackground(new java.awt.Color(45, 125, 246));
-        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAceptarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnAceptarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnAceptarMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnAceptarMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnAceptarMouseReleased(evt);
+        jtfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfPasswordKeyReleased(evt);
             }
         });
+        jpBackground.add(jtfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 275, -1));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Aceptar");
-
-        javax.swing.GroupLayout btnAceptarLayout = new javax.swing.GroupLayout(btnAceptar);
-        btnAceptar.setLayout(btnAceptarLayout);
-        btnAceptarLayout.setHorizontalGroup(
-            btnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 110, Short.MAX_VALUE)
-            .addGroup(btnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnAceptarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        btnAceptarLayout.setVerticalGroup(
-            btnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-            .addGroup(btnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnAceptarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
+        btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnAceptar.setText("Aceptar");
+        btnAceptar.setToolTipText("Iniciar sesión en la aplicación");
+        btnAceptar.setEnabled(false);
+        btnAceptar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
         jpBackground.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 110, 30));
 
-        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(45, 125, 246), new java.awt.Color(45, 125, 246), new java.awt.Color(45, 125, 246), new java.awt.Color(45, 125, 246)));
-        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnCancelarMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseReleased(evt);
+        btnCancelar.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(45, 125, 246)));
+        btnCancelar.setForeground(new java.awt.Color(45, 125, 246));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setToolTipText("Cerrar aplicación");
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
             }
         });
-
-        labelCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelCancelar.setForeground(new java.awt.Color(45, 125, 246));
-        labelCancelar.setText("Cancelar");
-
-        javax.swing.GroupLayout btnCancelarLayout = new javax.swing.GroupLayout(btnCancelar);
-        btnCancelar.setLayout(btnCancelarLayout);
-        btnCancelarLayout.setHorizontalGroup(
-            btnCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 106, Short.MAX_VALUE)
-            .addGroup(btnCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnCancelarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(labelCancelar)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        btnCancelarLayout.setVerticalGroup(
-            btnCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-            .addGroup(btnCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnCancelarLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(labelCancelar)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
         jpBackground.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 110, 30));
 
         jlFondoHex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
@@ -217,14 +162,15 @@ public class JD_Login extends javax.swing.JDialog {
 
     private void jlHipervMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlHipervMouseClicked
         JD_LoginBD JDLoginBD = new JD_LoginBD(null, true);
-        goTo.dialog(this, JDLoginBD);
+        goTo.dialog(this, JDLoginBD);  
     }//GEN-LAST:event_jlHipervMouseClicked
 
-    private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         String username = jtfUsuario.getText();
         String password = String.valueOf(jtfPassword.getPassword());
-        byte activate = 1;
-        Usuario u = new Usuario(username, password, activate);
+        Usuario u = new Usuario();
+        u.setUsuario(username);
+        u.setContrasenna(password);
         try {
             if (Login.validarUser(connPg, u)) {
                 VentanaPrincipal vp = new VentanaPrincipal();
@@ -239,55 +185,19 @@ public class JD_Login extends javax.swing.JDialog {
         } catch (FaltanDatosException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnAceptarMouseClicked
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
-        //Color del botón cuando el mouse está encima
-        btnAceptar.setBackground(new Color(32,112,233));
-    }//GEN-LAST:event_btnAceptarMouseEntered
-
-    private void btnAceptarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseExited
-        //Color del botón cuando el mouse no está encima
-        btnAceptar.setBackground(new Color(45,125,246));
-    }//GEN-LAST:event_btnAceptarMouseExited
-
-    private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
-        //Color del botón cuando es presionado
-        btnAceptar.setBackground(new Color(20,100,221));
-    }//GEN-LAST:event_btnAceptarMousePressed
-
-    private void btnAceptarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseReleased
-        //Color del botón luego de ser presionado
-        btnAceptar.setBackground(new Color(45,125,246));
-    }//GEN-LAST:event_btnAceptarMouseReleased
-
-    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_btnCancelarMouseClicked
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
-        //Color del botón cuando el mouse está encima
-        btnCancelar.setBackground(new Color(242,242,242));
-        labelCancelar.setForeground(new Color(32,112,233));
-    }//GEN-LAST:event_btnCancelarMouseEntered
+    private void jtfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfUsuarioKeyReleased
+        camposRequeridos();
+    }//GEN-LAST:event_jtfUsuarioKeyReleased
 
-    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-        //Color del botón cuando el mouse no está encima
-        btnCancelar.setBackground(new Color(255,255,255));
-        labelCancelar.setForeground(new Color(45,125,246));
-    }//GEN-LAST:event_btnCancelarMouseExited
-
-    private void btnCancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMousePressed
-        //Color del botón cuando es presionado
-        btnCancelar.setBackground(new Color(230,230,230));
-        labelCancelar.setForeground(new Color(20,100,221));
-    }//GEN-LAST:event_btnCancelarMousePressed
-
-    private void btnCancelarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseReleased
-        //Color del botón luego de ser presionado
-        btnCancelar.setBackground(new Color(255,255,255));
-        labelCancelar.setForeground(new Color(45,125,246));
-    }//GEN-LAST:event_btnCancelarMouseReleased
+    private void jtfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPasswordKeyReleased
+        camposRequeridos();
+    }//GEN-LAST:event_jtfPasswordKeyReleased
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -329,19 +239,18 @@ public class JD_Login extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel btnAceptar;
-    private javax.swing.JPanel btnCancelar;
+    private custom_swing.Button btnAceptar;
+    private custom_swing.Button btnCancelar;
     private javax.swing.JLabel ic_password;
     private javax.swing.JLabel ic_username;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jlFondoHex;
     private javax.swing.JLabel jlHiperv;
     private javax.swing.JPanel jpBackground;
     private custom_swing.PasswordField jtfPassword;
     private custom_swing.TextField jtfUsuario;
-    private javax.swing.JLabel labelCancelar;
     // End of variables declaration//GEN-END:variables
 
+    // Conectar a la base de datos
     private void conectarBD() {
         try {
             connPg = new ConexionPg();
@@ -373,6 +282,7 @@ public class JD_Login extends javax.swing.JDialog {
         jlHiperv.setToolTipText("Configurar otro servidor");
     }
     
+    // Si el mouse se posiciona encima del texto 
     private void mouseEntered(String color){              
         CAMBIAR = "<html>Servidor conectado. <font color=\""+ color + "\"><b><u>CAMBIAR</u></b></font></html>";;
         CONECTAR = "<html>Sin conexión establecida. <font color=\""+ color +"\"><b><u>CONECTAR</u></b></font></html>";
@@ -381,5 +291,26 @@ public class JD_Login extends javax.swing.JDialog {
         }else{
             jlHiperv.setText(CONECTAR);
         }     
+    }
+        
+    //Método para validar que no exista los campos requeridos vacíos
+    private void camposRequeridos() {
+        if (jtfUsuario.getText().isEmpty() || String.valueOf(jtfPassword.getPassword()).isEmpty()) {
+            btnAceptar.setEnabled(false);
+        } else {
+            btnAceptar.setEnabled(true);
+        }
+    }  
+    
+    // Ir al siguiente campo al presionar ENTER
+    private void siguienteCampo() {
+        keyboradUtil.siguienteCampo(jtfUsuario, jtfPassword);              
+        keyboradUtil.siguienteCampo(jtfPassword, btnAceptar, btnCancelar);
+    }
+    
+    // Método para cambiar el focus al siguiente botón 
+    private void focusButtons(){
+        keyboradUtil.focusButton(btnAceptar, btnCancelar);
+        keyboradUtil.focusButton(btnCancelar, btnAceptar);
     }
 }

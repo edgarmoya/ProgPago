@@ -29,12 +29,12 @@ public class ConexionPg implements Serializable {
         url = "jdbc:postgresql://" + host + ":" + puerto + "/" + bd;
     }
 
-    public ConexionPg(String u, String pw, String h, String b) {
+    public ConexionPg(String u, String pw, String h, String p, String b) {
         usuario = u;
         password = pw;
         host = h;
-        bd = b;
-        puerto = "5432";
+        puerto = p;
+        bd = b;      
         url = "jdbc:postgresql://" + host + ":" + puerto + "/" + bd;
     }
 

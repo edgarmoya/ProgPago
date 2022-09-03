@@ -31,7 +31,7 @@ public class SplashScreen extends javax.swing.JFrame {
         jpBackground.setLayout(jpBackgroundLayout);
         jpBackgroundLayout.setHorizontalGroup(
             jpBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlVersat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jlVersat)
         );
         jpBackgroundLayout.setVerticalGroup(
             jpBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
