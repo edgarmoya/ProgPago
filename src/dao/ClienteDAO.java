@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import visual.VentanaPrincipal;
+import ppago.ConexionPg;
 
 /**
  *
@@ -16,16 +16,16 @@ import visual.VentanaPrincipal;
  */
 public class ClienteDAO {
 
-    private VentanaPrincipal vp = new VentanaPrincipal();
+    private ConexionPg pg = new ConexionPg();
 
     public boolean agregarCliente(Cliente cliente) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
-        Connection conn = vp.getConnection();
+        Connection conn = pg.getConnection();
         boolean fueAgregado = false;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "insert into cliente values (?,?,?,?,?,?,?,?,?::bit(1))";
+                String sql = "INSERT INTO cliente VALUES(?,?,?,?,?,?,?,?,?::bit(1))";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, cliente.getCod_cliente());
                 stmt.setString(2, cliente.getNombre());
@@ -53,7 +53,7 @@ public class ClienteDAO {
 
     // Listar todos los clientes de la bd
     public ArrayList<Cliente> listaClientesActivos() throws SQLException, ClassNotFoundException, ConnectionException {
-        Connection conn = vp.getConnection();
+        Connection conn = pg.getConnection();
         ArrayList<Cliente> clientes = new ArrayList<>();
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
@@ -77,7 +77,7 @@ public class ClienteDAO {
                     clientes.add(c);
                 }
             } catch (Exception e) {
-                System.out.println("Error al mostrar los clientes" + e.getMessage());
+                System.out.println("Error al mostrar los clientes activos: " + e.getMessage());
             } finally {
                 conn.close();
             }

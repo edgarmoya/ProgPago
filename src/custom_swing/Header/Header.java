@@ -3,6 +3,7 @@ package custom_swing.Header;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -43,6 +44,11 @@ public class Header extends javax.swing.JPanel {
     public void setImagePerfil(){
         //Falta
     }
+    
+    //Retorna el label opciones donde se mostrará el popupMenu
+    public JLabel getOpciones(){
+        return opciones;
+    }
            
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,16 +75,16 @@ public class Header extends javax.swing.JPanel {
         nombre.setFont(new java.awt.Font("Calibri", 1, 20)); // NOI18N
         nombre.setForeground(new java.awt.Color(255, 255, 255));
         nombre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nombre.setText("Edgar");
+        nombre.setText("Admin");
         nombre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         apellidos.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         apellidos.setForeground(new java.awt.Color(255, 255, 255));
         apellidos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        apellidos.setText("Moya Cáceres");
+        apellidos.setText("Administrador");
         apellidos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        opciones.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        opciones.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         opciones.setForeground(new java.awt.Color(255, 255, 255));
         opciones.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         opciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/arrow_down.png"))); // NOI18N
@@ -86,7 +92,7 @@ public class Header extends javax.swing.JPanel {
         opciones.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         opciones.setFocusable(false);
         opciones.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        opciones.setIconTextGap(12);
+        opciones.setIconTextGap(8);
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
