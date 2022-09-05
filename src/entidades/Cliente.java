@@ -113,11 +113,11 @@ public class Cliente {
     // Adicionar al reeup los guiones
     public String reeupConGuiones(String reeup) {
         String reeupMod = "";
-        if (!reeup.isEmpty() && reeup.length() == 9) {
+        if (!reeup.isEmpty() && (reeup.length() == 8 || reeup.length() == 9)) {
             String tres = reeup.substring(0, 3);
             String uno = reeup.substring(3, 4);
-            String cinco = reeup.substring(4, 9);
-            reeupMod = tres + "-" + uno + "-" + cinco;
+            String resto = reeup.substring(4);
+            reeupMod = tres + "-" + uno + "-" + resto;
         }
         return reeupMod;
     }

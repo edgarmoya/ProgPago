@@ -1,5 +1,6 @@
 package visual;
 
+import dao.UsuarioDAO;
 import entidades.Usuario;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
@@ -21,6 +22,7 @@ import utiles.keyboradUtil;
 public class JD_Login extends javax.swing.JDialog {
 
     private ConexionPg connPg;
+    private Usuario u = new Usuario();
     private boolean estadoConn = false;
     private String CAMBIAR = "<html>Servidor conectado. <font color=\"#999999\"><b><u>CAMBIAR</u></b></font></html>";
     private String CONECTAR = "<html>Sin conexión establecida. <font color=\"#999999\"><b><u>CONECTAR</u></b></font></html>";
@@ -58,6 +60,11 @@ public class JD_Login extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Autenticación");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jpBackground.setBackground(new java.awt.Color(255, 255, 255));
         jpBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -163,12 +170,13 @@ public class JD_Login extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         String username = jtfUsuario.getText();
         String password = String.valueOf(jtfPassword.getPassword());
-        Usuario u = new Usuario();
         u.setUsuario(username);
         u.setContrasenna(password);
         try {
             if (Login.validarUser(connPg, u)) {
+                UsuarioDAO uDAO = new UsuarioDAO(); 
                 VentanaPrincipal vp = new VentanaPrincipal();
+                vp.setHeader(uDAO.getNomb_Apell(u.getUsuario()));
                 goTo.frame(this, vp);
             }else{
                 JOptionPane.showMessageDialog(this, "Usuario incorrecto, compruebe los datos y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -194,6 +202,10 @@ public class JD_Login extends javax.swing.JDialog {
         camposRequeridos();
     }//GEN-LAST:event_jtfPasswordKeyReleased
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

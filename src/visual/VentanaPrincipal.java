@@ -6,38 +6,44 @@ import custom_swing.Header.Header;
 import custom_swing.Menu.Menu;
 import custom_swing.Menu.MenuItem;
 import custom_swing.Popup.PopupMenu;
+import entidades.Usuario;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
-import ppago.ConexionPg;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    private Connection conn;
+    private Usuario usuario = new Usuario();
     private MigLayout layout;
     private Header header;
     private Menu menu;
     private MainForm mainForm;
     private Animator animator;
+    private JPopupMenu popupOpciones;
     
     public VentanaPrincipal() {
         initComponents();
-        setConnection();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
         setIconImage(getIconImage()); 
+        
         init();
     }
     
@@ -133,26 +139,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });   
         
         //Mouse clicked en jLabel OPCIONES
-        header.addOpcionesEvent(new MouseListener() {
+        header.addOpcionesEvent(new MouseAdapter() {           
             @Override
-            public void mousePressed(MouseEvent e) {
-                //No hacer nada
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //No hacer nada
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //No hacer nada
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                //No hacer nada
-            }
-            @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {       
                 //Abrir popupMenu con todas las opciones
+                popupOpciones.show(header.getOpciones(), e.getX(), e.getY()+10);
             }                           
         });
         //Iniciar formulario principal
@@ -175,25 +166,80 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }    
     }
     
-    //Establecer una conexión
-    public void setConnection(){     
-        try {
-            ConexionPg connPg = new ConexionPg();
-            connPg = connPg.cargar();
-            conn = connPg.conectar();
-        } catch (IOException ex) {
-            //
-        } catch (ClassNotFoundException ex) {
-            //
-        } catch (SQLException ex) {
-            //
-        }      
+    
+    // Popup Opciones
+    private void popupOpciones(){
+        // Inicializar popup y poner fondo blanco
+        popupOpciones = new JPopupMenu(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }          
+        };
+        // Items del popup
+        JMenuItem contrasena = new JMenuItem("Cambiar Contraseña", getIcon("/imagenes/popup_contrasena.png", 16, 16));
+        JMenuItem contacto = new JMenuItem("Datos de Contacto", getIcon("/imagenes/popup_contacto.png", 16, 16));
+        JMenuItem acerca = new JMenuItem("Acerca de Versat", getIcon("/imagenes/popup_acerca.png", 16, 16));
+        JMenuItem cerrar_sesion = new JMenuItem("Cerrar sesión", getIcon("/imagenes/popup_cerrarsesion.png", 16, 16));
+        JMenuItem salir = new JMenuItem("Salir", getIcon("/imagenes/popup_salir.png", 16, 16));
+        
+        // Agregar items y escuchar acción
+        popupOpciones.add(contrasena);
+        contrasena.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JD_Cambiar_contrasena JDContrasena = new JD_Cambiar_contrasena(null, true);
+                JDContrasena.setUsuario(usuario);
+                JDContrasena.setVisible(true);
+            }
+        });
+        
+        // La opcion de cambiar contraseña no se debe mostrar si es el administrador del postgresql
+        if (usuario.getUsuario() == null){
+            contrasena.setEnabled(false);
+        } 
+
+        popupOpciones.add(contacto);
+        contacto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JD_Contacto JDCont = new JD_Contacto(null, true);
+                JDCont.setVisible(true);
+            }
+        });
+        popupOpciones.add(acerca);
+        acerca.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // nada por ahora
+            }
+        });
+        
+        popupOpciones.addSeparator();
+        popupOpciones.add(cerrar_sesion);
+        cerrar_sesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                JD_Login JDLogin = new JD_Login(null, true);
+                JDLogin.setVisible(true);
+            }
+        });
+        
+        popupOpciones.add(salir);
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
     
-    //Obtener conexión
-    public Connection getConnection(){     
-        return conn;
-    }
+    public Icon getIcon(String ruta, int width, int heigth){
+        Icon mIcono = new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage().getScaledInstance(width, heigth, 0));
+        return mIcono;       
+    }   
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -268,4 +314,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane bg;
     // End of variables declaration//GEN-END:variables
+
+    // Obtener usuario logueado desde Login
+    public void setHeader(Usuario u) {
+        this.usuario = u;
+        header.setNombre(usuario.getNombre());
+        header.setApellidos(usuario.getApellidos());
+        popupOpciones();
+    }
+
 }

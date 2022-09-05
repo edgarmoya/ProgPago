@@ -59,8 +59,23 @@ public class ConexionPg implements Serializable {
         
         return conn;
     }
-        
-
+    
+    // Establecer una conexión con el postgresql
+    public Connection getConnection(){     
+        try {
+            ConexionPg connPg = new ConexionPg();
+            connPg = connPg.cargar();
+            conexion = connPg.conectar();
+        } catch (IOException ex) {
+            //
+        } catch (ClassNotFoundException ex) {
+            //
+        } catch (SQLException ex) {
+            //
+        }   
+        return conexion;
+    }
+    
     public Connection getConexion() {
         return conexion;
     }
