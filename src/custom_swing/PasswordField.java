@@ -23,7 +23,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-
+/**
+ *
+ * @author Edgar Moya
+ */
 public class PasswordField extends JPasswordField {
     
     public boolean isShowAndHide() {
@@ -65,7 +68,7 @@ public class PasswordField extends JPasswordField {
 
     public PasswordField() {
         setBorder(new EmptyBorder(20, 3, 10, 30));
-        setSelectionColor(new Color(76, 204, 255));
+        setSelectionColor(new Color(45, 125, 246));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
@@ -132,8 +135,8 @@ public class PasswordField extends JPasswordField {
             }
 
         };
-        eye = new ImageIcon(getClass().getResource("/imagenes/eye.png")).getImage();
-        eye_hide = new ImageIcon(getClass().getResource("/imagenes/eye_hide.png")).getImage();
+        eye = new ImageIcon(getClass().getResource("/imagenes/login_eye.png")).getImage();
+        eye_hide = new ImageIcon(getClass().getResource("/imagenes/login_eye_hide.png")).getImage();
         animator = new Animator(300, target);
         animator.setResolution(0);
         animator.setAcceleration(0.5f);

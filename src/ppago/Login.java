@@ -19,29 +19,29 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Edgar Moya
+ */
 public class Login {
 
-    //faltaria validar en el login el maximo de caracteres permitidos en la bd, puede que se valide cuando el admin agregar un nuevo usuario
-    
-
-
     //Método para validar el usuario y contraseña 
-    public static boolean validarUser(ConexionPg connPg, Usuario t) throws SQLException, ConnectionException, FaltanDatosException {
-        if (!t.getUsuario().isEmpty() && !t.getContrasenna().isEmpty()) {
+    public static boolean validarUser(ConexionPg connPg, Usuario u) throws SQLException, ConnectionException, FaltanDatosException {
+        if (!u.getUsuario().isEmpty() && !u.getContrasenna().isEmpty()) {
             Connection conn = connPg.getConexion();
             if (conn != null) {
                 try {
-                    //Query para obtener la cantidad de tesoreros donde ese usuario coincida con la contraseña
-                    String query = "SELECT COUNT(*) AS cant FROM tesorero WHERE usuario = ? AND contrasenna = crypt(?, contrasenna)";                   
+                    //Query para obtener la cantidad de usuarios donde ese username coincida con la contraseña, además de comprobar si está activo
+                    String query = "SELECT COUNT(*) AS cant FROM usuario WHERE usuario = ? AND contrasenna = crypt(?, contrasenna) AND activo='1'";                   
                     PreparedStatement stmt = conn.prepareStatement(query);
-                    stmt.setString(1, t.getUsuario());
-                    stmt.setString(2, t.getContrasenna());
+                    stmt.setString(1, u.getUsuario());
+                    stmt.setString(2, u.getContrasenna());
                     ResultSet res = stmt.executeQuery();
 
                     //Comprobar si se ingresa la master password
-                    if (t.getUsuario().equals(connPg.getUsuario())
-                            && t.getContrasenna().equals(connPg.getPassword())) {
-                        //Se cierra la conexion solo cuando es un tesorero  válido
+                    if (u.getUsuario().equals(connPg.getUsuario())
+                            && u.getContrasenna().equals(connPg.getPassword())) {
+                        //Se cierra la conexion solo cuando es un usuario válido
                         //En caso de no serlo no se puede cerrar porque se puede seguir intentando loguear
                         conn.close();
                         return true;
@@ -51,7 +51,7 @@ public class Login {
                     //Si la cantidad es igual a 1 entonces si se ha encontrado
                     res.next();
                     if (res.getInt("cant") == 1) {
-                        //Se cierra la conexion solo cuando es un tesorero  válido
+                        //Se cierra la conexion solo cuando es un usuario válido
                         //En caso de no serlo no se puede cerrar porque se puede seguir intentando loguear
                         conn.close();
                         return true;
@@ -78,15 +78,16 @@ public class Login {
      * @param username
      * @param password
      * @param servidor
+     * @param puerto
      * @param bd
      * @return True si es correcta y False en caso que no lo sea
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public static boolean validarBD(String username, String password, String servidor, String bd) throws ClassNotFoundException, SQLException, IOException, ConnectionException, FaltanDatosException {
-        List<String> lista = Arrays.asList("rol", "tesorero_rol", "tesorero", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo");
-        if (!username.isEmpty() && !password.isEmpty() && servidor != null && bd != null) {
-            ConexionPg c = new ConexionPg(username, password, servidor, bd);
+    public static boolean validarBD(String username, String password, String servidor, String puerto, String bd) throws ClassNotFoundException, SQLException, IOException, ConnectionException, FaltanDatosException {
+        List<String> lista = Arrays.asList("rol", "usuario_rol", "usuario", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo", "prog_destino_periodo");
+        if (!username.isEmpty() && !password.isEmpty() && servidor != null && puerto != null && bd != null) {
+            ConexionPg c = new ConexionPg(username, password, servidor, puerto, bd);
             Connection conn = c.conectar();
 
             if (conn != null) {
@@ -121,8 +122,8 @@ public class Login {
 
     
     //Obtener lista con todas las base de datos 
-    public static ArrayList<String> getListaBD(String user, String pass, String host) throws SQLException, ClassNotFoundException {
-        ConexionPg c = new ConexionPg(user, pass, host, "");
+    public static ArrayList<String> getListaBD(String user, String pass, String host, String port) throws SQLException, ClassNotFoundException {
+        ConexionPg c = new ConexionPg(user, pass, host, port, "");
         Connection conn = c.conectar();
         ArrayList<String> lista = new ArrayList<>();
 
@@ -180,5 +181,5 @@ public class Login {
         String localhost = local.getHostName();
         return localhost;
     }
-
+    
 }

@@ -18,7 +18,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-
+/**
+ *
+ * @author Edgar Moya
+ */
 public class TextField extends JTextField {
      public String getLabelText() {
         return labelText;
@@ -46,7 +49,7 @@ public class TextField extends JTextField {
 
     public TextField() {
         setBorder(new EmptyBorder(20, 3, 10, 3));
-        setSelectionColor(new Color(76, 204, 255));
+        setSelectionColor(new Color(45, 125, 246));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {

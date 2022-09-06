@@ -42,7 +42,7 @@ public class ProgramacionDAO {
         
         return fueAgregado;
     }
-    
+
     /*
     De esta manera se agregaría el date al postgresql
     Date date = new Date();

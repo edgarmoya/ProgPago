@@ -29,12 +29,12 @@ public class ConexionPg implements Serializable {
         url = "jdbc:postgresql://" + host + ":" + puerto + "/" + bd;
     }
 
-    public ConexionPg(String u, String pw, String h, String b) {
+    public ConexionPg(String u, String pw, String h, String p, String b) {
         usuario = u;
         password = pw;
         host = h;
-        bd = b;
-        puerto = "5432";
+        puerto = p;
+        bd = b;      
         url = "jdbc:postgresql://" + host + ":" + puerto + "/" + bd;
     }
 
@@ -59,8 +59,23 @@ public class ConexionPg implements Serializable {
         
         return conn;
     }
-        
-
+    
+    // Establecer una conexión con el postgresql
+    public Connection getConnection(){     
+        try {
+            ConexionPg connPg = new ConexionPg();
+            connPg = connPg.cargar();
+            conexion = connPg.conectar();
+        } catch (IOException ex) {
+            //
+        } catch (ClassNotFoundException ex) {
+            //
+        } catch (SQLException ex) {
+            //
+        }   
+        return conexion;
+    }
+    
     public Connection getConexion() {
         return conexion;
     }

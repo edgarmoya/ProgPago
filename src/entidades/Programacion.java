@@ -1,9 +1,6 @@
 package entidades;
 
 import java.sql.Date;
-
-
-
 /**
  *
  * @author Lester
