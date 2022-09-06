@@ -15,11 +15,11 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import utiles.keyboradUtil;
 
-public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
+public class JD_Adicionar_cliente extends javax.swing.JDialog {
 
     private boolean cambios;
     
-    public JD_Adicionar_nuevo_cliente(java.awt.Frame parent, boolean modal) {
+    public JD_Adicionar_cliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
@@ -388,20 +388,21 @@ public class JD_Adicionar_nuevo_cliente extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JD_Adicionar_nuevo_cliente dialog = new JD_Adicionar_nuevo_cliente(new javax.swing.JFrame(), true);
+                JD_Adicionar_cliente dialog = new JD_Adicionar_cliente(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

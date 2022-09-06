@@ -7,31 +7,31 @@ package visual;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import entidades.Usuario;
-import dao.UsuarioDAO;
+import entidades.TipoFinan;
+import dao.TipoFinanDAO;
 import java.awt.Image;
 import java.awt.Toolkit;
 /**
  *
  * @author Lester
  */
-public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
+public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
 
     /**
-     * Creates new form JD_Adicionar_nuevo_usuario
+     * Creates new form JD_Adicionar_nuevo_tipo_de_financiamiento
      */
-    public JD_Adicionar_nuevo_usuario(java.awt.Frame parent, boolean modal) {
+    public JD_Adicionar_tipo_de_financiamiento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(getIconImage());
     }
-
+    
     public Image getIconImage (){
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_iniciarsesion.png"));
         return res;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,28 +41,27 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpNuevo_usuario = new javax.swing.JPanel();
-        jtfusuario = new custom_swing.TextField();
-        jtfnombre = new custom_swing.TextField();
+        jpNuevo_Tipo_de_Financiamiento = new javax.swing.JPanel();
+        jtfcod_tipo = new custom_swing.TextField();
+        jtfdescripcion = new custom_swing.TextField();
         btnAceptar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JPanel();
         labelCancelar = new javax.swing.JLabel();
-        jtfcontrasenna = new custom_swing.TextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jpNuevo_usuario.setBackground(new java.awt.Color(255, 255, 255));
-        jpNuevo_usuario.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "NUEVO USUARIO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
+        jpNuevo_Tipo_de_Financiamiento.setBackground(new java.awt.Color(255, 255, 255));
+        jpNuevo_Tipo_de_Financiamiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "NUEVO TIPO DE FINANCIAMIENTO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jtfusuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfusuario.setToolTipText("Inserte el usuario del usuario");
-        jtfusuario.setLabelText("USUARIO*");
-        jtfusuario.setOpaque(false);
+        jtfcod_tipo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jtfcod_tipo.setToolTipText("Inserte el código del tipo de financiamiento");
+        jtfcod_tipo.setLabelText("CÓDIGO*");
+        jtfcod_tipo.setOpaque(false);
 
-        jtfnombre.setToolTipText("Inserte el nombre de la moneda");
-        jtfnombre.setLabelText("NOMBRE*");
-        jtfnombre.setOpaque(false);
+        jtfdescripcion.setToolTipText("Inserte la descripción del tipo de financiamiento");
+        jtfdescripcion.setLabelText("DESCRIPCIÓN*");
+        jtfdescripcion.setOpaque(false);
 
         btnAceptar.setBackground(new java.awt.Color(45, 125, 246));
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -154,38 +153,30 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jtfcontrasenna.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfcontrasenna.setToolTipText("Inserte la contraseña del usuario");
-        jtfcontrasenna.setLabelText("CONTRASEÑA*");
-        jtfcontrasenna.setOpaque(false);
-
-        javax.swing.GroupLayout jpNuevo_usuarioLayout = new javax.swing.GroupLayout(jpNuevo_usuario);
-        jpNuevo_usuario.setLayout(jpNuevo_usuarioLayout);
-        jpNuevo_usuarioLayout.setHorizontalGroup(
-            jpNuevo_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpNuevo_usuarioLayout.createSequentialGroup()
+        javax.swing.GroupLayout jpNuevo_Tipo_de_FinanciamientoLayout = new javax.swing.GroupLayout(jpNuevo_Tipo_de_Financiamiento);
+        jpNuevo_Tipo_de_Financiamiento.setLayout(jpNuevo_Tipo_de_FinanciamientoLayout);
+        jpNuevo_Tipo_de_FinanciamientoLayout.setHorizontalGroup(
+            jpNuevo_Tipo_de_FinanciamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpNuevo_Tipo_de_FinanciamientoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpNuevo_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jpNuevo_usuarioLayout.createSequentialGroup()
+                .addGroup(jpNuevo_Tipo_de_FinanciamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfcod_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpNuevo_Tipo_de_FinanciamientoLayout.createSequentialGroup()
                         .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jtfcontrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jpNuevo_usuarioLayout.setVerticalGroup(
-            jpNuevo_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_usuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtfusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jpNuevo_Tipo_de_FinanciamientoLayout.setVerticalGroup(
+            jpNuevo_Tipo_de_FinanciamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_Tipo_de_FinanciamientoLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jtfcod_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jtfcontrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(jpNuevo_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jtfdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(jpNuevo_Tipo_de_FinanciamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -195,11 +186,13 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpNuevo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jpNuevo_Tipo_de_Financiamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpNuevo_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jpNuevo_Tipo_de_Financiamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,17 +201,14 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
 
         try{
-            Usuario u = new Usuario();
-            u.setUsuario(jtfusuario.getText());
-            u.setNombre(jtfnombre.getText());
-            u.setContrasenna(jtfcontrasenna.getText());
-            byte activo = 1;
-            u.setActivo(activo);
+            TipoFinan tf = new TipoFinan();
+            tf.setCod_tipo(jtfcod_tipo.getText());
+            tf.setDescripcion(jtfdescripcion.getText());
 
-            UsuarioDAO uDAO = new UsuarioDAO();
-            if(uDAO.agregarUsuario(u)){
-                JOptionPane.showMessageDialog(this,"Nuevo usuario adicionado correctamente");
-                this.limpiar();
+            TipoFinanDAO tfDAO = new TipoFinanDAO();
+            if(tfDAO.agregarTipoFinan(tf)){
+            JOptionPane.showMessageDialog(this,"Nuevo tipo de financiamiento adicionado correctamente");
+            this.limpiar();
             } else {
                 JOptionPane.showMessageDialog(this,"Ha ocurrido un error");
             }
@@ -228,9 +218,8 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void limpiar(){
-        jtfusuario.setText("");
-        jtfnombre.setText(""); 
-        jtfcontrasenna.setText("");
+        jtfcod_tipo.setText("");
+        jtfdescripcion.setText("");       
     }
     
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
@@ -297,20 +286,21 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_tipo_de_financiamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_tipo_de_financiamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_tipo_de_financiamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_tipo_de_financiamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JD_Adicionar_nuevo_usuario dialog = new JD_Adicionar_nuevo_usuario(new javax.swing.JFrame(), true);
+                JD_Adicionar_tipo_de_financiamiento dialog = new JD_Adicionar_tipo_de_financiamiento(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -326,10 +316,9 @@ public class JD_Adicionar_nuevo_usuario extends javax.swing.JDialog {
     private javax.swing.JPanel btnAceptar;
     private javax.swing.JPanel btnCancelar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jpNuevo_usuario;
-    private custom_swing.TextField jtfcontrasenna;
-    private custom_swing.TextField jtfnombre;
-    private custom_swing.TextField jtfusuario;
+    private javax.swing.JPanel jpNuevo_Tipo_de_Financiamiento;
+    private custom_swing.TextField jtfcod_tipo;
+    private custom_swing.TextField jtfdescripcion;
     private javax.swing.JLabel labelCancelar;
     // End of variables declaration//GEN-END:variables
 }

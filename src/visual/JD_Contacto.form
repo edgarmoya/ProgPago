@@ -132,7 +132,7 @@
         <Component class="javax.swing.JLabel" name="jlDerechos">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Datazucar 2017 &#xa9;. Todos los derechos reservados."/>
+            <Property name="text" type="java.lang.String" value="Datazucar 2022 &#xa9;. Todos los derechos reservados."/>
           </Properties>
         </Component>
       </SubComponents>

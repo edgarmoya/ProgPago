@@ -82,7 +82,7 @@ public class JD_Contacto extends javax.swing.JDialog {
         );
 
         jlDerechos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlDerechos.setText("Datazucar 2017 ©. Todos los derechos reservados.");
+        jlDerechos.setText("Datazucar 2022 ©. Todos los derechos reservados.");
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);

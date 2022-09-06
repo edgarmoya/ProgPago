@@ -15,7 +15,7 @@ import utiles.JTableUtil;
  */
 public class ClienteForm extends javax.swing.JPanel {
 
-    private JD_Adicionar_nuevo_cliente JDAdd;
+    private JD_Adicionar_cliente JDAdd;
 
     public ClienteForm() {
         initComponents();
@@ -144,7 +144,7 @@ public class ClienteForm extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar cliente
-        JDAdd = new JD_Adicionar_nuevo_cliente(null, true);       
+        JDAdd = new JD_Adicionar_cliente(null, true);       
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
         

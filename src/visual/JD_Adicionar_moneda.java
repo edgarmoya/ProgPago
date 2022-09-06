@@ -7,31 +7,31 @@ package visual;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import entidades.Periodo;
-import dao.PeriodoDAO;
+import entidades.Moneda;
+import dao.MonedaDAO;
 import java.awt.Image;
 import java.awt.Toolkit;
 /**
  *
  * @author Lester
  */
-public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
+public class JD_Adicionar_moneda extends javax.swing.JDialog {
 
     /**
-     * Creates new form JD_Adicionar_nuevo_periodo
+     * Creates new form JD_Adicionar_nueva_moneda
      */
-    public JD_Adicionar_nuevo_periodo(java.awt.Frame parent, boolean modal) {
+    public JD_Adicionar_moneda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(getIconImage());
     }
-
+    
     public Image getIconImage (){
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/ic_iniciarsesion.png"));
         return res;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,24 +41,23 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpNuevo_periodo = new javax.swing.JPanel();
-        jtfid_periodo = new custom_swing.TextField();
+        jpNueva_moneda = new javax.swing.JPanel();
+        jtfsiglas = new custom_swing.TextField();
         jtfnombre = new custom_swing.TextField();
         btnAceptar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JPanel();
         labelCancelar = new javax.swing.JLabel();
-        jtfid_ejercicio = new custom_swing.TextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jpNuevo_periodo.setBackground(new java.awt.Color(255, 255, 255));
-        jpNuevo_periodo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "NUEVO PERIODO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
+        jpNueva_moneda.setBackground(new java.awt.Color(255, 255, 255));
+        jpNueva_moneda.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "NUEVA MONEDA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jtfid_periodo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfid_periodo.setToolTipText("Inserte el identificador del periodo");
-        jtfid_periodo.setLabelText("CÓDIGO*");
-        jtfid_periodo.setOpaque(false);
+        jtfsiglas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jtfsiglas.setToolTipText("Inserte las siglas de la moneda");
+        jtfsiglas.setLabelText("SIGLAS*");
+        jtfsiglas.setOpaque(false);
 
         jtfnombre.setToolTipText("Inserte el nombre de la moneda");
         jtfnombre.setLabelText("NOMBRE*");
@@ -154,38 +153,30 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jtfid_ejercicio.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfid_ejercicio.setToolTipText("Inserte el identificador del ejercicio de este periodo");
-        jtfid_ejercicio.setLabelText("CÓDIGO DEL EJERCICIO*");
-        jtfid_ejercicio.setOpaque(false);
-
-        javax.swing.GroupLayout jpNuevo_periodoLayout = new javax.swing.GroupLayout(jpNuevo_periodo);
-        jpNuevo_periodo.setLayout(jpNuevo_periodoLayout);
-        jpNuevo_periodoLayout.setHorizontalGroup(
-            jpNuevo_periodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpNuevo_periodoLayout.createSequentialGroup()
+        javax.swing.GroupLayout jpNueva_monedaLayout = new javax.swing.GroupLayout(jpNueva_moneda);
+        jpNueva_moneda.setLayout(jpNueva_monedaLayout);
+        jpNueva_monedaLayout.setHorizontalGroup(
+            jpNueva_monedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpNueva_monedaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpNuevo_periodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfid_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpNueva_monedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jpNuevo_periodoLayout.createSequentialGroup()
+                    .addGroup(jpNueva_monedaLayout.createSequentialGroup()
                         .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jtfid_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jpNuevo_periodoLayout.setVerticalGroup(
-            jpNuevo_periodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_periodoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtfid_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jpNueva_monedaLayout.setVerticalGroup(
+            jpNueva_monedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNueva_monedaLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jtfsiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jtfid_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(jpNuevo_periodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(28, 28, 28)
+                .addGroup(jpNueva_monedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -195,11 +186,11 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpNuevo_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jpNueva_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpNuevo_periodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpNueva_moneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -208,14 +199,15 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
 
         try{
-            Periodo p = new Periodo();
-            p.setId_periodo(Integer.parseInt(jtfid_periodo.getText()));
-            p.setNombre(jtfnombre.getText());
-            p.setId_ejercicio(Integer.parseInt(jtfid_ejercicio.getText()));
+            Moneda m = new Moneda();
+            m.setSiglas(jtfsiglas.getText());
+            m.setNombre(jtfnombre.getText());
+            byte activo = 1;
+            m.setActivo(activo);
 
-            PeriodoDAO pDAO = new PeriodoDAO();
-            if(pDAO.agregarPeriodo(p)){
-                JOptionPane.showMessageDialog(this,"Nuevo periodo adicionado correctamente");
+            MonedaDAO mDAO = new MonedaDAO();
+            if(mDAO.agregarMoneda(m)){
+                JOptionPane.showMessageDialog(this,"Nueva moneda adicionada correctamente");
                 this.limpiar();
             } else {
                 JOptionPane.showMessageDialog(this,"Ha ocurrido un error");
@@ -226,11 +218,9 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void limpiar(){
-        jtfid_periodo.setText("");
-        jtfnombre.setText(""); 
-        jtfid_ejercicio.setText("");
+        jtfsiglas.setText("");
+        jtfnombre.setText("");       
     }
-    
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
         //Color del botón cuando el mouse está encima
         btnAceptar.setBackground(new Color(32,112,233));
@@ -295,20 +285,21 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_periodo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_moneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_periodo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_moneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_periodo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_moneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JD_Adicionar_nuevo_periodo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JD_Adicionar_moneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JD_Adicionar_nuevo_periodo dialog = new JD_Adicionar_nuevo_periodo(new javax.swing.JFrame(), true);
+                JD_Adicionar_moneda dialog = new JD_Adicionar_moneda(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -324,10 +315,9 @@ public class JD_Adicionar_nuevo_periodo extends javax.swing.JDialog {
     private javax.swing.JPanel btnAceptar;
     private javax.swing.JPanel btnCancelar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jpNuevo_periodo;
-    private custom_swing.TextField jtfid_ejercicio;
-    private custom_swing.TextField jtfid_periodo;
+    private javax.swing.JPanel jpNueva_moneda;
     private custom_swing.TextField jtfnombre;
+    private custom_swing.TextField jtfsiglas;
     private javax.swing.JLabel labelCancelar;
     // End of variables declaration//GEN-END:variables
 }
