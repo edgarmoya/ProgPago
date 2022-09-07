@@ -69,6 +69,7 @@ public class PasswordField extends JPasswordField {
     public PasswordField() {
         setBorder(new EmptyBorder(20, 3, 10, 30));
         setSelectionColor(new Color(45, 125, 246));
+        setFont(new Font("Segoe UI", Font.PLAIN, 13));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {

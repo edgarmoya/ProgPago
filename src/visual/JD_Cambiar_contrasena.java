@@ -6,8 +6,6 @@ import excepciones.ConnectionException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import utiles.keyboradUtil;
 
@@ -155,7 +153,7 @@ public class JD_Cambiar_contrasena extends javax.swing.JDialog {
         try {
             if (igualContrasena()) {
                 UsuarioDAO uDAO = new UsuarioDAO();
-                boolean update = uDAO.updatePassword(u.getUsuario(), actual, nueva);
+                boolean update = uDAO.updatePassword(u.getIdentificador(), actual, nueva);
                 if (update){                   
                     dispose();
                     JOptionPane.showMessageDialog(this, "Contraseña cambiada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);

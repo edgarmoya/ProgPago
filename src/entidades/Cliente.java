@@ -142,7 +142,7 @@ public class Cliente {
         if (!isReeup()) {
             throw new ReeupException("REEUP no válido, verifique antes de continuar.");
         }
-        // Validar reeup
+        // Validar correo
         if (!isCorreo(correo)) {
             throw new CorreoException("Correo electrónico no válido, verifique antes de continuar.");
         }
@@ -181,6 +181,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "cod_cliente=" + cod_cliente + ", nombre=" + nombre + ", nit=" + nit + ", reeup=" + reeup + ", direccion=" + direccion + ", organismo=" + organismo + ", correo=" + correo + ", activo=" + activo + '}';
-    }
+        return "Cliente{" + "cod_cliente=" + cod_cliente + ", nombre=" + nombre + ", organismo=" + organismo + ", nit=" + nit + ", reeup=" + reeup + ", correo=" + correo + ", direccion=" + direccion + ", telefono=" + telefono + ", activo=" + activo + '}';
+    }  
 }

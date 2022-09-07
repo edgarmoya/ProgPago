@@ -27,19 +27,19 @@ public class Login {
 
     //Método para validar el usuario y contraseña 
     public static boolean validarUser(ConexionPg connPg, Usuario u) throws SQLException, ConnectionException, FaltanDatosException {
-        if (!u.getUsuario().isEmpty() && !u.getContrasenna().isEmpty()) {
+        if (!u.getIdentificador().isEmpty() && !u.getContrasenna().isEmpty()) {
             Connection conn = connPg.getConexion();
             if (conn != null) {
                 try {
                     //Query para obtener la cantidad de usuarios donde ese username coincida con la contraseña, además de comprobar si está activo
-                    String query = "SELECT COUNT(*) AS cant FROM usuario WHERE usuario = ? AND contrasenna = crypt(?, contrasenna) AND activo='1'";                   
+                    String query = "SELECT COUNT(*) AS cant FROM usuario WHERE identificador = ? AND contrasenna = crypt(?, contrasenna) AND activo='1'";                   
                     PreparedStatement stmt = conn.prepareStatement(query);
-                    stmt.setString(1, u.getUsuario());
+                    stmt.setString(1, u.getIdentificador());
                     stmt.setString(2, u.getContrasenna());
                     ResultSet res = stmt.executeQuery();
 
                     //Comprobar si se ingresa la master password
-                    if (u.getUsuario().equals(connPg.getUsuario())
+                    if (u.getIdentificador().equals(connPg.getUsuario())
                             && u.getContrasenna().equals(connPg.getPassword())) {
                         //Se cierra la conexion solo cuando es un usuario válido
                         //En caso de no serlo no se puede cerrar porque se puede seguir intentando loguear
