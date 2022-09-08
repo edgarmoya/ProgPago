@@ -36,7 +36,6 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         siguienteCampo();
         focusButtons();
         maxLength();
-        soloNumeros();
     }
 
     public Image getIconImage (){
@@ -54,7 +53,6 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
     private void initComponents() {
 
         jpNuevo_ejercicio = new javax.swing.JPanel();
-        jtfcod_ejercicio = new custom_swing.TextField();
         jtfejercicio = new custom_swing.TextField();
         btnAceptar = new custom_swing.Button();
         btnCancelar = new custom_swing.Button();
@@ -64,14 +62,14 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
 
         jpNuevo_ejercicio.setBackground(new java.awt.Color(255, 255, 255));
 
-        jtfcod_ejercicio.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfcod_ejercicio.setToolTipText("Inserte el código del ejercicio");
-        jtfcod_ejercicio.setLabelText("CÓDIGO*");
-        jtfcod_ejercicio.setOpaque(false);
-
         jtfejercicio.setToolTipText("Inserte el ejercicio del ejercicio");
         jtfejercicio.setLabelText("EJERCICIO*");
         jtfejercicio.setOpaque(false);
+        jtfejercicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfejercicioKeyReleased(evt);
+            }
+        });
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAceptar.setText("Aceptar");
@@ -102,7 +100,6 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
             .addGroup(jpNuevo_ejercicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfcod_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jpNuevo_ejercicioLayout.createSequentialGroup()
                         .addGap(9, 9, 9)
@@ -114,11 +111,9 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         jpNuevo_ejercicioLayout.setVerticalGroup(
             jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_ejercicioLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jtfcod_ejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addComponent(jtfejercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -143,7 +138,7 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // Agregar ejercicio
         Ejercicio e = new Ejercicio();
-        e.setCod_ejercicio(Integer.parseInt(jtfcod_ejercicio.getText()));
+        e.setCod_ejercicio(0);
         e.setEjercicio(jtfejercicio.getText());
 
         // Agregar
@@ -175,48 +170,26 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void jtfcod_ejercicioKeyReleased(java.awt.event.KeyEvent evt) {                                           
-        camposRequeridos();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB) {
-            completarCodigo(jtfcod_ejercicio.getText());
-        } 
-    }
-    
-    private void jtfejercicioKeyReleased(java.awt.event.KeyEvent evt) {                                      
-        camposRequeridos();
-    }
-    
-    private void jtfcod_ejercicioFocusLost(java.awt.event.FocusEvent evt) {                                         
-        completarCodigo(jtfcod_ejercicio.getText());       
-    }
-    
     // Limpiar todos los campos y hacer focus el primero
     private void limpiar() {
-        jtfcod_ejercicio.setText("");
         jtfejercicio.setText("");
-        jtfcod_ejercicio.requestFocus();
+        jtfejercicio.requestFocus();
     }
     
     // Permitir determinada longitud de caracteres
     private void maxLength() {
-        keyboradUtil.maxLength(jtfcod_ejercicio, 4);
         keyboradUtil.maxLength(jtfejercicio, 30);
     }
     
-    // Permitir solo números
-    private void soloNumeros() {
-        keyboradUtil.soloNumeros(jtfcod_ejercicio);
-    }
     
      // Ir al siguiente campo al presionar ENTER
     private void siguienteCampo() {
-        keyboradUtil.siguienteCampo(jtfcod_ejercicio, jtfejercicio);
         keyboradUtil.siguienteCampo(jtfejercicio, btnAceptar, btnCancelar);
     }
     
     //Método para validar que no exista los campos requeridos vacíos
     private void camposRequeridos() {
-        if (jtfcod_ejercicio.getText().isEmpty() || jtfejercicio.getText().isEmpty()) {
+        if (jtfejercicio.getText().isEmpty()) {
             btnAceptar.setEnabled(false);
         } else {
             btnAceptar.setEnabled(true);
@@ -229,20 +202,14 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         keyboradUtil.focusButton(btnCancelar, btnAceptar);
     }
     
-    // Método para completar con ceros a la izquierda si el código no tiene 4 dígitos
-    private void completarCodigo(String codigo){
-        if (codigo.length() != 4 && codigo.length() != 0){
-            while(codigo.length() != 4){
-                codigo = "0"+codigo;    
-            }
-            jtfcod_ejercicio.setText(codigo);
-        } 
-                
-    }
-    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void jtfejercicioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfejercicioKeyReleased
+        // TODO add your handling code here:
+        camposRequeridos();
+    }//GEN-LAST:event_jtfejercicioKeyReleased
 
     /**
      * @param args the command line arguments
@@ -295,7 +262,6 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
     private custom_swing.Button btnAceptar;
     private custom_swing.Button btnCancelar;
     private javax.swing.JPanel jpNuevo_ejercicio;
-    private custom_swing.TextField jtfcod_ejercicio;
     private custom_swing.TextField jtfejercicio;
     // End of variables declaration//GEN-END:variables
 }

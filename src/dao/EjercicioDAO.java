@@ -24,10 +24,9 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         }else {
             try{
-                String sql = "insert into ejercicio values (?,?)";
+                String sql = "insert into ejercicio values (default,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, ejercicio.getCod_ejercicio());
-                stmt.setString(2, ejercicio.getEjercicio());
+                stmt.setString(1, ejercicio.getEjercicio());
 
                 //ejecutamos la sentencia
                 int cantidad = stmt.executeUpdate();
@@ -58,7 +57,7 @@ public class EjercicioDAO {
                     while (rs.next()) {
                         //Preparar los datos
                         Ejercicio e = new Ejercicio();
-                        e.setCod_ejercicio(Integer.parseInt(rs.getString("cod_ejercicio")));
+                        e.setCod_ejercicio(rs.getInt("cod_ejercicio"));
                         e.setEjercicio(rs.getString("ejercicio"));
                         ejercicios.add(e);
                     }

@@ -79,14 +79,14 @@ public class EjercicioForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Código", "Ejercicio"
+                "Ejercicio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -144,20 +144,29 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGap(0, 793, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 515, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
+        int pos = jtEjercicios.getSelectedRow();
+        if (pos != -1) {
+            //elementoSeleccionado(true);
+        } else {
+            //elementoSeleccionado(false);
+        }
+    }//GEN-LAST:event_jtEjerciciosMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar ejercicio
@@ -171,19 +180,10 @@ public class EjercicioForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
-        int pos = jtEjercicios.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
-    }//GEN-LAST:event_jtEjerciciosMouseClicked
-
     //Método para actualizar la tabla con la lista de clientes
     private void mostrarActivos() {
         EjercicioDAO dao = new EjercicioDAO();
-        String[] columnNames = {"Código", "Ejercicio"};
+        String[] columnNames = {"Ejercicio"};
         ArrayList<Ejercicio> ejercicios = new ArrayList<>();
         try {
             ejercicios = dao.listaEjercicios();
@@ -195,10 +195,9 @@ public class EjercicioForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[ejercicios.size()][2];        
+        String[][] data = new String[ejercicios.size()][1];        
         for (int i = 0; i < ejercicios.size(); i++) {
-            data[i][0] = ""+ejercicios.get(i).getCod_ejercicio();
-            data[i][1] = ejercicios.get(i).getEjercicio();
+            data[i][0] = ejercicios.get(i).getEjercicio();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
