@@ -6,7 +6,6 @@ import entidades.Cliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -274,6 +273,32 @@ public class keyboradUtil {
                         btn2.requestFocus();
                     }
                 }
+            }
+        });
+    }
+    
+    /**
+     * Método para no permitir espacios
+     * @param jtf JTextField donde se está escribiendo
+     */
+    public static void sinEspacio(JTextField jtf) {
+        jtf.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char key = e.getKeyChar();
+                if (key == ' '){
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Nada 
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // Nada
             }
         });
     }

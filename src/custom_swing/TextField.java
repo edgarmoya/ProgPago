@@ -50,6 +50,7 @@ public class TextField extends JTextField {
     public TextField() {
         setBorder(new EmptyBorder(20, 3, 10, 3));
         setSelectionColor(new Color(45, 125, 246));
+        setFont(new Font("Segoe UI", Font.PLAIN, 13));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {

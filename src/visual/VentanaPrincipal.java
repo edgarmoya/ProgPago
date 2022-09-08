@@ -70,7 +70,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     }
                     if(subMenuIndex == 2){
                         mainForm.showForm(new EjercicioForm());
+
                     }
+
+                }else if(menuIndex == 4){      //Menú Seguridad
+                    if(subMenuIndex == 0){
+                        mainForm.showForm(new UsuarioForm());
                 }
             }
         });
@@ -199,7 +204,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         
         // La opcion de cambiar contraseña no se debe mostrar si es el administrador del postgresql
-        if (usuario.getUsuario() == null){
+        if (usuario.getIdentificador() == null){
             contrasena.setEnabled(false);
         } 
 
