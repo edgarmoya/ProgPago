@@ -75,7 +75,7 @@ public class UsuarioForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Identificador", "Nombre y apellidos", "Niveles de Acceso"
+                "Identificador", "Nombre y Apellidos", "Niveles de Acceso"
             }
         ) {
             Class[] types = new Class [] {
@@ -140,9 +140,9 @@ public class UsuarioForm extends javax.swing.JPanel {
         JDAdd.setVisible(true);
         
         // Si se efectuaron cambios actualizar tabla
-        /*if (JDAdd.cambios()){           
+        if (JDAdd.cambios()){           
             mostrarActivos();
-        }  */     
+        }   
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void jtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtUsuariosMouseClicked
@@ -157,7 +157,7 @@ public class UsuarioForm extends javax.swing.JPanel {
     //Método para actualizar la tabla con la lista de usuarios activos
     private void mostrarActivos() {
         UsuarioDAO dao = new UsuarioDAO();
-        String[] columnNames = {"Identificador", "Nombre y apellidos", "Niveles de Acceso"};
+        String[] columnNames = {"Identificador", "Nombre y Apellidos", "Niveles de Acceso"};
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try {
             usuarios = dao.listaUsuariosActivos();

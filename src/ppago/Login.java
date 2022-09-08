@@ -25,49 +25,49 @@ import javax.swing.JOptionPane;
  */
 public class Login {
 
-    //Método para validar el usuario y contraseña 
-    public static boolean validarUser(ConexionPg connPg, Usuario u) throws SQLException, ConnectionException, FaltanDatosException {
+    // Método para validar el usuario y contraseña 
+    // retorna 0 si las credenciales son incorrectas
+    // retorna 1 si es usuario válido
+    // retorna 2 si no ha iniciado sesión anteriormente
+    public static int validarUser(ConexionPg connPg, Usuario u) throws SQLException, ConnectionException, FaltanDatosException {
         if (!u.getIdentificador().isEmpty() && !u.getContrasenna().isEmpty()) {
             Connection conn = connPg.getConexion();
-            if (conn != null) {
+            if (conn == null) {
+                throw new ConnectionException("No existe una conexión con la base de datos.");
+            } else {
                 try {
-                    //Query para obtener la cantidad de usuarios donde ese username coincida con la contraseña, además de comprobar si está activo
-                    String query = "SELECT COUNT(*) AS cant FROM usuario WHERE identificador = ? AND contrasenna = crypt(?, contrasenna) AND activo='1'";                   
-                    PreparedStatement stmt = conn.prepareStatement(query);
-                    stmt.setString(1, u.getIdentificador());
-                    stmt.setString(2, u.getContrasenna());
-                    ResultSet res = stmt.executeQuery();
-
                     //Comprobar si se ingresa la master password
                     if (u.getIdentificador().equals(connPg.getUsuario())
                             && u.getContrasenna().equals(connPg.getPassword())) {
                         //Se cierra la conexion solo cuando es un usuario válido
                         //En caso de no serlo no se puede cerrar porque se puede seguir intentando loguear
                         conn.close();
-                        return true;
+                        return 1;
                     }
 
-                    //Comprobar si se encuentra en la tabla tesorero
-                    //Si la cantidad es igual a 1 entonces si se ha encontrado
+                    //Query para obtener la cantidad de usuarios donde ese username coincida con la contraseña, además de comprobar si está activo
+                    String query = "SELECT public.login_usuario(?, ?)";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, u.getIdentificador());
+                    stmt.setString(2, u.getContrasenna());
+                    ResultSet res = stmt.executeQuery();
+                    
                     res.next();
-                    if (res.getInt("cant") == 1) {
-                        //Se cierra la conexion solo cuando es un usuario válido
-                        //En caso de no serlo no se puede cerrar porque se puede seguir intentando loguear
+                    int result = res.getInt("login_usuario"); 
+                    
+                    if(result == 1){
                         conn.close();
-                        return true;
                     }
-
+                    return result;
                 } catch (Exception e) {
                     //Para en caso de que ocurra una excepcion en la consulta
                     JOptionPane.showMessageDialog(null, "Error al obtener información de la base de datos seleccionada." + e.getMessage());
                 }
-            } else {
-                throw new ConnectionException("No existe una conexión con la base de datos.");
             }
         } else {
             throw new FaltanDatosException("Complete todos los campos antes de continuar.");
         }
-        return false;
+        return 0;
     }
 
     /**
@@ -120,7 +120,6 @@ public class Login {
         }
     }
 
-    
     //Obtener lista con todas las base de datos 
     public static ArrayList<String> getListaBD(String user, String pass, String host, String port) throws SQLException, ClassNotFoundException {
         ConexionPg c = new ConexionPg(user, pass, host, port, "");
@@ -174,6 +173,7 @@ public class Login {
 
     /**
      * Siempre devuelve localhost
+     *
      * @return String con el localhost de la computadora
      */
     public static String getLocalHost() {
@@ -181,5 +181,5 @@ public class Login {
         String localhost = local.getHostName();
         return localhost;
     }
-    
+
 }

@@ -1,7 +1,10 @@
 package entidades;
 
 import excepciones.FaltanDatosException;
+import excepciones.IdentificadorException;
 import excepciones.LongitudException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -76,7 +79,7 @@ public class Usuario {
     }  
     
     // Validar TODO
-    public boolean isValido() throws FaltanDatosException, LongitudException {
+    public boolean isValido() throws FaltanDatosException, LongitudException, IdentificadorException {
         // Validar datos no nulos
         if (identificador.isEmpty() || nombre.isEmpty() || apellidos.isEmpty() || contrasenna.isEmpty()) {
             throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
@@ -84,6 +87,10 @@ public class Usuario {
         // Validar longitud
         if (!validLength()) {
             throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
+        }
+        // Validar identificador
+        if (!validIdentificador(identificador)) {
+            throw new IdentificadorException("Compruebe el identificador, solo puede contener punto(.) y guión bajo(_) como caracteres especiales.");
         }
         return true;
     }
@@ -94,6 +101,13 @@ public class Usuario {
             return true;
         }
         return false;
+    }
+    
+    // Validar el idetificador del usuario
+    public boolean validIdentificador(String identificador) {
+        Pattern patron = Pattern.compile("^[a-zA-Z0-9]+([_.]?[a-zA-Z0-9])*$");
+        Matcher comparar = patron.matcher(identificador);
+        return comparar.find();  
     }
 
     @Override

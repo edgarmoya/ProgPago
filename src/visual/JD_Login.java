@@ -173,14 +173,23 @@ public class JD_Login extends javax.swing.JDialog {
         u.setIdentificador(username);
         u.setContrasenna(password);
         try {
-            if (Login.validarUser(connPg, u)) {
-                UsuarioDAO uDAO = new UsuarioDAO(); 
-                VentanaPrincipal vp = new VentanaPrincipal();
-                vp.setHeader(uDAO.getNomb_Apell(u.getIdentificador()));
-                goTo.frame(this, vp);
-            }else{
-                JOptionPane.showMessageDialog(this, "Usuario incorrecto, compruebe los datos y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            int result = Login.validarUser(connPg, u);
+            switch(result){
+                case 0:
+                    JOptionPane.showMessageDialog(this, "Usuario incorrecto, compruebe los datos y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case 1:
+                    UsuarioDAO uDAO = new UsuarioDAO(); 
+                    VentanaPrincipal vp = new VentanaPrincipal();
+                    vp.setHeader(uDAO.getNomb_Apell(u.getIdentificador()));
+                    goTo.frame(this, vp);
+                    break;
+                case 2:
+                    JD_Cambiar_contrasena JDContrasena = new JD_Cambiar_contrasena(null, true);
+                    JDContrasena.setUsuario(u);
+                    JDContrasena.setVisible(true);
+                    break;
+            }            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException ex) {

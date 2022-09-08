@@ -6,9 +6,11 @@ import entidades.Usuario;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import excepciones.FaltanDatosException;
+import excepciones.IdentificadorException;
 import excepciones.LongitudException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import utiles.keyboradUtil;
 
@@ -25,6 +27,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         maxLength();
         siguienteCampo();
         focusButtons();
+        keyboradUtil.sinEspacio(jtfIdentificador);
     }
 
     public Image getIconImage() {
@@ -50,6 +53,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo Usuario");
+        setResizable(false);
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -147,47 +151,44 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         jpNuevoUsuarioLayout.setHorizontalGroup(
             jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpNuevoUsuarioLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jtfIdentificador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtfNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                        .addComponent(jtfContrasenna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jpNuevoUsuarioLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtfIdentificador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jtfNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                                .addComponent(jtfContrasenna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jpNuevoUsuarioLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jrbAdmin)
-                            .addGap(12, 12, 12)
-                            .addComponent(jrbTesorero)
-                            .addGap(18, 18, 18)
-                            .addComponent(jrbConsultor))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpNuevoUsuarioLayout.createSequentialGroup()
-                            .addGap(69, 69, 69)
-                            .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(jrbAdmin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jrbTesorero)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jrbConsultor)))
+                .addGap(15, 15, 15))
+            .addGroup(jpNuevoUsuarioLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         jpNuevoUsuarioLayout.setVerticalGroup(
             jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevoUsuarioLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jtfIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jtfApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
+                .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jtfApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addComponent(jtfContrasenna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbTesorero)
                     .addComponent(jrbAdmin)
                     .addComponent(jrbConsultor))
-                .addGap(40, 40, 40)
+                .addGap(30, 30, 30)
                 .addGroup(jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,7 +202,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,9 +225,11 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
 
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
+        boolean admin = jrbAdmin.isSelected();
+        boolean tesorero = jrbTesorero.isSelected();
+        boolean consultor = jrbConsultor.isSelected();
+        Usuario u = new Usuario();      
         try {
-            Usuario u = new Usuario();
             u.setIdentificador(jtfIdentificador.getText());
             u.setNombre(jtfNombre.getText());
             u.setApellidos(jtfApellidos.getText());
@@ -236,13 +239,10 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             UsuarioDAO uDAO = new UsuarioDAO();
             // Validar 
             if (u.isValido()) {
-                if (uDAO.agregarUsuario(u)) {
-                    JOptionPane.showMessageDialog(this, "Usuario agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                uDAO.agregarUsuario(u, admin, tesorero, consultor);
+                JOptionPane.showMessageDialog(this, "Usuario agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
+                cambios = true;
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -256,6 +256,8 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }catch (LongitudException lon) {
             JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }catch (IdentificadorException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -264,7 +266,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jtfIdentificadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfIdentificadorKeyReleased
-        camposRequeridos();
+        camposRequeridos();    
     }//GEN-LAST:event_jtfIdentificadorKeyReleased
 
     private void jtfNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombreKeyReleased
@@ -332,7 +334,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         keyboradUtil.focusButton(btnAceptar, btnCancelar);
         keyboradUtil.focusButton(btnCancelar, btnAceptar);
     }
-
+    
     /**
      * @param args the command line arguments
      */
@@ -374,6 +376,12 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    
+    
+    // Retorna si se efectuaron cambios para actualizar la tabla
+    public boolean cambios() {
+        return cambios;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

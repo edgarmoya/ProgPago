@@ -18,34 +18,38 @@ public class UsuarioDAO {
 
     private ConexionPg pg = new ConexionPg();
 
-    public boolean agregarUsuario(Usuario usuario) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public void agregarUsuario(Usuario usuario, boolean admin, boolean tesorero, boolean consultor) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
-            try {               
-                String sql = "INSERT INTO usuario VALUES(?, ?, ?, crypt(?, gen_salt('md5')), ?::bit(1), ?::bit(1))";
-                PreparedStatement stmt = conn.prepareStatement(sql);
+            try {   
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "CALL add_usuario(?, ?, ?, ?, ?::bit(1), ?::bit(1), ?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);              
                 stmt.setString(1, usuario.getIdentificador());
                 stmt.setString(2, usuario.getNombre());
                 stmt.setString(3, usuario.getApellidos());
                 stmt.setString(4, usuario.getContrasenna());
-                stmt.setString(5, "0");
-                stmt.setString(6, "1");
+                stmt.setString(5, "0");  // al crearse nunca a iniciado
+                stmt.setString(6, "1");  // al crearse es siempre activo
+                stmt.setBoolean(7, admin);
+                stmt.setBoolean(8, tesorero);
+                stmt.setBoolean(9, consultor);
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                fueAgregado = (cantidad > 0);
-
+                stmt.execute();
+                conn.commit();
             } catch (Exception e) {
                 System.out.println("Error al agregar usuario " + e.getMessage());
+                // No ejecutar transacción
+                conn.rollback();
                 throw new BDException(e.getMessage());   
             } finally {
                 conn.close();
             }
         }
-        return fueAgregado;
     }
 
     /**
