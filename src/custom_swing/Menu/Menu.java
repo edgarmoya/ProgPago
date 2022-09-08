@@ -58,9 +58,9 @@ public class Menu extends javax.swing.JPanel {
     public void initMenuItem() {
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Períodos", "Tipo de Financiamiento"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Tipo de Financiamiento"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Clientes"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios", "Permisos"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios"));
     }
 
     private void addMenu(ModelMenu menu) {

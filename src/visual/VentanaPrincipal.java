@@ -76,6 +76,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }else if(menuIndex == 4){      //Menú Seguridad
                     if(subMenuIndex == 0){
                         mainForm.showForm(new UsuarioForm());
+                    }
                 }
             }
         });
