@@ -1,5 +1,8 @@
 package entidades;
 
+import excepciones.FaltanDatosException;
+import excepciones.LongitudException;
+
 /**
  *
  * @author Lester
@@ -31,6 +34,30 @@ public class Ejercicio {
     public void setEjercicio(String ejercicio) {
         this.ejercicio = ejercicio;
     }
+    
+    // Validar TODO
+    public boolean isValido() throws FaltanDatosException, LongitudException {
+        // Validar datos no nulos
+        String p = ""+cod_ejercicio;
+        if (p.isEmpty() || ejercicio.isEmpty()) {
+            throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
+        }
+        // Validar longitud
+        if (!validLength()) {
+            throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
+        }
+
+        return true;
+    }
+
+    // Validar longitud de los campos
+    private boolean validLength() {
+        if (cod_ejercicio <= 1000 && ejercicio.length() <= 30) {
+            return true;
+        }
+        return false;
+    }
+  
 
     @Override
     public String toString() {
