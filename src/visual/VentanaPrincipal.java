@@ -68,6 +68,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     if(subMenuIndex == 0){
                         mainForm.showForm(new ClienteForm());
                     }
+                     if(subMenuIndex == 1){
+                        mainForm.showForm(new DestinoForm());
+                    }
                     if(subMenuIndex == 2){
                         mainForm.showForm(new EjercicioForm());
                     }
