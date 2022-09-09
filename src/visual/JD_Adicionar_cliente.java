@@ -321,7 +321,6 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         keyboradUtil.maxLength(jtfcod_cliente, 4);
         keyboradUtil.maxLength(jtfreeup, 11);
         keyboradUtil.maxLength(jtfnombre, 50);
-        keyboradUtil.maxLength(jtfnombre, 50);
         keyboradUtil.maxLength(jtfnit, 11);
         keyboradUtil.maxLength(jtfcorreo, 50);
         keyboradUtil.maxLength(jtfdireccion, 100);

@@ -1,26 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package visual;
 
-import dao.EjercicioDAO;
-import entidades.Ejercicio;
+import dao.MonedaDAO;
+import entidades.Moneda;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
-
 /**
  *
  * @author Lester
  */
-public class EjercicioForm extends javax.swing.JPanel {
+public class MonedaForm extends javax.swing.JPanel {
 
-    private JD_Adicionar_ejercicio JDAdd;
-
-    public EjercicioForm() {
+    private JD_Adicionar_moneda JDAdd;
+    /**
+     * Creates new form MonedaForm
+     */
+    public MonedaForm() {
         initComponents();
         //Editar color de la tabla
-        JTableUtil.headerTable(jtEjercicios);
+        JTableUtil.headerTable(jtMonedas);
         mostrarActivos();
     }
 
@@ -38,7 +44,7 @@ public class EjercicioForm extends javax.swing.JPanel {
         bg = new javax.swing.JPanel();
         btnAdd = new custom_swing.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtEjercicios = new javax.swing.JTable();
+        jtMonedas = new javax.swing.JTable();
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -73,20 +79,20 @@ public class EjercicioForm extends javax.swing.JPanel {
         jScrollPane1.setBorder(null);
         jScrollPane1.setOpaque(false);
 
-        jtEjercicios.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jtEjercicios.setModel(new javax.swing.table.DefaultTableModel(
+        jtMonedas.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jtMonedas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Ejercicio"
+                "Siglas", "Nombre", "Activo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Byte.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -97,17 +103,18 @@ public class EjercicioForm extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jtEjercicios.setToolTipText("Lista de Ejercicios");
-        jtEjercicios.setGridColor(new java.awt.Color(204, 204, 204));
-        jtEjercicios.setRowHeight(25);
-        jtEjercicios.setSelectionBackground(new java.awt.Color(228, 235, 245));
-        jtEjercicios.setSelectionForeground(new java.awt.Color(51, 51, 51));
-        jtEjercicios.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtMonedas.setToolTipText("Lista de Monedas");
+        jtMonedas.setGridColor(new java.awt.Color(204, 204, 204));
+        jtMonedas.setRowHeight(25);
+        jtMonedas.setSelectionBackground(new java.awt.Color(228, 235, 245));
+        jtMonedas.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        jtMonedas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jtMonedas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtEjerciciosMouseClicked(evt);
+                jtMonedasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtEjercicios);
+        jScrollPane1.setViewportView(jtMonedas);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -159,18 +166,9 @@ public class EjercicioForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
-        int pos = jtEjercicios.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
-    }//GEN-LAST:event_jtEjerciciosMouseClicked
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Acción para agregar ejercicio
-        JDAdd = new JD_Adicionar_ejercicio(null, true);
+        // Acción para agregar moneda
+        JDAdd = new JD_Adicionar_moneda(null, true);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
@@ -180,13 +178,22 @@ public class EjercicioForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    //Método para actualizar la tabla con la lista de clientes
+    private void jtMonedasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtMonedasMouseClicked
+        int pos = jtMonedas.getSelectedRow();
+        if (pos != -1) {
+            //elementoSeleccionado(true);
+        } else {
+            //elementoSeleccionado(false);
+        }
+    }//GEN-LAST:event_jtMonedasMouseClicked
+
+    //Método para actualizar la tabla con la lista de monedas
     private void mostrarActivos() {
-        EjercicioDAO dao = new EjercicioDAO();
-        String[] columnNames = {"Ejercicio"};
-        ArrayList<Ejercicio> ejercicios = new ArrayList<>();
+        MonedaDAO dao = new MonedaDAO();
+        String[] columnNames = {"Siglas", "Nombre"};
+        ArrayList<Moneda> monedas = new ArrayList<>();
         try {
-            ejercicios = dao.listaEjercicios();
+            monedas = dao.listaMonedasActivas();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -195,9 +202,10 @@ public class EjercicioForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[ejercicios.size()][1];        
-        for (int i = 0; i < ejercicios.size(); i++) {
-            data[i][0] = ejercicios.get(i).getEjercicio();
+        String[][] data = new String[monedas.size()][2];        
+        for (int i = 0; i < monedas.size(); i++) {
+            data[i][0] = monedas.get(i).getSiglas();
+            data[i][1] = monedas.get(i).getNombre();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -206,9 +214,9 @@ public class EjercicioForm extends javax.swing.JPanel {
                 return false;
             }
         };       
-        jtEjercicios.setModel(model);
-        //Ordenar el jtable por código y ejercicio            
-        jtEjercicios.setAutoCreateRowSorter(true);
+        jtMonedas.setModel(model);
+        //Ordenar el jtable por siglas y nombre            
+        jtMonedas.setAutoCreateRowSorter(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,6 +225,6 @@ public class EjercicioForm extends javax.swing.JPanel {
     private custom_swing.Button btnAdd;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtEjercicios;
+    private javax.swing.JTable jtMonedas;
     // End of variables declaration//GEN-END:variables
 }

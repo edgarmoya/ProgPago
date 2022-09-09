@@ -70,7 +70,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     }
                     if(subMenuIndex == 2){
                         mainForm.showForm(new EjercicioForm());
-
+                    }
+                    if(subMenuIndex == 3){
+                        mainForm.showForm(new MonedaForm());
                     }
 
                 }else if(menuIndex == 4){      //Menú Seguridad

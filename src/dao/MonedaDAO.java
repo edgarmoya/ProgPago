@@ -1,39 +1,75 @@
 package dao;
-import ppago.ConexionPg;
+
 import entidades.Moneda;
+import excepciones.BDException;
+import excepciones.ConnectionException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import ppago.ConexionPg;
 /**
  *
  * @author Lester
  */
 public class MonedaDAO {
-    private ConexionPg conexion = new ConexionPg();
     
-    public boolean agregarMoneda (Moneda moneda) throws SQLException, ClassNotFoundException {
-        
+    private ConexionPg pg = new ConexionPg();
+    
+    public boolean agregarMoneda (Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
         boolean fueAgregado = false;
-        Connection conn = conexion.conectar();
-        try{
-            String sql = "insert into moneda values (?,?,?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, moneda.getSiglas());
-            stmt.setString(2, moneda.getNombre());
-             stmt.setByte(3, moneda.getActivo());
-            
-            //ejecutamos la sentencia
-            int cantidad = stmt.executeUpdate();
-            
-            fueAgregado = (cantidad > 0);
-            
-        } catch (Exception e){
-            
-            System.out.println("Error al agregar moneda "+e.getMessage());
-        } finally{
-            conn.close();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try{
+                String sql = "INSERT INTO moneda VALUES (?,?,?::bit(1))";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, moneda.getSiglas());
+                stmt.setString(2, moneda.getNombre());
+                stmt.setString(3, "1");
+
+                //ejecutamos la sentencia
+                int cantidad = stmt.executeUpdate();
+                fueAgregado = (cantidad > 0);
+
+            } catch (Exception e){
+                System.out.println("Error al agregar moneda "+e.getMessage());
+                throw new BDException(e.getMessage()); 
+            } finally{
+                conn.close();
+            }
         }
-        
         return fueAgregado;
     }
+    
+    // Listar todas las monedas de la bd
+    public ArrayList<Moneda> listaMonedasActivas() throws SQLException, ClassNotFoundException, ConnectionException {
+        Connection conn = pg.getConnection();
+        ArrayList<Moneda> monedas = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM moneda WHERE activo='1' ORDER BY siglas";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    Moneda m = new Moneda();
+                    m.setSiglas(rs.getString("siglas"));
+                    m.setNombre(rs.getString("nombre"));
+                    monedas.add(m);
+                }
+            } catch (Exception e) {
+                System.out.println("Error al mostrar las monedas activas: " + e.getMessage());
+            } finally {
+                conn.close();
+            }
+        }
+        return monedas;
+    }
 }
+
