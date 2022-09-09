@@ -62,6 +62,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         jtfIdentificador.setToolTipText("Inserte el identificador del usuario");
         jtfIdentificador.setLabelText("IDENTIFICADOR*");
         jtfIdentificador.setOpaque(false);
+        jtfIdentificador.setPreferredSize(new java.awt.Dimension(64, 48));
         jtfIdentificador.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfIdentificadorKeyReleased(evt);
@@ -180,7 +181,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             jpNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevoUsuarioLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jtfIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)

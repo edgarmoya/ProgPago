@@ -48,6 +48,7 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo Ejercicio");
+        setResizable(false);
 
         jpNuevo_ejercicio.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -101,7 +102,7 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
             jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpNuevo_ejercicioLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jtfEjercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfEjercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jpNuevo_ejercicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)

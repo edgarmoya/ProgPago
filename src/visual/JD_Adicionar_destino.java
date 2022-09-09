@@ -46,13 +46,15 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo Destino");
+        setResizable(false);
 
         jpDestino.setBackground(new java.awt.Color(255, 255, 255));
 
         jtfid_destino.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jtfid_destino.setToolTipText("Inserte código del cliente");
+        jtfid_destino.setToolTipText("Inserte código del destino");
         jtfid_destino.setLabelText("CÓDIGO*");
         jtfid_destino.setOpaque(false);
+        jtfid_destino.setPreferredSize(new java.awt.Dimension(64, 48));
         jtfid_destino.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfid_destinoFocusLost(evt);
@@ -64,7 +66,7 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
             }
         });
 
-        jtfnombre.setToolTipText("Inserte nombre del cliente");
+        jtfnombre.setToolTipText("Inserte nombre del destino");
         jtfnombre.setLabelText("NOMBRE*");
         jtfnombre.setOpaque(false);
         jtfnombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -75,7 +77,7 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAceptar.setText("Aceptar");
-        btnAceptar.setToolTipText("Agregar nuevo cliente");
+        btnAceptar.setToolTipText("Agregar nuevo destino");
         btnAceptar.setEnabled(false);
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,30 +102,30 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         jpDestinoLayout.setHorizontalGroup(
             jpDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpDestinoLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jpDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfid_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addGroup(jpDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtfid_destino, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(jtfnombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
             .addGroup(jpDestinoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
         jpDestinoLayout.setVerticalGroup(
             jpDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpDestinoLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jtfid_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jtfid_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addComponent(jtfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(jpDestinoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
