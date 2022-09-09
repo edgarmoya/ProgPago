@@ -22,6 +22,15 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  */
 public class MenuButton extends JButton {
     
+    private int index;
+    private Animator animator;
+    private int targetSize;
+    private float animatSize;
+    private Point pressedPoint;
+    private float alpha;
+    private Color effectColor = new Color(45, 125, 246, 150);
+    
+    
     public int getIndex() {
         return index;
     }
@@ -29,14 +38,6 @@ public class MenuButton extends JButton {
     public void setIndex(int index) {
         this.index = index;
     }
-
-    private int index;
-    private Animator animator;
-    private int targetSize;
-    private float animatSize;
-    private Point pressedPoint;
-    private float alpha;
-    private Color effectColor = new Color(255, 255, 255, 150);
 
     public MenuButton(Icon icon, String text) {
         super(text);
@@ -62,7 +63,7 @@ public class MenuButton extends JButton {
     private void init() {
         setContentAreaFilled(false);        
         //Tamaño y tipo de letra del titulo del menu principal
-        setFont(new Font("Calibri", Font.PLAIN, 15));
+        setFont(new Font("Segoe UI", Font.PLAIN, 14));
         setHorizontalAlignment(JButton.LEFT);
         addMouseListener(new MouseAdapter() {
             @Override
@@ -102,5 +103,5 @@ public class MenuButton extends JButton {
         }
         g2.setComposite(AlphaComposite.SrcOver);
         super.paintComponent(grphcs);
-    }
+    }  
 }

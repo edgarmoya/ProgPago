@@ -66,7 +66,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     }
                 }else if(menuIndex == 2){     //Menu Codificadores
                     if(subMenuIndex == 0){
-                        mainForm.showForm(new ClienteForm());
+                        mainForm.showForm(new ClienteForm());                        
                     }
                     if(subMenuIndex == 2){
                         mainForm.showForm(new EjercicioForm());
