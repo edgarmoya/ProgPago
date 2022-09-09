@@ -1,11 +1,13 @@
 package entidades;
 
 import java.sql.Date;
+
 /**
  *
  * @author Lester
  */
 public class Programacion {
+    
     private int id_prog;
     private Date fecha;
     private String comentario;

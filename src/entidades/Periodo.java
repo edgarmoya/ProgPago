@@ -1,22 +1,29 @@
 
 package entidades;
 
+import java.sql.Date;
+
 /**
  *
  * @author Lester
  */
 public class Periodo {
+    
     private int id_periodo;
     private String nombre;
     private int id_ejercicio;
+    private Date fecha_inicio; 
+    private Date fecha_fin; 
 
     public Periodo() {
     }
 
-    public Periodo(int id_periodo, String nombre, int id_ejercicio) {
-        this.setId_periodo(id_periodo);
-        this.setNombre(nombre);
-        this.setId_ejercicio(id_ejercicio);
+    public Periodo(int id_periodo, String nombre, int id_ejercicio, Date fecha_inicio, Date fecha_fin) {
+        this.id_periodo = id_periodo;
+        this.nombre = nombre;
+        this.id_ejercicio = id_ejercicio;
+        this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
     }
 
     public int getId_periodo() {
@@ -43,9 +50,25 @@ public class Periodo {
         this.id_ejercicio = id_ejercicio;
     }
 
-    @Override
-    public String toString() {
-        return "Periodo{" + "id_periodo=" + id_periodo + ", nombre=" + nombre + ", id_ejercicio=" + id_ejercicio + '}';
+    public Date getFecha_inicio() {
+        return fecha_inicio;
+    }
+
+    public void setFecha_inicio(Date fecha_inicio) {
+        this.fecha_inicio = fecha_inicio;
+    }
+
+    public Date getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin;
     }
     
+    @Override
+    public String toString() {
+        return "Periodo{" + "id_periodo=" + id_periodo + ", nombre=" + nombre + ", id_ejercicio=" + id_ejercicio + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + '}';
+    }
+   
 }

@@ -18,8 +18,9 @@ public class UsuarioDAO {
 
     private ConexionPg pg = new ConexionPg();
 
-    public void agregarUsuario(Usuario usuario, boolean admin, boolean tesorero, boolean consultor) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public boolean agregarUsuario(Usuario usuario, boolean admin, boolean tesorero, boolean consultor) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
+        boolean fueAgregado = false;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
@@ -41,6 +42,7 @@ public class UsuarioDAO {
                 //ejecutamos la sentencia
                 stmt.execute();
                 conn.commit();
+                fueAgregado = true;
             } catch (Exception e) {
                 System.out.println("Error al agregar usuario " + e.getMessage());
                 // No ejecutar transacción
@@ -50,6 +52,7 @@ public class UsuarioDAO {
                 conn.close();
             }
         }
+        return fueAgregado;
     }
 
     /**

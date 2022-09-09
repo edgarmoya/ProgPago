@@ -17,6 +17,13 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuItem extends javax.swing.JPanel {
 
+    private float alpha;
+    private ModelMenu menu;
+    private boolean open;
+    private EventMenuSelected eventSelected;
+    private int index;
+    
+    
     public ModelMenu getMenu() {
         return menu;
     }
@@ -44,12 +51,6 @@ public class MenuItem extends javax.swing.JPanel {
     public int getIndex() {
         return index;
     }
-
-    private float alpha;
-    private ModelMenu menu;
-    private boolean open;
-    private EventMenuSelected eventSelected;
-    private int index;
 
     public MenuItem(ModelMenu menu, EventMenu event, EventMenuSelected eventSelected, int index) {
         initComponents();
@@ -112,6 +113,7 @@ public class MenuItem extends javax.swing.JPanel {
         g2.fillRect(0, 2, width, 38);
         g2.setComposite(AlphaComposite.SrcOver);
         g2.fillRect(0, 40, width, height - 40);
+        // Color de las lineas
         g2.setColor(new Color(0, 0, 0));
         g2.drawLine(30, 40, 30, height - 17);
         for (int i = 0; i < menu.getSubMenu().length; i++) {
@@ -129,7 +131,7 @@ public class MenuItem extends javax.swing.JPanel {
         int size = 4;
         int y = 19;
         int x = 205;
-        g2.setColor(new Color(255, 255, 255));
+        g2.setColor(new Color(0, 0, 0));
         float ay = alpha * size;
         float ay1 = (1f - alpha) * size;
         g2.drawLine(x, (int) (y + ay), x + 4, (int) (y + ay1));
