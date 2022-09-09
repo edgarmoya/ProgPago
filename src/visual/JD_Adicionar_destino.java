@@ -1,14 +1,37 @@
 package visual;
 
-import dao.DestinoDAO;
-import entidades.Destino;
 import javax.swing.JOptionPane;
+import entidades.Destino;
+import dao.DestinoDAO;
+import excepciones.BDException;
+import excepciones.ConnectionException;
+import excepciones.FaltanDatosException;
+import excepciones.LongitudException;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import utiles.keyboradUtil;
 
 public class JD_Adicionar_destino extends javax.swing.JDialog {
+    
+    private boolean cambios;
     
     public JD_Adicionar_destino(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        setIconImage(getIconImage());
+             
+        siguienteCampo();
+        focusButtons();
+        maxLength();
+        soloNumeros();               
+    }
+    
+    public Image getIconImage() {
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add.png"));
+        return res;
     }
 
     @SuppressWarnings("unchecked")
@@ -22,6 +45,7 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         btnCancelar = new custom_swing.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nuevo Destino");
 
         jpDestino.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -29,10 +53,25 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         jtfid_destino.setToolTipText("Inserte código del cliente");
         jtfid_destino.setLabelText("CÓDIGO*");
         jtfid_destino.setOpaque(false);
+        jtfid_destino.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfid_destinoFocusLost(evt);
+            }
+        });
+        jtfid_destino.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfid_destinoKeyReleased(evt);
+            }
+        });
 
         jtfnombre.setToolTipText("Inserte nombre del cliente");
         jtfnombre.setLabelText("NOMBRE*");
         jtfnombre.setOpaque(false);
+        jtfnombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfnombreKeyReleased(evt);
+            }
+        });
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAceptar.setText("Aceptar");
@@ -102,22 +141,37 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        try{
-            Destino d = new Destino();
-            d.setId_destino(jtfid_destino.getText());
-            d.setNombre(jtfnombre.getText());
-            byte activo = 1;
-            d.setActivo(activo);
+       // Agregar destino
+        Destino d = new Destino();
+        d.setId_destino(jtfid_destino.getText());
+        d.setNombre(jtfnombre.getText());
+        d.setActivo((byte) (1));
 
-            DestinoDAO dDAO = new DestinoDAO();
-            if(dDAO.agregarDestino(d)){
-                JOptionPane.showMessageDialog(this,"Nuevo destino adicionado correctamente");
-                this.limpiar();
-            } else {
-                JOptionPane.showMessageDialog(this,"Ha ocurrido un error");
+        // Agregar
+        DestinoDAO dDAO = new DestinoDAO();
+        try {
+            // Validar 
+            if (d.isValido()) {
+                if (dDAO.agregarDestino(d)) {
+                    JOptionPane.showMessageDialog(this, "Destino agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -125,6 +179,74 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void jtfid_destinoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfid_destinoKeyReleased
+        // TODO add your handling code here:
+        camposRequeridos();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB) {
+            completarCodigo(jtfid_destino.getText());
+        } 
+    }//GEN-LAST:event_jtfid_destinoKeyReleased
+
+    private void jtfnombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfnombreKeyReleased
+        // TODO add your handling code here:
+        camposRequeridos();
+    }//GEN-LAST:event_jtfnombreKeyReleased
+
+    private void jtfid_destinoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfid_destinoFocusLost
+        // TODO add your handling code here:
+        completarCodigo(jtfid_destino.getText());   
+    }//GEN-LAST:event_jtfid_destinoFocusLost
+
+     // Limpiar todos los campos y hacer focus el primero
+    private void limpiar() {
+        jtfid_destino.setText("");
+        jtfnombre.setText("");
+        jtfid_destino.requestFocus();
+    }
+    
+     // Permitir determinada longitud de caracteres
+    private void maxLength() {
+        keyboradUtil.maxLength(jtfid_destino, 4);
+        keyboradUtil.maxLength(jtfnombre, 30);
+    }
+    
+    // Permitir solo números
+    private void soloNumeros() {
+        keyboradUtil.soloNumeros(jtfid_destino);
+    }
+    
+    // Ir al siguiente campo al presionar ENTER
+    private void siguienteCampo() {
+        keyboradUtil.siguienteCampo(jtfid_destino, jtfnombre);
+        keyboradUtil.siguienteCampo(jtfnombre, btnAceptar, btnCancelar);
+    }
+    
+     //Método para validar que no exista los campos requeridos vacíos
+    private void camposRequeridos() {
+        if (jtfid_destino.getText().isEmpty() || jtfnombre.getText().isEmpty()) {
+            btnAceptar.setEnabled(false);
+        } else {
+            btnAceptar.setEnabled(true);
+        }
+    }
+    
+    // Método para cambiar el focus al siguiente botón 
+    private void focusButtons(){
+        keyboradUtil.focusButton(btnAceptar, btnCancelar);
+        keyboradUtil.focusButton(btnCancelar, btnAceptar);
+    }
+    
+    // Método para completar con ceros a la izquierda si el código no tiene 4 dígitos
+    private void completarCodigo(String codigo){
+        if (codigo.length() != 4 && codigo.length() != 0){
+            while(codigo.length() != 4){
+                codigo = "0"+codigo;    
+            }
+            jtfid_destino.setText(codigo);
+        } 
+                
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -167,9 +289,8 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         });
     }
     
-    private void limpiar(){
-        jtfid_destino.setText("");
-        jtfnombre.setText("");       
+    public boolean cambios() {
+        return cambios;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

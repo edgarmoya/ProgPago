@@ -156,7 +156,7 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // Agregar cliente
+        // Agregar moneda
         Moneda m = new Moneda();
         m.setSiglas(jtfsiglas.getText());
         m.setNombre(jtfnombre.getText());

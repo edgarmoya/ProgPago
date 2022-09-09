@@ -1,5 +1,10 @@
 package entidades;
 
+import excepciones.FaltanDatosException;
+import excepciones.LongitudException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *
  * @author Lester
@@ -40,6 +45,28 @@ public class Destino {
 
     public void setActivo(byte activo) {
         this.activo = activo;
+    }
+    
+     // Validar TODO
+    public boolean isValido() throws FaltanDatosException, LongitudException {
+        // Validar datos no nulos
+        if (id_destino.isEmpty() || nombre.isEmpty()) {
+            throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
+        }
+        // Validar longitud
+        if (!validLength()) {
+            throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
+        }
+        
+        return true;
+    }
+
+    // Validar longitud de los campos
+    private boolean validLength() {
+        if (id_destino.length() <= 4 && nombre.length() <= 30) {
+            return true;
+        }
+        return false;
     }
 
     @Override

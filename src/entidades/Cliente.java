@@ -168,7 +168,7 @@ public class Cliente {
         return false;
     }  
     
-    // Validar el correo elctrónico
+    // Validar el correo electrónico
     public boolean isCorreo(String correo) {
         if (correo.isEmpty()) {
             return true;
