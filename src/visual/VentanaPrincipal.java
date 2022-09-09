@@ -77,6 +77,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     if(subMenuIndex == 3){
                         mainForm.showForm(new MonedaForm());
                     }
+                    if(subMenuIndex == 4){
+                        mainForm.showForm(new TipoFinanForm());
+                    }
 
                 }else if(menuIndex == 4){      //Menú Seguridad
                     if(subMenuIndex == 0){

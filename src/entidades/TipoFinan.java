@@ -1,5 +1,7 @@
 package entidades;
 
+import excepciones.FaltanDatosException;
+import excepciones.LongitudException;
 /**
  *
  * @author Lester
@@ -31,11 +33,31 @@ public class TipoFinan {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    // Validar TODO
+    public boolean isValido() throws FaltanDatosException, LongitudException {
+        // Validar datos no nulos
+        if (cod_tipo.isEmpty() || descripcion.isEmpty()) {
+            throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
+        }
+        // Validar longitud
+        if (!validLength()) {
+            throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
+        }
+
+        return true;
+    }
+
+    // Validar longitud de los campos
+    private boolean validLength() {
+        if (cod_tipo.length() <= 4 && descripcion.length() <= 100) {
+            return true;
+        }
+        return false;
+    } 
 
     @Override
     public String toString() {
         return "TipoFinan{" + "cod_tipo=" + cod_tipo + ", descripcion=" + descripcion + '}';
-    }
-    
-    
+    }  
 }
