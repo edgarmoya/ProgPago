@@ -93,14 +93,14 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="custom_swing.TextField" name="jtfUsuario">
+        <Component class="custom_swing.TextField" name="jtfIdentificador">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Inserte su nombre de usuario"/>
-            <Property name="labelText" type="java.lang.String" value="USUARIO*"/>
+            <Property name="toolTipText" type="java.lang.String" value="Inserte su identificador de usuario"/>
+            <Property name="labelText" type="java.lang.String" value="IDENTIFICADOR*"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfUsuarioKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfIdentificadorKeyReleased"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

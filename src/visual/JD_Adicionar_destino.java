@@ -204,6 +204,7 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         jtfid_destino.setText("");
         jtfnombre.setText("");
         jtfid_destino.requestFocus();
+        camposRequeridos();
     }
     
      // Permitir determinada longitud de caracteres
