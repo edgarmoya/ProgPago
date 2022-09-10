@@ -314,6 +314,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         jtforganismo.setText("");
         jtftelefono.setText("");
         jtfcod_cliente.requestFocus();
+        camposRequeridos();
     }
 
     // Permitir determinada longitud de caracteres

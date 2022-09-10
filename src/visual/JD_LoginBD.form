@@ -74,7 +74,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="160" width="330" height="240"/>
+              <AbsoluteConstraints x="10" y="170" width="330" height="240"/>
             </Constraint>
           </Constraints>
 
@@ -221,8 +221,8 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jtfPassword" pref="266" max="32767" attributes="0"/>
-                          <Component id="jtfUsuario" max="32767" attributes="0"/>
+                          <Component id="jtfUsuario" pref="266" max="32767" attributes="0"/>
+                          <Component id="jtfPassword" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   </Group>
@@ -236,15 +236,14 @@
                           <Component id="jlUsuario" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="jtfUsuario" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jtfPassword" min="-2" max="-2" attributes="0"/>
+                          <Component id="jtfPassword" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -267,6 +266,16 @@
                 </Property>
               </Properties>
             </Component>
+            <Component class="custom_swing.TextField" name="jtfUsuario">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Inserte su nombre de usuario"/>
+                <Property name="labelText" type="java.lang.String" value="USUARIO*"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfUsuarioKeyReleased"/>
+              </Events>
+            </Component>
             <Component class="custom_swing.PasswordField" name="jtfPassword">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Inserte su contrase&#xf1;a"/>
@@ -276,16 +285,6 @@
               </Properties>
               <Events>
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfPasswordKeyReleased"/>
-              </Events>
-            </Component>
-            <Component class="custom_swing.TextField" name="jtfUsuario">
-              <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="Inserte su nombre de usuario"/>
-                <Property name="labelText" type="java.lang.String" value="USUARIO*"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfUsuarioKeyReleased"/>
               </Events>
             </Component>
           </SubComponents>

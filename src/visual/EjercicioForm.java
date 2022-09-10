@@ -49,6 +49,7 @@ public class EjercicioForm extends javax.swing.JPanel {
         botones.setBackground(new java.awt.Color(255, 255, 255));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnAdd.setToolTipText("Agregar ejercicio");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

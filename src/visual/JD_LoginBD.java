@@ -53,8 +53,8 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jpIdentificacion = new javax.swing.JPanel();
         jlUsuario = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jtfPassword = new custom_swing.PasswordField();
         jtfUsuario = new custom_swing.TextField();
+        jtfPassword = new custom_swing.PasswordField();
         btnAceptar = new custom_swing.Button();
         btnCancelar = new custom_swing.Button();
         jlFondoHex = new javax.swing.JLabel();
@@ -161,7 +161,7 @@ public class JD_LoginBD extends javax.swing.JDialog {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jpBackground.add(jpParametros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 330, 240));
+        jpBackground.add(jpParametros, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 330, 240));
 
         jpIdentificacion.setBackground(new java.awt.Color(255, 255, 255));
         jpIdentificacion.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)), "IDENTIFICACIÓN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Calibri", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
@@ -173,6 +173,15 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login_pass.png"))); // NOI18N
 
+        jtfUsuario.setToolTipText("Inserte su nombre de usuario");
+        jtfUsuario.setLabelText("USUARIO*");
+        jtfUsuario.setOpaque(false);
+        jtfUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfUsuarioKeyReleased(evt);
+            }
+        });
+
         jtfPassword.setToolTipText("Inserte su contraseña");
         jtfPassword.setLabelText("CONTRASEÑA*");
         jtfPassword.setOpaque(false);
@@ -180,15 +189,6 @@ public class JD_LoginBD extends javax.swing.JDialog {
         jtfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfPasswordKeyReleased(evt);
-            }
-        });
-
-        jtfUsuario.setToolTipText("Inserte su nombre de usuario");
-        jtfUsuario.setLabelText("USUARIO*");
-        jtfUsuario.setOpaque(false);
-        jtfUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfUsuarioKeyReleased(evt);
             }
         });
 
@@ -203,8 +203,8 @@ public class JD_LoginBD extends javax.swing.JDialog {
                     .addComponent(jlUsuario, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         jpIdentificacionLayout.setVerticalGroup(
@@ -214,13 +214,12 @@ public class JD_LoginBD extends javax.swing.JDialog {
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jpIdentificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpIdentificacionLayout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(8, 8, 8)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
 
         jpBackground.add(jpIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 330, 140));
@@ -327,11 +326,6 @@ public class JD_LoginBD extends javax.swing.JDialog {
         camposRequeridos();
     }//GEN-LAST:event_jtfUsuarioKeyReleased
 
-    private void jtfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPasswordKeyReleased
-        buscarBD();
-        camposRequeridos();    
-    }//GEN-LAST:event_jtfPasswordKeyReleased
-
     private void jcbBDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcbBDKeyReleased
         camposRequeridos();
     }//GEN-LAST:event_jcbBDKeyReleased
@@ -344,6 +338,11 @@ public class JD_LoginBD extends javax.swing.JDialog {
     private void jcbServidorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcbServidorFocusGained
         camposRequeridos();
     }//GEN-LAST:event_jcbServidorFocusGained
+
+    private void jtfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPasswordKeyReleased
+        buscarBD();
+        camposRequeridos();
+    }//GEN-LAST:event_jtfPasswordKeyReleased
 
     /**
      * @param args the command line arguments

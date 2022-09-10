@@ -63,6 +63,7 @@ public class Combobox<E> extends JComboBox<E> {
     public Combobox() {
         setBackground(Color.WHITE);
         setBorder(new EmptyBorder(15, 3, 5, 3));
+        setFont(new Font("Segoe UI", Font.PLAIN, 13));
         setUI(new ComboUI(this));
         setRenderer(new DefaultListCellRenderer() {
             @Override

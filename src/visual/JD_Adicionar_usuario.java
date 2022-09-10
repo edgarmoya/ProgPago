@@ -310,6 +310,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         jtfApellidos.setText("");
         jtfContrasenna.setText("");
         jtfIdentificador.requestFocus();
+        camposRequeridos();
     }
 
     // Permitir determinada longitud de caracteres

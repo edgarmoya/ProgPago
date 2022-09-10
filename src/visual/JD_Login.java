@@ -51,7 +51,7 @@ public class JD_Login extends javax.swing.JDialog {
         ic_username = new javax.swing.JLabel();
         ic_password = new javax.swing.JLabel();
         jlHiperv = new javax.swing.JLabel();
-        jtfUsuario = new custom_swing.TextField();
+        jtfIdentificador = new custom_swing.TextField();
         jtfPassword = new custom_swing.PasswordField();
         btnAceptar = new custom_swing.Button();
         btnCancelar = new custom_swing.Button();
@@ -92,15 +92,15 @@ public class JD_Login extends javax.swing.JDialog {
         });
         jpBackground.add(jlHiperv, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 310, 30));
 
-        jtfUsuario.setToolTipText("Inserte su nombre de usuario");
-        jtfUsuario.setLabelText("USUARIO*");
-        jtfUsuario.setOpaque(false);
-        jtfUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtfIdentificador.setToolTipText("Inserte su identificador de usuario");
+        jtfIdentificador.setLabelText("IDENTIFICADOR*");
+        jtfIdentificador.setOpaque(false);
+        jtfIdentificador.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfUsuarioKeyReleased(evt);
+                jtfIdentificadorKeyReleased(evt);
             }
         });
-        jpBackground.add(jtfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 275, -1));
+        jpBackground.add(jtfIdentificador, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 275, -1));
 
         jtfPassword.setToolTipText("Inserte su contraseña");
         jtfPassword.setLabelText("CONTRASEÑA*");
@@ -168,7 +168,7 @@ public class JD_Login extends javax.swing.JDialog {
     }//GEN-LAST:event_jlHipervMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        String username = jtfUsuario.getText();
+        String username = jtfIdentificador.getText();
         String password = String.valueOf(jtfPassword.getPassword());
         u.setIdentificador(username);
         u.setContrasenna(password);
@@ -203,9 +203,9 @@ public class JD_Login extends javax.swing.JDialog {
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jtfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfUsuarioKeyReleased
+    private void jtfIdentificadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfIdentificadorKeyReleased
         camposRequeridos();
-    }//GEN-LAST:event_jtfUsuarioKeyReleased
+    }//GEN-LAST:event_jtfIdentificadorKeyReleased
 
     private void jtfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPasswordKeyReleased
         camposRequeridos();
@@ -262,8 +262,8 @@ public class JD_Login extends javax.swing.JDialog {
     private javax.swing.JLabel jlFondoHex;
     private javax.swing.JLabel jlHiperv;
     private javax.swing.JPanel jpBackground;
+    private custom_swing.TextField jtfIdentificador;
     private custom_swing.PasswordField jtfPassword;
-    private custom_swing.TextField jtfUsuario;
     // End of variables declaration//GEN-END:variables
 
     // Conectar a la base de datos
@@ -311,7 +311,7 @@ public class JD_Login extends javax.swing.JDialog {
         
     //Método para validar que no exista los campos requeridos vacíos
     private void camposRequeridos() {
-        if (jtfUsuario.getText().isEmpty() || String.valueOf(jtfPassword.getPassword()).isEmpty()) {
+        if (jtfIdentificador.getText().isEmpty() || String.valueOf(jtfPassword.getPassword()).isEmpty()) {
             btnAceptar.setEnabled(false);
         } else {
             btnAceptar.setEnabled(true);
@@ -320,7 +320,7 @@ public class JD_Login extends javax.swing.JDialog {
     
     // Ir al siguiente campo al presionar ENTER
     private void siguienteCampo() {
-        keyboradUtil.siguienteCampo(jtfUsuario, jtfPassword);              
+        keyboradUtil.siguienteCampo(jtfIdentificador, jtfPassword);              
         keyboradUtil.siguienteCampo(jtfPassword, btnAceptar, btnCancelar);
     }
     

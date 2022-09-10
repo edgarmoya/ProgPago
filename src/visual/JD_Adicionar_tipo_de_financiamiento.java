@@ -219,6 +219,7 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         jtfcod_tipo.setText("");
         jtfdescripcion.setText("");
         jtfcod_tipo.requestFocus();
+        camposRequeridos();
     }
     
      // Permitir determinada longitud de caracteres

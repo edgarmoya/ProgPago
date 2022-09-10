@@ -155,6 +155,7 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
         jtfsiglas.setText("");
         jtfnombre.setText("");
         jtfsiglas.requestFocus();
+        camposRequeridos();
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
