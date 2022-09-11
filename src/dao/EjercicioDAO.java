@@ -26,7 +26,7 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "CALL public.add_ejercicio(?)";
+                String sql = "CALL add_ejercicio(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, ejercicio.getEjercicio());
 
@@ -73,7 +73,7 @@ public class EjercicioDAO {
         return ejercicios;
     }
     
-    
+      
     // Listar todos los periodos de la bd del ejercicio correspondiente
     public ArrayList<Periodo> listaPeriodos(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException {
         Connection conn = pg.getConnection();

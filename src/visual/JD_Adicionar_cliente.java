@@ -17,13 +17,16 @@ import utiles.keyboradUtil;
 
 public class JD_Adicionar_cliente extends javax.swing.JDialog {
 
+    private ClienteDAO cDAO = new ClienteDAO();
+    private String codCliente;
     private boolean cambios;
+    private boolean editar;
     
     public JD_Adicionar_cliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage());
+        setIconImage(getIconImage("add"));
              
         siguienteCampo();
         focusButtons();
@@ -32,8 +35,8 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         keyboradUtil.isCorreo(jtfcorreo);                
     }
 
-    public Image getIconImage() {
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add.png"));
+    public Image getIconImage(String nombe_icono) {
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
         return res;
     }
 
@@ -129,7 +132,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAceptar.setText("Aceptar");
-        btnAceptar.setToolTipText("Agregar nuevo cliente");
+        btnAceptar.setToolTipText("Agregar cliente");
         btnAceptar.setEnabled(false);
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -190,8 +193,8 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
                     .addComponent(jtftelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jpNuevo_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -219,7 +222,9 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -244,47 +249,12 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // Agregar cliente
-        Cliente c = new Cliente();
-        c.setCod_cliente(jtfcod_cliente.getText());
-        c.setNombre(jtfnombre.getText());
-        c.setOrganismo(jtforganismo.getText());
-        c.setNit(jtfnit.getText());
-        c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
-        c.setCorreo(jtfcorreo.getText());
-        c.setDireccion(jtfdireccion.getText());
-        c.setTelefono(jtftelefono.getText());
-        c.setActivo((byte) (1));
-
-        // Agregar
-        ClienteDAO cDAO = new ClienteDAO();
-        try {
-            // Validar 
-            if (c.isValido()) {
-                if (cDAO.agregarCliente(c)) {
-                    JOptionPane.showMessageDialog(this, "Cliente agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ReeupException re) {
-            JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (CorreoException ce) {
-            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        if (!editar){
+            // Agregar cliente
+            accionAgregar();
+        }else{
+            // Editar cliente
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -370,8 +340,93 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
                 codigo = "0"+codigo;    
             }
             jtfcod_cliente.setText(codigo);
-        } 
-                
+        }          
+    }
+    
+    // Agregar cliente a bd
+    private void accionAgregar(){
+        Cliente c = new Cliente();
+        c.setCod_cliente(jtfcod_cliente.getText());
+        c.setNombre(jtfnombre.getText());
+        c.setOrganismo(jtforganismo.getText());
+        c.setNit(jtfnit.getText());
+        c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
+        c.setCorreo(jtfcorreo.getText());
+        c.setDireccion(jtfdireccion.getText());
+        c.setTelefono(jtftelefono.getText());
+        c.setActivo((byte) (1));
+
+        try {
+            // Validar campos
+            if (c.isValido()) {
+                if (cDAO.agregarCliente(c)) {
+                    JOptionPane.showMessageDialog(this, "Cliente agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ReeupException re) {
+            JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CorreoException ce) {
+            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    // Editar cliente en bd
+    private void accionEditar(){
+        Cliente c = new Cliente();
+        c.setCod_cliente(jtfcod_cliente.getText());
+        c.setNombre(jtfnombre.getText());
+        c.setOrganismo(jtforganismo.getText());
+        c.setNit(jtfnit.getText());
+        c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
+        c.setCorreo(jtfcorreo.getText());
+        c.setDireccion(jtfdireccion.getText());
+        c.setTelefono(jtftelefono.getText());
+
+        try {
+            // Validar campos
+            if (c.isValido()) {
+                if (cDAO.actualizarCliente(codCliente, c)) {
+                    JOptionPane.showMessageDialog(this, "Cliente editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    cambios = true;
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ReeupException re) {
+            JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CorreoException ce) {
+            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String args[]) {
@@ -412,11 +467,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
-    }
-    
-    public boolean cambios() {
-        return cambios;
-    }
+    }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
@@ -432,4 +483,65 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     private custom_swing.TextField jtfreeup;
     private custom_swing.TextField jtftelefono;
     // End of variables declaration//GEN-END:variables
+
+    //Cambios que se producirán si se va a editar el cliente
+    public void dialogo_editar(Cliente c){  
+        editar = true;
+        codCliente = c.getCod_cliente();
+        // Editar título e icono
+        setTitle("Editar Cliente");
+        setIconImage(getIconImage("edit"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar cliente");
+        // Mostrar datos en campo correspondiente
+        setJtfcod_cliente(c.getCod_cliente());
+        setJtfnombre(c.getNombre());
+        setJtforganismo(c.getOrganismo());
+        setJtfnit(c.getNit());
+        setJtfreeup(c.getReeup());
+        setJtfcorreo(c.getCorreo());
+        setJtfdireccion(c.getDireccion());
+        setJtftelefono(c.getTelefono());
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
+    
+    // retorna si se realizó algún cambio o no
+    public boolean cambios() {
+        return cambios;
+    }
+     
+    // Setters
+    public void setJtfcod_cliente(String jtfcod_cliente) {
+        this.jtfcod_cliente.setText(jtfcod_cliente);
+    }
+
+    public void setJtfcorreo(String jtfcorreo) {
+        this.jtfcorreo.setText(jtfcorreo);
+    }
+
+    public void setJtfdireccion(String jtfdireccion) {
+        this.jtfdireccion.setText(jtfdireccion);
+    }
+
+    public void setJtfnit(String jtfnit) {
+        this.jtfnit.setText(jtfnit);
+    }
+
+    public void setJtfnombre(String jtfnombre) {
+        this.jtfnombre.setText(jtfnombre);
+    }
+
+    public void setJtforganismo(String jtforganismo) {
+        this.jtforganismo.setText(jtforganismo);
+    }
+
+    public void setJtfreeup(String jtfreeup) {
+        this.jtfreeup.setText(jtfreeup);
+    }
+
+    public void setJtftelefono(String jtftelefono) {
+        this.jtftelefono.setText(jtftelefono);
+    } 
+
 }
