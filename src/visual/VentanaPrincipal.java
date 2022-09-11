@@ -16,9 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -170,7 +167,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     @Override
     public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_v.png"));
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_principal.png"));
         return res;
     } 
     
