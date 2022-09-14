@@ -33,14 +33,17 @@ public class ClienteForm extends javax.swing.JPanel {
         botones = new javax.swing.JPanel();
         btnAdd = new custom_swing.ButtonCircular();
         btnEdit = new custom_swing.ButtonCircular();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        btnView = new custom_swing.ButtonCircular();
+        btnDelete = new custom_swing.ButtonCircular();
+        scrollCliente = new javax.swing.JScrollPane();
         jtClientes = new javax.swing.JTable();
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        botones.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setBackground(new java.awt.Color(220, 227, 237));
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnAdd.setBackground(new java.awt.Color(228, 235, 245));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar cliente");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +52,7 @@ public class ClienteForm extends javax.swing.JPanel {
             }
         });
 
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
         btnEdit.setToolTipText("Editar cliente");
         btnEdit.setEnabled(false);
         btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -59,6 +62,16 @@ public class ClienteForm extends javax.swing.JPanel {
             }
         });
 
+        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
+        btnView.setToolTipText("Ver cliente");
+        btnView.setEnabled(false);
+        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
+        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -66,8 +79,12 @@ public class ClienteForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
@@ -75,15 +92,18 @@ public class ClienteForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setOpaque(false);
+        scrollCliente.setBackground(new java.awt.Color(255, 255, 255));
+        scrollCliente.setBorder(null);
+        scrollCliente.setOpaque(false);
 
+        jtClientes.setBackground(new java.awt.Color(255, 255, 255));
         jtClientes.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jtClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -110,6 +130,7 @@ public class ClienteForm extends javax.swing.JPanel {
         });
         jtClientes.setToolTipText("Lista de Clientes");
         jtClientes.setGridColor(new java.awt.Color(204, 204, 204));
+        jtClientes.setOpaque(false);
         jtClientes.setRowHeight(25);
         jtClientes.setSelectionBackground(new java.awt.Color(228, 235, 245));
         jtClientes.setSelectionForeground(new java.awt.Color(51, 51, 51));
@@ -119,21 +140,21 @@ public class ClienteForm extends javax.swing.JPanel {
                 jtClientesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtClientes);
+        scrollCliente.setViewportView(jtClientes);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+            .addComponent(scrollCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
+                .addComponent(scrollCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -219,8 +240,8 @@ public class ClienteForm extends javax.swing.JPanel {
             }
         };       
         jtClientes.setModel(model);
-        //Ordenar el jtable          
-        jtClientes.setAutoCreateRowSorter(true);
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtClientes, scrollCliente);
     }
     
     private Cliente getClienteSeleccionado(){
@@ -243,6 +264,8 @@ public class ClienteForm extends javax.swing.JPanel {
     // Habilitar botones
     private void enabled(boolean estado){
         btnEdit.setEnabled(estado);
+        btnView.setEnabled(estado);
+        btnDelete.setEnabled(estado);
     }
     
     // Comprobar si hay fila seleccionada
@@ -264,8 +287,10 @@ public class ClienteForm extends javax.swing.JPanel {
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
     private custom_swing.ButtonCircular btnAdd;
+    private custom_swing.ButtonCircular btnDelete;
     private custom_swing.ButtonCircular btnEdit;
-    private javax.swing.JScrollPane jScrollPane1;
+    private custom_swing.ButtonCircular btnView;
     private javax.swing.JTable jtClientes;
+    private javax.swing.JScrollPane scrollCliente;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,7 +18,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="background" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -40,7 +40,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="botones" alignment="0" max="32767" attributes="0"/>
-              <Component id="jScrollPane1" alignment="0" pref="793" max="32767" attributes="0"/>
+              <Component id="scrollCliente" alignment="0" pref="793" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -48,7 +48,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="botones" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="445" max="32767" attributes="0"/>
+                  <Component id="scrollCliente" pref="484" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -57,7 +57,7 @@
         <Container class="javax.swing.JPanel" name="botones">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+              <Color blue="ed" green="e3" red="dc" type="rgb"/>
             </Property>
           </Properties>
 
@@ -67,8 +67,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="btnView" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="btnEdit" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -78,6 +82,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnView" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -89,8 +95,11 @@
           <SubComponents>
             <Component class="custom_swing.ButtonCircular" name="btnAdd">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="f5" green="eb" red="e4" type="rgb"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagenes/add.png"/>
+                  <Image iconType="3" name="/imagenes/add_button.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Agregar cliente"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -104,7 +113,7 @@
             <Component class="custom_swing.ButtonCircular" name="btnEdit">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagenes/edit.png"/>
+                  <Image iconType="3" name="/imagenes/edit_button.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Editar cliente"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -116,9 +125,33 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
               </Events>
             </Component>
+            <Component class="custom_swing.ButtonCircular" name="btnView">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagenes/view_button.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Ver cliente"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[30, 30]"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="custom_swing.ButtonCircular" name="btnDelete">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagenes/delete_button.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Eliminar cliente"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[30, 30]"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="scrollCliente">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -136,6 +169,9 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="jtClientes">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="13" style="0"/>
                 </Property>
@@ -156,6 +192,7 @@
                 <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="cc" red="cc" type="rgb"/>
                 </Property>
+                <Property name="opaque" type="boolean" value="false"/>
                 <Property name="rowHeight" type="int" value="25"/>
                 <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f5" green="eb" red="e4" type="rgb"/>

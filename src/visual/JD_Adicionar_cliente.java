@@ -26,7 +26,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage("add"));
+        setIconImage(getIconImage("add_button"));
              
         siguienteCampo();
         focusButtons();
@@ -490,7 +490,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         codCliente = c.getCod_cliente();
         // Editar título e icono
         setTitle("Editar Cliente");
-        setIconImage(getIconImage("edit"));
+        setIconImage(getIconImage("edit_button"));
         // Cambiar toolTip del btnAceptar
         btnAceptar.setToolTipText("Editar cliente");
         // Mostrar datos en campo correspondiente
