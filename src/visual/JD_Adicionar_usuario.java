@@ -30,7 +30,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     }
 
     public Image getIconImage() {
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add.png"));
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add_button.png"));
         return res;
     }
 

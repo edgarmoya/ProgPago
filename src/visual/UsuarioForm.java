@@ -30,45 +30,74 @@ public class UsuarioForm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
-        barra = new javax.swing.JPanel();
-        btnAdd = new custom_swing.Button();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        background = new javax.swing.JPanel();
+        botones = new javax.swing.JPanel();
+        btnAdd1 = new custom_swing.ButtonCircular();
+        btnView = new custom_swing.ButtonCircular();
+        btnEdit = new custom_swing.ButtonCircular();
+        btnDelete = new custom_swing.ButtonCircular();
+        scrollUsuarios = new javax.swing.JScrollPane();
         jtUsuarios = new javax.swing.JTable();
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
+        background.setBackground(new java.awt.Color(255, 255, 255));
 
-        barra.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setBackground(new java.awt.Color(220, 227, 237));
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
-        btnAdd.setToolTipText("Agregar usuario");
-        btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd1.setBackground(new java.awt.Color(228, 235, 245));
+        btnAdd1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
+        btnAdd1.setToolTipText("Agregar cliente");
+        btnAdd1.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAdd1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout barraLayout = new javax.swing.GroupLayout(barra);
-        barra.setLayout(barraLayout);
-        barraLayout.setHorizontalGroup(
-            barraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(barraLayout.createSequentialGroup()
+        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
+        btnView.setToolTipText("Ver cliente");
+        btnView.setEnabled(false);
+        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setEnabled(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
+        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
+        botones.setLayout(botonesLayout);
+        botonesLayout.setHorizontalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        barraLayout.setVerticalGroup(
-            barraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(barraLayout.createSequentialGroup()
+        botonesLayout.setVerticalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setOpaque(false);
+        scrollUsuarios.setBackground(new java.awt.Color(255, 255, 255));
+        scrollUsuarios.setBorder(null);
+        scrollUsuarios.setOpaque(false);
 
         jtUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jtUsuarios.setModel(new javax.swing.table.DefaultTableModel(
@@ -105,46 +134,34 @@ public class UsuarioForm extends javax.swing.JPanel {
                 jtUsuariosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtUsuarios);
+        scrollUsuarios.setViewportView(jtUsuarios);
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrollUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
         );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addComponent(barra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
+                .addComponent(scrollUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Acción para agregar usuario
-        JDAdd = new JD_Adicionar_usuario(null, true);       
-        JDAdd.setLocationRelativeTo(this);
-        JDAdd.setVisible(true);
-        
-        // Si se efectuaron cambios actualizar tabla
-        if (JDAdd.cambios()){           
-            mostrarActivos();
-        }   
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void jtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtUsuariosMouseClicked
         int pos = jtUsuarios.getSelectedRow();
@@ -154,6 +171,18 @@ public class UsuarioForm extends javax.swing.JPanel {
             //elementoSeleccionado(false);
         }
     }//GEN-LAST:event_jtUsuariosMouseClicked
+
+    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        // Acción para agregar usuario
+        JDAdd = new JD_Adicionar_usuario(null, true);       
+        JDAdd.setLocationRelativeTo(this);
+        JDAdd.setVisible(true);
+        
+        // Si se efectuaron cambios actualizar tabla
+        if (JDAdd.cambios()){           
+            mostrarActivos();
+        }  
+    }//GEN-LAST:event_btnAdd1ActionPerformed
 
     //Método para actualizar la tabla con la lista de usuarios activos
     private void mostrarActivos() {
@@ -184,15 +213,18 @@ public class UsuarioForm extends javax.swing.JPanel {
             }
         };       
         jtUsuarios.setModel(model);
-        //Ordenar el jtable         
-        jtUsuarios.setAutoCreateRowSorter(true);
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtUsuarios, scrollUsuarios);      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel barra;
-    private javax.swing.JPanel bg;
-    private custom_swing.Button btnAdd;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel background;
+    private javax.swing.JPanel botones;
+    private custom_swing.ButtonCircular btnAdd1;
+    private custom_swing.ButtonCircular btnDelete;
+    private custom_swing.ButtonCircular btnEdit;
+    private custom_swing.ButtonCircular btnView;
     private javax.swing.JTable jtUsuarios;
+    private javax.swing.JScrollPane scrollUsuarios;
     // End of variables declaration//GEN-END:variables
 }

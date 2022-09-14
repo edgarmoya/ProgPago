@@ -39,7 +39,6 @@ public class ButtonCircular extends JButton {
     public ButtonCircular() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(5, 5, 5, 5));
-        setBackground(Color.WHITE);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         addMouseListener(new MouseAdapter() {
             @Override
@@ -93,7 +92,7 @@ public class ButtonCircular extends JButton {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Color.WHITE);
+        g2.setColor(new Color(220,227,237));
         g2.fillRoundRect(0, 0, width, height, height, height);
         if (pressedPoint != null) {
             g2.setColor(effectColor);
@@ -112,7 +111,7 @@ public class ButtonCircular extends JButton {
             setBackground(new Color(255, 255, 255));
             setForeground(new Color(255, 255, 255));
         }else{
-            setBackground(new Color(204, 204, 204));
+            setBackground(new Color(227, 227, 227));
             setForeground(new Color(45, 125, 246));
         }       
     }

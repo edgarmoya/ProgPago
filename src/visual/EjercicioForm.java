@@ -24,6 +24,7 @@ public class EjercicioForm extends javax.swing.JPanel {
         //Editar color de la tabla
         JTableUtil.headerTable(jtEjercicios);
         JTableUtil.headerTable(jtPeriodo);
+        JTableUtil.modTable(jtPeriodo, scrollPeriodo);
         mostrarEjerciciosActivos();
         
         //Seleccionar primer item por defecto
@@ -48,7 +49,7 @@ public class EjercicioForm extends javax.swing.JPanel {
 
         botones.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar ejercicio");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -249,11 +250,11 @@ public class EjercicioForm extends javax.swing.JPanel {
             }
         };       
         jtEjercicios.setModel(model);
-        //Ordenar el jtable           
-        jtEjercicios.setAutoCreateRowSorter(true);        
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtEjercicios, scrollEjercicio);          
     }
     
-    // 
+    // Mostar período correspondiente
     private void mostrarPeriodos(String ejercicio) {
         EjercicioDAO dao = new EjercicioDAO();
         String[] columnNames = {"Período", "Inicio", "Fin"};
@@ -282,15 +283,17 @@ public class EjercicioForm extends javax.swing.JPanel {
             }
         };       
         jtPeriodo.setModel(model);
-        //Ordenar el jtable           
-        jtPeriodo.setAutoCreateRowSorter(true);        
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtPeriodo, scrollPeriodo);       
     }
     
     
     private void seleccionarItem(int pos){
         jtEjercicios.getSelectionModel().setSelectionInterval(pos, pos);
-        String value = jtEjercicios.getModel().getValueAt(pos, pos).toString(); 
-        mostrarPeriodos(value);
+        if (jtEjercicios.getModel().getRowCount() >= 1){
+            String value = jtEjercicios.getModel().getValueAt(pos, pos).toString(); 
+            mostrarPeriodos(value);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
