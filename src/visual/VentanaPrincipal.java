@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,10 +26,11 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import ppago.ConexionPg;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    private Usuario usuario = new Usuario();
+    private Usuario usuario;
     private MigLayout layout;
     private Header header;
     private Menu menu;
@@ -36,11 +38,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Animator animator;
     private JPopupMenu popupOpciones;
     
-    public VentanaPrincipal() {
+    public VentanaPrincipal(Usuario usuario) {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);   
         setIconImage(getIconImage()); 
         
+        this.usuario = usuario;
         init();
     }
     
@@ -52,37 +55,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mainForm = new MainForm();
         menu.addEvent(new EventMenuSelected() {
             @Override
-            public void menuSelected(int menuIndex, int subMenuIndex) {
-                if (menuIndex == 0) {         //Menú Operaciones
-                    if (subMenuIndex == 0) {
-                        //main.showForm(new Form_Home());
-                    }
-                }else if(menuIndex == 1){     //Menu Tablero de Control
-                    if (subMenuIndex == 0){
-                        
-                    }
-                }else if(menuIndex == 2){     //Menu Codificadores
-                    if(subMenuIndex == 0){
-                        mainForm.showForm(new ClienteForm());                        
-                    }
-                     if(subMenuIndex == 1){
-                        mainForm.showForm(new DestinoForm());
-                    }
-                    if(subMenuIndex == 2){
-                        mainForm.showForm(new EjercicioForm());
-                    }
-                    if(subMenuIndex == 3){
-                        mainForm.showForm(new MonedaForm());
-                    }
-                    if(subMenuIndex == 4){
-                        mainForm.showForm(new TipoFinanForm());
-                    }
-
-                }else if(menuIndex == 4){      //Menú Seguridad
-                    if(subMenuIndex == 0){
-                        mainForm.showForm(new UsuarioForm());
-                    }
-                }
+            public void menuSelected(int menuIndex, int subMenuIndex, String name) {            
+                if(name.equals("Programación de Pago")){       //Menú Operaciones
+                    //main.showForm(new Form_Home()); 
+                    
+                }else if(name.equals("Tablero de Control")){   //Menu Tablero de Control
+                    System.out.println("tablero");
+                    
+                }else if(name.equals("Clientes")){             //Menu Codificadores
+                    mainForm.showForm(new ClienteForm());   
+                    
+                }else if(name.equals("Destinos")){
+                   mainForm.showForm(new DestinoForm()); 
+                    
+                }else if(name.equals("Ejercicios")){
+                   mainForm.showForm(new EjercicioForm());
+                    
+                }else if(name.equals("Monedas")){
+                    mainForm.showForm(new MonedaForm());
+                    
+                }else if(name.equals("Tipo de Financiamiento")){
+                    mainForm.showForm(new TipoFinanForm());
+                    
+                }else if(name.equals("Usuarios")){            //Menú Seguridad
+                    mainForm.showForm(new UsuarioForm());
+                    
+                }                                   
             }
         });
         
@@ -101,7 +99,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         
         //Agregando componentes al panel
-        menu.initMenuItem();
+        menu.initMenuItem(usuario.getRoles());
         bg.add(menu, "w 230!, spany 3");    // SpanY 3cell
         bg.add(header, "h 80!, wrap");
         // bg.add(herramientas, "h 36!, spanx, wrap");
@@ -139,6 +137,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //Eventos del Header
         **********************/
         //Evento para mostrar y ocultar el menú
+        setHeader(usuario);
         header.addMenuEvent(new ActionListener() {        
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -210,7 +209,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         
         // La opcion de cambiar contraseña no se debe mostrar si es el administrador del postgresql
-        if (usuario.getIdentificador() == null){
+        if (usuario.getIdentificador().equals(cargar().getUsuario())){
             contrasena.setEnabled(false);
         } 
 
@@ -254,6 +253,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Icon mIcono = new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage().getScaledInstance(width, heigth, 0));
         return mIcono;       
     }   
+    
+    private ConexionPg cargar(){
+        ConexionPg pg = new ConexionPg();
+        try {
+            pg = pg.cargar();
+        } catch (IOException ex) {
+            // error
+        } catch (ClassNotFoundException ex) {
+            // error
+        }
+        return pg;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -320,7 +331,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                new VentanaPrincipal(null).setVisible(true);
             }
         });
     }
@@ -331,10 +342,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Obtener usuario logueado desde Login
     public void setHeader(Usuario u) {
-        this.usuario = u;
         header.setNombre(usuario.getNombre());
         header.setApellidos(usuario.getApellidos());
         popupOpciones();
     }
-
+    
 }

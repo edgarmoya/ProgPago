@@ -30,10 +30,11 @@ public class PopupMenu extends javax.swing.JDialog {
         for (String st : subMenu) {
             MenuButton item = new MenuButton(st, true);
             item.setIndex(++subMenuIndex);
+            item.setName(st);
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    eventSelected.menuSelected(index, item.getIndex());
+                    eventSelected.menuSelected(index, item.getIndex(), st);
                     closeMenu();                    
                 }
             });

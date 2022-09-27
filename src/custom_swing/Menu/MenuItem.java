@@ -68,7 +68,7 @@ public class MenuItem extends javax.swing.JPanel {
                         open = !open;
                     }
                 }
-                eventSelected.menuSelected(index, -1);
+                eventSelected.menuSelected(index, -1,menu.getMenuName());
             }
         });
         add(firstItem);
@@ -76,10 +76,11 @@ public class MenuItem extends javax.swing.JPanel {
         for (String st : menu.getSubMenu()) {
             MenuButton item = new MenuButton(st);
             item.setIndex(++subMenuIndex);
+            item.setName(st);
             item.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    eventSelected.menuSelected(index, item.getIndex());
+                    eventSelected.menuSelected(index, item.getIndex(), st);
                 }
             });
             add(item);
