@@ -176,15 +176,17 @@ public class JD_Login extends javax.swing.JDialog {
             int result = Login.validarUser(connPg, u);
             switch(result){
                 case 0:
+                    // Usuario incorrecto
                     JOptionPane.showMessageDialog(this, "Usuario incorrecto, compruebe los datos y vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case 1:
+                    // Loguear usuario
                     UsuarioDAO uDAO = new UsuarioDAO(); 
-                    VentanaPrincipal vp = new VentanaPrincipal();
-                    vp.setHeader(uDAO.getNomb_Apell(u.getIdentificador()));
+                    VentanaPrincipal vp = new VentanaPrincipal(uDAO.getNomb_Apell_Roles(u.getIdentificador()));
                     goTo.frame(this, vp);
                     break;
                 case 2:
+                    // Cambiar contraseña
                     JD_Cambiar_contrasena JDContrasena = new JD_Cambiar_contrasena(null, true);
                     JDContrasena.setUsuario(u);
                     JDContrasena.setVisible(true);

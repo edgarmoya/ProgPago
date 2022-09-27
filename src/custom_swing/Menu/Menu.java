@@ -55,12 +55,33 @@ public class Menu extends javax.swing.JPanel {
     }
 
     //Añadiendo items al menú
-    public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Tipo de Financiamiento"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Clientes"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios"));
+    public void initMenuItem(String rol) {
+        if (rol.contains("tesorero") && rol.contains("consultor") && rol.contains("administrador")){
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
+             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Tipo de Financiamiento"));          
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Cliente-Destino"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios"));
+            return;
+        }
+        if (rol.contains("tesorero") && rol.contains("consultor")){
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Tipo de Financiamiento"));         
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Cliente-Destino"));
+            return;
+        }
+        if (rol.contains("tesorero")){
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_operaciones.png")), "Operaciones", "Programación de Pago"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_codificadores.png")), "Codificadores", "Clientes", "Destinos", "Ejercicios", "Monedas", "Tipo de Financiamiento"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_settings.png")), "Configuración", "General", "Cliente-Destino"));
+        }
+        if (rol.contains("consultor")){
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_dashboard.png")), "Tablero de Control", "Morris", "Flot", "Line"));
+        }       
+        if (rol.contains("administrador")){
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/imagenes/menu_seguridad.png")), "Seguridad", "Usuarios"));
+        }
     }
 
     private void addMenu(ModelMenu menu) {

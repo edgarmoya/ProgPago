@@ -192,7 +192,7 @@ public class UsuarioForm extends javax.swing.JPanel {
         try {
             usuarios = dao.listaUsuariosActivos();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos." + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException ex) {

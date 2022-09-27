@@ -23,21 +23,13 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 public class MenuButton extends JButton {
     
     private int index;
+    private String name;
     private Animator animator;
     private int targetSize;
     private float animatSize;
     private Point pressedPoint;
     private float alpha;
-    private Color effectColor = new Color(45, 125, 246, 150);
-    
-    
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
+    private Color effectColor = new Color(45, 125, 246, 150); 
 
     public MenuButton(Icon icon, String text) {
         super(text);
@@ -104,4 +96,22 @@ public class MenuButton extends JButton {
         g2.setComposite(AlphaComposite.SrcOver);
         super.paintComponent(grphcs);
     }  
+    
+    
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }

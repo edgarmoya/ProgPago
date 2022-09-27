@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.postgresql.util.PSQLException;
 import ppago.ConexionPg;
 
 /**
@@ -43,11 +44,11 @@ public class UsuarioDAO {
                 stmt.execute();
                 conn.commit();
                 fueAgregado = true;
-            } catch (Exception e) {
-                System.out.println("Error al agregar usuario " + e.getMessage());
+            } catch (PSQLException e) {
+                System.out.println("Error al agregar usuario: " + e.getServerErrorMessage().getMessage());
                 // No ejecutar transacción
                 conn.rollback();
-                throw new BDException(e.getMessage());   
+                throw new BDException(e.getServerErrorMessage().getMessage());   
             } finally {
                 conn.close();
             }
@@ -57,20 +58,20 @@ public class UsuarioDAO {
 
     /**
      * Obtener un usuario con el nombre y apellidos para mostrar en el Header
-     *
+     * Se obtiene también los roles del usuario
      * @param username usuario a buscar
      * @return datos del usuario
      * @throws ConnectionException
      * @throws SQLException
      */
-    public Usuario getNomb_Apell(String username) throws ConnectionException, SQLException {
+    public Usuario getNomb_Apell_Roles(String username) throws ConnectionException, SQLException {
         Usuario u = new Usuario();
         Connection conn = pg.getConnection();
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT nombre, apellidos FROM usuario WHERE identificador=?";
+                String sql = "SELECT * FROM getNombApellRoles(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
                 ResultSet rs = stmt.executeQuery();
@@ -79,10 +80,7 @@ public class UsuarioDAO {
                     u.setIdentificador(username);
                     u.setNombre(rs.getString("nombre"));
                     u.setApellidos(rs.getString("apellidos"));
-                } else {
-                    // Si no es un usuario, es el administrador
-                    u.setNombre("Administrador");
-                    u.setApellidos(username);
+                    u.setRoles(rs.getString("roles"));
                 }
 
             } catch (Exception e) {

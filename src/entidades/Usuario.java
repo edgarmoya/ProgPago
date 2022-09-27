@@ -15,17 +15,19 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     private String contrasenna;
+    private String roles;
     private byte inicio;
     private byte activo;
 
     public Usuario() {
     } 
 
-    public Usuario(String identificador, String nombre, String apellidos, String contrasenna, byte inicio, byte activo) {
+    public Usuario(String identificador, String nombre, String apellidos, String contrasenna, String roles, byte inicio, byte activo) {
         this.identificador = identificador;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.contrasenna = contrasenna;
+        this.roles = roles;
         this.inicio = inicio;
         this.activo = activo;
     }
@@ -60,6 +62,14 @@ public class Usuario {
 
     public void setContrasenna(String contrasenna) {
         this.contrasenna = contrasenna;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public byte getActivo() {
