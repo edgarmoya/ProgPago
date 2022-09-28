@@ -77,6 +77,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }else if(name.equals("Tipo de Financiamiento")){
                     mainForm.showForm(new TipoFinanForm());
                     
+                }else if(name.equals("General")){            //Menú Configuración
+                    mainForm.showForm(new FormConfigGeneral());
+                    
                 }else if(name.equals("Usuarios")){            //Menú Seguridad
                     mainForm.showForm(new UsuarioForm());
                     
