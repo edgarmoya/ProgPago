@@ -15,13 +15,16 @@ import utiles.keyboradUtil;
 
 public class JD_Adicionar_destino extends javax.swing.JDialog {
     
+    private DestinoDAO dDAO = new DestinoDAO();
+    private String codDestino;
     private boolean cambios;
+    private boolean editar;
     
     public JD_Adicionar_destino(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage());
+        setIconImage(getIconImage("add_button"));
              
         siguienteCampo();
         focusButtons();
@@ -29,8 +32,8 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
         soloNumeros();               
     }
     
-    public Image getIconImage() {
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add_button.png"));
+    public Image getIconImage(String nombe_icono) {
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
         return res;
     }
 
@@ -143,37 +146,12 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-       // Agregar destino
-        Destino d = new Destino();
-        d.setId_destino(jtfid_destino.getText());
-        d.setNombre(jtfnombre.getText());
-        d.setActivo((byte) (1));
-
-        // Agregar
-        DestinoDAO dDAO = new DestinoDAO();
-        try {
-            // Validar 
-            if (d.isValido()) {
-                if (dDAO.agregarDestino(d)) {
-                    JOptionPane.showMessageDialog(this, "Destino agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+       if (!editar){
+            // Agregar cliente
+            accionAgregar();
+        }else{
+            // Editar cliente
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -250,6 +228,71 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
                 
     }
     
+     // Agregar destino a bd
+    private void accionAgregar(){
+        Destino d = new Destino();
+        d.setId_destino(jtfid_destino.getText());
+        d.setNombre(jtfnombre.getText());
+        d.setActivo((byte) (1));
+        
+         try {
+            // Validar 
+            if (d.isValido()) {
+                if (dDAO.agregarDestino(d)) {
+                    JOptionPane.showMessageDialog(this, "Destino agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+     // Editar destino en bd
+    private void accionEditar(){
+        Destino d = new Destino();
+        d.setId_destino(jtfid_destino.getText());
+        d.setNombre(jtfnombre.getText());
+ 
+        try {
+            // Validar campos
+            if (d.isValido()) {
+                if (dDAO.actualizarDestino(codDestino, d)) {
+                    JOptionPane.showMessageDialog(this, "Destino editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    cambios = true;
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -291,11 +334,37 @@ public class JD_Adicionar_destino extends javax.swing.JDialog {
             }
         });
     }
+
+    //Cambios que se producirán si se va a editar el cliente
+    public void dialogo_editar(Destino d){  
+        editar = true;
+        codDestino = d.getId_destino();
+        // Editar título e icono
+        setTitle("Editar Destino");
+        setIconImage(getIconImage("edit_button"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar destino");
+        // Mostrar datos en campo correspondiente
+        setJtfid_destino(d.getId_destino());
+        setJtfnombre(d.getNombre());
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
     
+    // retorna si se realizó algún cambio o no
     public boolean cambios() {
         return cambios;
     }
+     
+    // Setters
+    public void setJtfid_destino(String jtfid_destino) {
+        this.jtfid_destino.setText(jtfid_destino);
+    }
 
+    public void setJtfnombre(String jtfnombre) {
+        this.jtfnombre.setText(jtfnombre);
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private custom_swing.Button btnAceptar;
     private custom_swing.Button btnCancelar;

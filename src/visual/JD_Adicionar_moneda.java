@@ -18,21 +18,24 @@ import utiles.keyboradUtil;
  */
 public class JD_Adicionar_moneda extends javax.swing.JDialog {
 
+    private MonedaDAO mDAO = new MonedaDAO();
+    private String sigMoneda;
     private boolean cambios;
+    private boolean editar;
     
     public JD_Adicionar_moneda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage());
+        setIconImage(getIconImage("add_button"));
         
         siguienteCampo();
         focusButtons();
         maxLength();
     }
     
-    public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add_button.png"));
+    public Image getIconImage (String nombe_icono){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
         return res;
     }
 
@@ -148,37 +151,12 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // Agregar moneda
-        Moneda m = new Moneda();
-        m.setSiglas(jtfsiglas.getText());
-        m.setNombre(jtfnombre.getText());
-        m.setActivo((byte) (1));
-
-        // Agregar
-        MonedaDAO mDAO = new MonedaDAO();
-        try {
-            // Validar
-            if (m.isValido()) {
-                if (mDAO.agregarMoneda(m)) {
-                    JOptionPane.showMessageDialog(this, "Moneda agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+         if (!editar){
+            // Agregar cliente
+            accionAgregar();
+        }else{
+            // Editar cliente
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -265,9 +243,100 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
             }
         });
     }
+    
+    // Agregar moneda a bd
+    private void accionAgregar(){
+        Moneda m = new Moneda();
+        m.setSiglas(jtfsiglas.getText());
+        m.setNombre(jtfnombre.getText());
+        m.setActivo((byte) (1));
+        
+        try {
+            // Validar
+            if (m.isValido()) {
+                if (mDAO.agregarMoneda(m)) {
+                    JOptionPane.showMessageDialog(this, "Moneda agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    // Editar moneda en bd
+    private void accionEditar(){
+        Moneda m = new Moneda();
+        m.setSiglas(jtfsiglas.getText());
+        m.setNombre(jtfnombre.getText());
 
+        try {
+            // Validar campos
+            if (m.isValido()) {
+                if (mDAO.actualizarMoneda(sigMoneda, m)) {
+                    JOptionPane.showMessageDialog(this, "Moneda editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    cambios = true;
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Cambios que se producirán si se va a editar la moneda
+    public void dialogo_editar(Moneda m){  
+        editar = true;
+        sigMoneda = m.getSiglas();
+        // Editar título e icono
+        setTitle("Editar Moneda");
+        setIconImage(getIconImage("edit_button"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar moneda");
+        // Mostrar datos en campo correspondiente
+        setJtfsiglas(m.getSiglas());
+        setJtfnombre(m.getNombre());
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
+    
+    // retorna si se realizó algún cambio o no
     public boolean cambios() {
         return cambios;
+    }
+     
+    // Setters
+    public void setJtfsiglas(String jtfsiglas) {
+        this.jtfsiglas.setText(jtfsiglas);
+    }
+
+    public void setJtfnombre(String jtfnombre) {
+        this.jtfnombre.setText(jtfnombre);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
