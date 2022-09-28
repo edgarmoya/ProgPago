@@ -16,7 +16,7 @@ import utiles.JTableUtil;
  */
 public class MonedaForm extends javax.swing.JPanel {
 
-    private MonedaDAO dao = new MonedaDAO();
+    private MonedaDAO mDAO = new MonedaDAO();
     
     public MonedaForm() {
         initComponents();
@@ -30,34 +30,25 @@ public class MonedaForm extends javax.swing.JPanel {
     private void initComponents() {
 
         background = new javax.swing.JPanel();
-        bg = new javax.swing.JPanel();
-        btnAdd = new custom_swing.Button();
+        botones = new javax.swing.JPanel();
         btnView = new custom_swing.ButtonCircular();
         btnEdit = new custom_swing.ButtonCircular();
         btnDelete = new custom_swing.ButtonCircular();
+        btnAdd = new custom_swing.ButtonCircular();
         scrollMonedas = new javax.swing.JScrollPane();
         jtMonedas = new javax.swing.JTable();
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
-
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
-        btnAdd.setToolTipText("Agregar moneda");
-        btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
+        botones.setBackground(new java.awt.Color(220, 227, 237));
 
         btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
-        btnView.setToolTipText("Ver cliente");
+        btnView.setToolTipText("Ver moneda");
         btnView.setEnabled(false);
         btnView.setPreferredSize(new java.awt.Dimension(30, 30));
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
-        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setToolTipText("Editar moneda");
         btnEdit.setEnabled(false);
         btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -67,34 +58,44 @@ public class MonedaForm extends javax.swing.JPanel {
         });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
-        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setToolTipText("Eliminar moneda");
         btnDelete.setEnabled(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+        btnAdd.setBackground(new java.awt.Color(228, 235, 245));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
+        btnAdd.setToolTipText("Agregar moneda");
+        btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
+        botones.setLayout(botonesLayout);
+        botonesLayout.setHorizontalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botonesLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(616, Short.MAX_VALUE))
         );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        botonesLayout.setVerticalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botonesLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -143,15 +144,15 @@ public class MonedaForm extends javax.swing.JPanel {
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(scrollMonedas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollMonedas, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
+                .addComponent(scrollMonedas, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -169,19 +170,6 @@ public class MonedaForm extends javax.swing.JPanel {
                 .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Acción para agregar moneda
-        JD_Adicionar_moneda JDAdd = new JD_Adicionar_moneda(null, true);
-        JDAdd.setLocationRelativeTo(this);
-        JDAdd.setVisible(true);
-
-        // Si se efectuaron cambios actualizar tabla
-        if (JDAdd.cambios()){
-            mostrarActivos();
-            comprobarSeleccion();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void jtMonedasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtMonedasMouseClicked
         comprobarSeleccion();
@@ -205,6 +193,19 @@ public class MonedaForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Acción para agregar moneda
+        JD_Adicionar_moneda JDAdd = new JD_Adicionar_moneda(null, true);
+        JDAdd.setLocationRelativeTo(this);
+        JDAdd.setVisible(true);
+
+        // Si se efectuaron cambios actualizar tabla
+        if (JDAdd.cambios()){
+            mostrarActivos();
+            comprobarSeleccion();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     //Método para actualizar la tabla con la lista de monedas
     private void mostrarActivos() {
@@ -242,7 +243,7 @@ public class MonedaForm extends javax.swing.JPanel {
         String value = jtMonedas.getModel().getValueAt(posicion(), 0).toString();
         Moneda m = new Moneda();
         try {
-            m = dao.getMoneda(value);
+            m = mDAO.getMoneda(value);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -279,8 +280,8 @@ public class MonedaForm extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
-    private javax.swing.JPanel bg;
-    private custom_swing.Button btnAdd;
+    private javax.swing.JPanel botones;
+    private custom_swing.ButtonCircular btnAdd;
     private custom_swing.ButtonCircular btnDelete;
     private custom_swing.ButtonCircular btnEdit;
     private custom_swing.ButtonCircular btnView;

@@ -16,7 +16,7 @@ import utiles.JTableUtil;
  */
 public class ClienteForm extends javax.swing.JPanel {
 
-    private ClienteDAO dao = new ClienteDAO();
+    private ClienteDAO cDAO = new ClienteDAO();
     
     public ClienteForm() {
         initComponents();
@@ -77,7 +77,7 @@ public class ClienteForm extends javax.swing.JPanel {
         botonesLayout.setHorizontalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +212,7 @@ public class ClienteForm extends javax.swing.JPanel {
         String[] columnNames = {"Código", "Nombre", "Organismo", "NIT", "REEUP", "Correo", "Dirección", "Teléfono"};
         ArrayList<Cliente> clientes = new ArrayList<>();
         try {
-            clientes = dao.listaClientesActivos();
+            clientes = cDAO.listaClientesActivos();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -248,7 +248,7 @@ public class ClienteForm extends javax.swing.JPanel {
         String value = jtClientes.getModel().getValueAt(posicion(), 0).toString();
         Cliente c = new Cliente();
         try {
-            c = dao.getCliente(value);
+            c = cDAO.getCliente(value);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {

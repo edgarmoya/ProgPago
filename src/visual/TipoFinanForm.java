@@ -29,15 +29,16 @@ public class TipoFinanForm extends javax.swing.JPanel {
     private void initComponents() {
 
         background = new javax.swing.JPanel();
-        bg = new javax.swing.JPanel();
-        btnAdd = new custom_swing.Button();
+        botones = new javax.swing.JPanel();
+        btnAdd = new custom_swing.ButtonCircular();
         scrollTipoFinans = new javax.swing.JScrollPane();
         jtTipoFinans = new javax.swing.JTable();
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnAdd.setBackground(new java.awt.Color(228, 235, 245));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar tipo de financiamiento");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -47,18 +48,18 @@ public class TipoFinanForm extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+        javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
+        botones.setLayout(botonesLayout);
+        botonesLayout.setHorizontalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botonesLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
+        botonesLayout.setVerticalGroup(
+            botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3))
@@ -109,13 +110,13 @@ public class TipoFinanForm extends javax.swing.JPanel {
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(scrollTipoFinans, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(scrollTipoFinans, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
         );
@@ -136,8 +137,17 @@ public class TipoFinanForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtTipoFinansMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTipoFinansMouseClicked
+        int pos = jtTipoFinans.getSelectedRow();
+        if (pos != -1) {
+            //elementoSeleccionado(true);
+        } else {
+            //elementoSeleccionado(false);
+        }
+    }//GEN-LAST:event_jtTipoFinansMouseClicked
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Acción para agregar cliente
+        // Acción para agregar tipo de finan
         JDAdd = new JD_Adicionar_tipo_de_financiamiento(null, true);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
@@ -147,15 +157,6 @@ public class TipoFinanForm extends javax.swing.JPanel {
             mostrarActivos();
         }
     }//GEN-LAST:event_btnAddActionPerformed
-
-    private void jtTipoFinansMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTipoFinansMouseClicked
-        int pos = jtTipoFinans.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
-    }//GEN-LAST:event_jtTipoFinansMouseClicked
 
     //Método para actualizar la tabla con la lista de tipos de financiamiento
     private void mostrarActivos() {
@@ -191,8 +192,8 @@ public class TipoFinanForm extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
-    private javax.swing.JPanel bg;
-    private custom_swing.Button btnAdd;
+    private javax.swing.JPanel botones;
+    private custom_swing.ButtonCircular btnAdd;
     private javax.swing.JTable jtTipoFinans;
     private javax.swing.JScrollPane scrollTipoFinans;
     // End of variables declaration//GEN-END:variables
