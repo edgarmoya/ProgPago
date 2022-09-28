@@ -71,4 +71,60 @@ public class DestinoDAO {
         }
         return destinos;
     }
+    
+    // Obtener datos del destino a partir del código
+    public Destino getDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        Destino d = new Destino();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM destino WHERE id_destino = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, codigo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    d.setId_destino(rs.getString("id_destino"));
+                    d.setNombre(rs.getString("nombre"));
+                }
+            } catch (Exception e) {
+                System.out.println("Error al obtener destino: " + e.getMessage());
+                throw new BDException(e.getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return d;
+    }
+    
+    // Actualizar destino a partir del código
+    public boolean actualizarDestino(String cod, Destino destino) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isUpdate = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "UPDATE destino SET id_destino=? ,nombre=? WHERE id_destino=?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, destino.getId_destino());
+                stmt.setString(2, destino.getNombre());
+                stmt.setString(3, cod);
+
+                //ejecutamos la sentencia
+                int cantidad = stmt.executeUpdate();
+                isUpdate = (cantidad > 0);
+
+            } catch (Exception e) {
+                System.out.println("Error al actualizar destino " + e.getMessage());
+                throw new BDException(e.getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isUpdate;
+    }
 }

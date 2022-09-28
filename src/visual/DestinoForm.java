@@ -2,6 +2,7 @@ package visual;
 
 import dao.DestinoDAO;
 import entidades.Destino;
+import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import utiles.JTableUtil;
  */
 public class DestinoForm extends javax.swing.JPanel {
     
-    private JD_Adicionar_destino JDAdd;
+    private DestinoDAO dao = new DestinoDAO();
  
     public DestinoForm() {
         initComponents();
@@ -31,6 +32,9 @@ public class DestinoForm extends javax.swing.JPanel {
         background = new javax.swing.JPanel();
         bg = new javax.swing.JPanel();
         btnAdd = new custom_swing.Button();
+        btnView = new custom_swing.ButtonCircular();
+        btnEdit = new custom_swing.ButtonCircular();
+        btnDelete = new custom_swing.ButtonCircular();
         scrollDestinos = new javax.swing.JScrollPane();
         jtDestinos = new javax.swing.JTable();
 
@@ -47,6 +51,26 @@ public class DestinoForm extends javax.swing.JPanel {
             }
         });
 
+        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
+        btnView.setToolTipText("Ver cliente");
+        btnView.setEnabled(false);
+        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setEnabled(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
+        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -54,13 +78,23 @@ public class DestinoForm extends javax.swing.JPanel {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -117,7 +151,7 @@ public class DestinoForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollDestinos, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                .addComponent(scrollDestinos, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -138,24 +172,39 @@ public class DestinoForm extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar destino
-        JDAdd = new JD_Adicionar_destino(null, true);
+        JD_Adicionar_destino JDAdd = new JD_Adicionar_destino(null, true);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
         if (JDAdd.cambios()){
             mostrarActivos();
+           comprobarSeleccion();
         }
     }//GEN-LAST:event_btnAddActionPerformed
-
+    
     private void jtDestinosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtDestinosMouseClicked
-        int pos = jtDestinos.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
+        comprobarSeleccion();
     }//GEN-LAST:event_jtDestinosMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // Acción para editar destino
+        if (posicion() != -1){
+            JD_Adicionar_destino JDEdit = new JD_Adicionar_destino(null, true);
+            JDEdit.setLocationRelativeTo(this);
+            Destino d = getDestinoSeleccionado();
+            JDEdit.dialogo_editar(d);
+            JDEdit.setVisible(true);
+
+            // Si se efectuaron cambios actualizar tabla
+            if (JDEdit.cambios()){
+                mostrarActivos();
+                comprobarSeleccion();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
 
      //Método para actualizar la tabla con la lista de destinos
     private void mostrarActivos() {
@@ -188,11 +237,53 @@ public class DestinoForm extends javax.swing.JPanel {
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtDestinos, scrollDestinos); 
     }
+    
+    private Destino getDestinoSeleccionado(){
+        String value = jtDestinos.getModel().getValueAt(posicion(), 0).toString();
+        Destino d = new Destino();
+        try {
+            d = dao.getDestino(value);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return d;
+    }
+    
+    // Habilitar botones
+    private void enabled(boolean estado){
+        btnEdit.setEnabled(estado);
+        btnView.setEnabled(estado);
+        btnDelete.setEnabled(estado);
+    }
+    
+    // Comprobar si hay fila seleccionada
+    private void comprobarSeleccion(){   
+        if (posicion() != -1) {
+            // Si se selecciona una fila habilitar opciones
+            enabled(true);
+        } else {
+            enabled(false);
+        }
+    }
+    
+    // Posición de la fila seleccionada
+    private int posicion(){
+        return jtDestinos.getSelectedRow();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel bg;
     private custom_swing.Button btnAdd;
+    private custom_swing.ButtonCircular btnDelete;
+    private custom_swing.ButtonCircular btnEdit;
+    private custom_swing.ButtonCircular btnView;
     private javax.swing.JTable jtDestinos;
     private javax.swing.JScrollPane scrollDestinos;
     // End of variables declaration//GEN-END:variables
