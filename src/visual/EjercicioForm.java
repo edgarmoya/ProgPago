@@ -2,6 +2,7 @@ package visual;
 
 import dao.EjercicioDAO;
 import entidades.Ejercicio;
+import excepciones.BDException;
 import entidades.Periodo;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import utiles.JTableUtil;
  */
 public class EjercicioForm extends javax.swing.JPanel {
 
-    private JD_Adicionar_ejercicio JDAdd;
+    private EjercicioDAO eDAO = new EjercicioDAO();
 
     public EjercicioForm() {
         initComponents();
@@ -39,6 +40,9 @@ public class EjercicioForm extends javax.swing.JPanel {
         background = new javax.swing.JPanel();
         botones = new javax.swing.JPanel();
         btnAdd = new custom_swing.Button();
+        btnView = new custom_swing.ButtonCircular();
+        btnEdit = new custom_swing.ButtonCircular();
+        btnDelete = new custom_swing.ButtonCircular();
         split = new javax.swing.JSplitPane();
         scrollEjercicio = new javax.swing.JScrollPane();
         jtEjercicios = new javax.swing.JTable();
@@ -58,6 +62,26 @@ public class EjercicioForm extends javax.swing.JPanel {
             }
         });
 
+        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
+        btnView.setToolTipText("Ver cliente");
+        btnView.setEnabled(false);
+        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setEnabled(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
+        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -65,13 +89,23 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -177,7 +211,7 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE))
+                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -195,18 +229,12 @@ public class EjercicioForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
-        int pos = jtEjercicios.getSelectedRow();
-        String value = jtEjercicios.getModel().getValueAt(pos, 0).toString(); 
-        if (pos != -1) {
-            mostrarPeriodos(value);
-        } else {
-            // Nada
-        }
+       comprobarSeleccion();
     }//GEN-LAST:event_jtEjerciciosMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar ejercicio
-        JDAdd = new JD_Adicionar_ejercicio(null, true);
+        JD_Adicionar_ejercicio JDAdd = new JD_Adicionar_ejercicio(null, true);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
@@ -214,6 +242,7 @@ public class EjercicioForm extends javax.swing.JPanel {
         if (JDAdd.cambios()){
             mostrarEjerciciosActivos();
             seleccionarItem(0);
+            comprobarSeleccion();
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -221,7 +250,26 @@ public class EjercicioForm extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtPeriodoMouseClicked
 
-    //Método para actualizar la tabla con la lista de clientes
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // Acción para editar ejercicio
+        if (posicion() != -1){
+            JD_Adicionar_ejercicio JDEdit = new JD_Adicionar_ejercicio(null, true);
+            JDEdit.setLocationRelativeTo(this);
+            Ejercicio e = getEjercicioSeleccionado();
+            JDEdit.dialogo_editar(e);
+            JDEdit.setVisible(true);
+
+            // Si se efectuaron cambios actualizar tabla
+            if (JDEdit.cambios()){
+                mostrarActivos();
+                comprobarSeleccion();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    //Método para actualizar la tabla con la lista de ejercicios
     private void mostrarEjerciciosActivos() {
         EjercicioDAO dao = new EjercicioDAO();
         String[] columnNames = {"Ejercicio", "Inicio", "Fin"};
@@ -296,10 +344,54 @@ public class EjercicioForm extends javax.swing.JPanel {
         }
     }
 
+    private Ejercicio getEjercicioSeleccionado(){
+        String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
+        Ejercicio e = new Ejercicio();
+        try {
+            e = eDAO.getEjercicio(value);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return e;
+    }
+    
+    // Habilitar botones
+    private void enabled(boolean estado){
+        btnEdit.setEnabled(estado);
+        btnView.setEnabled(estado);
+        btnDelete.setEnabled(estado);
+    }
+    
+    // Comprobar si hay fila seleccionada
+    private void comprobarSeleccion(){ 
+        String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
+        if (posicion() != -1) {
+            mostrarPeriodos(value);
+            // Si se selecciona una fila habilitar opciones
+            enabled(true);
+        } else {
+            enabled(false);
+        }
+    }
+    
+    // Posición de la fila seleccionada
+    private int posicion(){
+        return jtEjercicios.getSelectedRow();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
     private custom_swing.Button btnAdd;
+    private custom_swing.ButtonCircular btnDelete;
+    private custom_swing.ButtonCircular btnEdit;
+    private custom_swing.ButtonCircular btnView;
     private javax.swing.JTable jtEjercicios;
     private javax.swing.JTable jtPeriodo;
     private javax.swing.JScrollPane scrollEjercicio;
