@@ -103,4 +103,64 @@ public class EjercicioDAO {
         }
         return periodos;
     }
+    
+    // Obtener datos del ejercicio a partir del código
+    public Ejercicio getEjercicio(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        Ejercicio ej = new Ejercicio();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM ejercicio WHERE cod_ejercicio = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, codigo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    ej.setCod_ejercicio(rs.getInt("cod_ejercicio"));
+                    ej.setEjercicio(rs.getString("ejercicio"));
+                    ej.setFecha_inicio(rs.getDate("fecha_inicio"));
+                    ej.setFecha_fin(rs.getDate("fecha_fin"));
+                }
+            } catch (Exception e) {
+                System.out.println("Error al obtener ejercicio: " + e.getMessage());
+                throw new BDException(e.getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return ej;
+    }
+    
+    // Actualizar ejercicio a partir del código
+    public boolean actualizarEjercicio(String cod, Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isUpdate = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "UPDATE ejercicio SET cod_ejercicio=? ,ejercicio=?, fecha_inicio=?, fecha_fin=? WHERE cod_ejercicio=?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, ejercicio.getCod_ejercicio());
+                stmt.setString(2, ejercicio.getEjercicio());
+                stmt.setDate(3, ejercicio.getFecha_inicio());
+                stmt.setDate(4, ejercicio.getFecha_fin());
+                stmt.setString(5, cod);
+
+                //ejecutamos la sentencia
+                int cantidad = stmt.executeUpdate();
+                isUpdate = (cantidad > 0);
+
+            } catch (Exception e) {
+                System.out.println("Error al actualizar ejercicio " + e.getMessage());
+                throw new BDException(e.getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isUpdate;
+    }
 }
