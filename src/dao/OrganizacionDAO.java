@@ -27,7 +27,7 @@ public class OrganizacionDAO {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "INSERT INTO organizacion VALUES (?,?,?,?,?,?)";
+                String sql = "CALL add_organizacion(?, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, organizacion.getCodigo());
                 stmt.setString(2, organizacion.getNombre());

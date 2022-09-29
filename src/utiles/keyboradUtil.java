@@ -6,6 +6,8 @@ import entidades.Cliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -70,14 +72,23 @@ public class keyboradUtil {
             }
         });
     }
+    
+    // Validar el correo electrónico
+    public static boolean isCorreo(String correo) {
+        if (correo.isEmpty()) {
+            return true;
+        } else {
+            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+            Matcher comparar = patron.matcher(correo);
+            return comparar.find();
+        }
+    }
 
     /**
      * Comprobar si es un correo válido
-     *
      * @param jtf jtextfield a validar
      */
     public static void isCorreo(JTextField jtf) {
-        Cliente c = new Cliente();
         jtf.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -92,7 +103,7 @@ public class keyboradUtil {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
-                    if (c.isCorreo(jtf.getText()) == false) {
+                    if (isCorreo(jtf.getText()) == false) {
                         JOptionPane.showMessageDialog(null, "Correo electónico incorrecto, verifíquelo antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
                         jtf.requestFocus();
                     }

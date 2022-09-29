@@ -78,7 +78,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     mainForm.showForm(new TipoFinanForm());
                     
                 }else if(name.equals("General")){            //Menú Configuración
-                    mainForm.showForm(new FormConfigGeneral());
+                   
                     
                 }else if(name.equals("Usuarios")){            //Menú Seguridad
                     mainForm.showForm(new UsuarioForm());
@@ -194,8 +194,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }          
         };
         // Items del popup
-        JMenuItem contrasena = new JMenuItem("Cambiar Contraseña", getIcon("/imagenes/popup_contrasena.png", 16, 16));
-        JMenuItem contacto = new JMenuItem("Datos de Contacto", getIcon("/imagenes/popup_contacto.png", 16, 16));
+        JMenuItem contrasena = new JMenuItem("Cambiar contraseña", getIcon("/imagenes/popup_contrasena.png", 16, 16));
+        JMenuItem contacto = new JMenuItem("Datos de contacto", getIcon("/imagenes/popup_contacto.png", 16, 16));
+        JMenuItem organizacion = new JMenuItem("Datos de la organización", getIcon("/imagenes/popup_organizacion.png", 16, 16));
         JMenuItem acerca = new JMenuItem("Acerca de Versat", getIcon("/imagenes/popup_acerca.png", 16, 16));
         JMenuItem cerrar_sesion = new JMenuItem("Cerrar sesión", getIcon("/imagenes/popup_cerrarsesion.png", 16, 16));
         JMenuItem salir = new JMenuItem("Salir", getIcon("/imagenes/popup_salir.png", 16, 16));
@@ -215,7 +216,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (usuario.getIdentificador().equals(cargar().getUsuario())){
             contrasena.setEnabled(false);
         } 
+        
+        popupOpciones.add(organizacion);
+        organizacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JD_Organizacion JDOrg = new JD_Organizacion(null, true);
+                JDOrg.setVisible(true);
+            }
+        });      
 
+        popupOpciones.addSeparator();
         popupOpciones.add(contacto);
         contacto.addActionListener(new ActionListener() {
             @Override
@@ -224,6 +235,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JDCont.setVisible(true);
             }
         });
+                
         popupOpciones.add(acerca);
         acerca.addActionListener(new ActionListener() {
             @Override
