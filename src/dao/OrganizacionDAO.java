@@ -18,7 +18,8 @@ public class OrganizacionDAO {
 
     private ConexionPg pg = new ConexionPg();
 
-    public boolean agregarOrganizacion(Organizacion organizacion, int longBytes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Agregar o actualizar organización, dependiendo si existía
+    public boolean agregarOrganizacion(Organizacion organizacion, boolean nLogo, int longBytes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         boolean fueAgregado = false;
         if (conn == null) {
@@ -27,14 +28,15 @@ public class OrganizacionDAO {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL add_organizacion(?, ?, ?, ?, ?, ?)";
+                String sql = "CALL add_organizacion(?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, organizacion.getCodigo());
                 stmt.setString(2, organizacion.getNombre());
                 stmt.setString(3, organizacion.getDireccion());
                 stmt.setString(4, organizacion.getTelefono());
                 stmt.setString(5, organizacion.getCorreo());
-                stmt.setBinaryStream(6, organizacion.getLogo(), longBytes);
+                stmt.setBoolean(6, nLogo);
+                stmt.setBinaryStream(7, organizacion.getLogo(), longBytes);
 
                 // ejecutamos la sentencia
                 stmt.execute();
@@ -50,8 +52,9 @@ public class OrganizacionDAO {
             }
         }
         return fueAgregado;
-    }
+    }     
 
+    // Obtener datos de la organización guardada
     public Organizacion obtenerOrganizacion() throws SQLException, ClassNotFoundException, ConnectionException, BDException{
         Organizacion o = new Organizacion();
         Connection conn = pg.getConnection();
@@ -68,7 +71,7 @@ public class OrganizacionDAO {
                     o.setDireccion(rs.getString("direccion"));
                     o.setTelefono(rs.getString("telefono"));
                     o.setCorreo(rs.getString("correo"));
-                    o.setLogo(rs.getBinaryStream("logo"));   
+                    o.setLogo(rs.getBinaryStream("logo"));
                 }
             } catch (PSQLException ex) {
                 System.out.println("Error al obtener datos de la organización: " + ex.getServerErrorMessage().getMessage());

@@ -2,12 +2,9 @@ package utiles;
 
 import custom_swing.Button;
 import custom_swing.Combobox;
-import entidades.Cliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -72,17 +69,6 @@ public class keyboradUtil {
             }
         });
     }
-    
-    // Validar el correo electrónico
-    public static boolean isCorreo(String correo) {
-        if (correo.isEmpty()) {
-            return true;
-        } else {
-            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-            Matcher comparar = patron.matcher(correo);
-            return comparar.find();
-        }
-    }
 
     /**
      * Comprobar si es un correo válido
@@ -103,7 +89,7 @@ public class keyboradUtil {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
-                    if (isCorreo(jtf.getText()) == false) {
+                    if (CorreoUtil.isCorreo(jtf.getText()) == false) {
                         JOptionPane.showMessageDialog(null, "Correo electónico incorrecto, verifíquelo antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
                         jtf.requestFocus();
                     }
