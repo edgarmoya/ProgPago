@@ -261,7 +261,7 @@ public class EjercicioForm extends javax.swing.JPanel {
 
             // Si se efectuaron cambios actualizar tabla
             if (JDEdit.cambios()){
-                mostrarActivos();
+                mostrarEjerciciosActivos();
                 comprobarSeleccion();
             }
         }else{
