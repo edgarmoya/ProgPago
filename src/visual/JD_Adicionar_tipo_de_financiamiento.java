@@ -19,13 +19,16 @@ import utiles.keyboradUtil;
  */
 public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
     
+   private TipoFinanDAO tfDAO = new TipoFinanDAO();
+    private String codTipoFinan;
     private boolean cambios;
+    private boolean editar;
    
     public JD_Adicionar_tipo_de_financiamiento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage());
+        setIconImage(getIconImage("add_button"));
         
         siguienteCampo();
         focusButtons();
@@ -33,8 +36,8 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         soloNumeros();
     }
     
-    public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add_button.png"));
+    public Image getIconImage (String nombe_icono){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
         return res;
     }
 
@@ -147,36 +150,12 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
  
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // Agregar tipo de financiamiento
-        TipoFinan tf = new TipoFinan();
-        tf.setCod_tipo(jtfcod_tipo.getText());
-        tf.setDescripcion(jtfdescripcion.getText());
-
-        // Agregar
-        TipoFinanDAO tfDAO = new TipoFinanDAO();
-        try {
-            // Validar
-            if (tf.isValido()) {
-                if (tfDAO.agregarTipoFinan(tf)) {
-                    JOptionPane.showMessageDialog(this, "Tipo de Financiamiento agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+         if (!editar){
+            // Agregar tipo de financiamiento
+            accionAgregar();
+        }else{
+            // Editar tipo de financiamiento
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -249,10 +228,72 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
                 codigo = "0"+codigo;    
             }
             jtfcod_tipo.setText(codigo);
-        } 
-                
+        }       
     }
     
+    // Agregar tipo de financiamiento a bd
+    private void accionAgregar(){
+        TipoFinan tf = new TipoFinan();
+        tf.setCod_tipo(jtfcod_tipo.getText());
+        tf.setDescripcion(jtfdescripcion.getText());
+        
+         try {
+            // Validar
+            if (tf.isValido()) {
+                if (tfDAO.agregarTipoFinan(tf)) {
+                    JOptionPane.showMessageDialog(this, "Tipo de Financiamiento agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    // Editar cliente en bd
+    private void accionEditar(){
+        TipoFinan tf = new TipoFinan();
+        tf.setCod_tipo(jtfcod_tipo.getText());
+        tf.setDescripcion(jtfdescripcion.getText());
+        
+        try {
+            // Validar campos
+            if (tf.isValido()) {
+                if (tfDAO.actualizarTipoFinan(codTipoFinan, tf)) {
+                    JOptionPane.showMessageDialog(this, "Tipo de financiamiento editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    cambios = true;
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -295,11 +336,7 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
             }
         });
     }
-
-    public boolean cambios() {
-        return cambios;
-    }
-    
+         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private custom_swing.Button btnAceptar;
     private custom_swing.Button btnCancelar;
@@ -307,4 +344,34 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
     private custom_swing.TextField jtfcod_tipo;
     private custom_swing.TextField jtfdescripcion;
     // End of variables declaration//GEN-END:variables
+
+     //Cambios que se producirán si se va a editar el tipo de financiamiento
+    public void dialogo_editar(TipoFinan tf){  
+        editar = true;
+        codTipoFinan = tf.getCod_tipo();
+        // Editar título e icono
+        setTitle("Editar Tipo de Financiamiento");
+        setIconImage(getIconImage("edit_button"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar tipo de financiamiento");
+        // Mostrar datos en campo correspondiente
+        setJtfcod_tipo(tf.getCod_tipo());
+        setJtfdescripcion(tf.getDescripcion());
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
+    
+    // retorna si se realizó algún cambio o no
+    public boolean cambios() {
+        return cambios;
+    }
+     
+    // Setters
+    public void setJtfcod_tipo(String jtfcod_tipo) {
+        this.jtfcod_tipo.setText(jtfcod_tipo);
+    }
+
+    public void setJtfdescripcion(String jtfdescripcion) {
+        this.jtfdescripcion.setText(jtfdescripcion);
+    }
 }

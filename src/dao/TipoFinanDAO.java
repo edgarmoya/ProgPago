@@ -71,4 +71,60 @@ public class TipoFinanDAO {
         }
         return tipofinans;
     }
+    
+    // Obtener datos del tipo de financiamiento a partir del código
+    public TipoFinan getTipoFinan(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        TipoFinan tf = new TipoFinan();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM tipofinan WHERE cod_tipo = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, codigo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    tf.setCod_tipo(rs.getString("cod_tipo"));
+                    tf.setDescripcion(rs.getString("descripcion"));
+                }
+            } catch (Exception e) {
+                System.out.println("Error al obtener tipo de financiamiento: " + e.getMessage());
+                throw new BDException(e.getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return tf;
+    }
+    
+    // Actualizar tipo de financiamiento a partir del código
+    public boolean actualizarTipoFinan(String cod, TipoFinan tipofinan) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isUpdate = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "UPDATE tipofinan SET cod_tipo=? , descripcion=? WHERE cod_tipo=?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, tipofinan.getCod_tipo());
+                stmt.setString(2, tipofinan.getDescripcion());
+                stmt.setString(3, cod);
+
+                //ejecutamos la sentencia
+                int cantidad = stmt.executeUpdate();
+                isUpdate = (cantidad > 0);
+
+            } catch (Exception e) {
+                System.out.println("Error al actualizar tipo de financiamiento " + e.getMessage());
+                throw new BDException(e.getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isUpdate;
+    }
 }
