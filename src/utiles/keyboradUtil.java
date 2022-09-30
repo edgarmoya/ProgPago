@@ -2,7 +2,6 @@ package utiles;
 
 import custom_swing.Button;
 import custom_swing.Combobox;
-import entidades.Cliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -73,11 +72,9 @@ public class keyboradUtil {
 
     /**
      * Comprobar si es un correo válido
-     *
      * @param jtf jtextfield a validar
      */
     public static void isCorreo(JTextField jtf) {
-        Cliente c = new Cliente();
         jtf.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -92,7 +89,7 @@ public class keyboradUtil {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
-                    if (c.isCorreo(jtf.getText()) == false) {
+                    if (CorreoUtil.isCorreo(jtf.getText()) == false) {
                         JOptionPane.showMessageDialog(null, "Correo electónico incorrecto, verifíquelo antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
                         jtf.requestFocus();
                     }

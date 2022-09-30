@@ -6,6 +6,7 @@ import excepciones.ReeupException;
 import excepciones.CorreoException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import utiles.CorreoUtil;
 
 /**
  *
@@ -143,7 +144,7 @@ public class Cliente {
             throw new ReeupException("REEUP no válido, verifique antes de continuar.");
         }
         // Validar correo
-        if (!isCorreo(correo)) {
+        if (!CorreoUtil.isCorreo(correo)) {
             throw new CorreoException("Correo electrónico no válido, verifique antes de continuar.");
         }
 
@@ -167,17 +168,6 @@ public class Cliente {
         }
         return false;
     }  
-    
-    // Validar el correo electrónico
-    public boolean isCorreo(String correo) {
-        if (correo.isEmpty()) {
-            return true;
-        } else {
-            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-            Matcher comparar = patron.matcher(correo);
-            return comparar.find();
-        }
-    }
 
     @Override
     public String toString() {
