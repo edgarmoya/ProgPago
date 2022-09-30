@@ -114,7 +114,7 @@ public class EjercicioDAO {
             try {
                 String sql = "SELECT * FROM ejercicio WHERE cod_ejercicio = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, codigo);
+                stmt.setInt(1, Integer.parseInt(codigo));
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
@@ -148,7 +148,7 @@ public class EjercicioDAO {
                 stmt.setString(2, ejercicio.getEjercicio());
                 stmt.setDate(3, ejercicio.getFecha_inicio());
                 stmt.setDate(4, ejercicio.getFecha_fin());
-                stmt.setString(5, cod);
+                stmt.setInt(5, Integer.parseInt(cod));
 
                 //ejecutamos la sentencia
                 int cantidad = stmt.executeUpdate();

@@ -18,13 +18,16 @@ import utiles.keyboradUtil;
  */
 public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
 
+    private EjercicioDAO eDAO = new EjercicioDAO();
+    private String codEjercicio;
     private boolean cambios;
+    private boolean editar;
     
     public JD_Adicionar_ejercicio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(getIconImage());
+        setIconImage(getIconImage("add_button"));
         
         siguienteCampo();
         soloNumeros();
@@ -32,8 +35,8 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         maxLength();
     }
 
-    public Image getIconImage (){
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/add_button.png"));
+    public Image getIconImage (String nombe_icono){
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
         return res;
     }
      
@@ -126,35 +129,12 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
 
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // Agregar ejercicio
-        Ejercicio e = new Ejercicio();
-        e.setEjercicio(jtfEjercicio.getText());
-
-        // Agregar
-        EjercicioDAO eDAO = new EjercicioDAO();
-        try {
-            // Validar
-            if (e.isValido()) {
-                if (eDAO.agregarEjercicio(e)) {
-                    JOptionPane.showMessageDialog(this, "Ejercicio agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    limpiar();
-                    cambios = true;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);     
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        if (!editar){
+            // Agregar ejercicio
+            accionAgregar();
+        }else{
+            // Editar ejercicio
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -204,6 +184,68 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         camposRequeridos();
     }//GEN-LAST:event_jtfEjercicioKeyReleased
 
+    // Agregar ejercicio a bd
+    private void accionAgregar(){
+        Ejercicio e = new Ejercicio();
+        e.setEjercicio(jtfEjercicio.getText());
+        
+         try {
+            // Validar
+            if (e.isValido()) {
+                if (eDAO.agregarEjercicio(e)) {
+                    JOptionPane.showMessageDialog(this, "Ejercicio agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);     
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+     // Editar ejercicio en bd
+    private void accionEditar(){
+        Ejercicio e = new Ejercicio();
+        e.setEjercicio(jtfEjercicio.getText());
+        
+         try {
+            // Validar campos
+            if (e.isValido()) {
+                if (eDAO.actualizarEjercicio(codEjercicio, e)) {
+                    JOptionPane.showMessageDialog(this, "Ejercicio editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    cambios = true;
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (FaltanDatosException fd) {
+            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (LongitudException lon) {
+            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -246,15 +288,37 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
             }
         });
     }
-    
-    public boolean cambios() {
-        return cambios;
-    }
-
+          
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private custom_swing.Button btnAceptar;
     private custom_swing.Button btnCancelar;
     private javax.swing.JPanel jpNuevo_ejercicio;
     private custom_swing.TextField jtfEjercicio;
     // End of variables declaration//GEN-END:variables
+
+    //Cambios que se producirán si se va a editar el ejercicio
+    public void dialogo_editar(Ejercicio e){  
+        editar = true;
+        codEjercicio = ""+e.getCod_ejercicio();
+        // Editar título e icono
+        setTitle("Editar Ejercicio");
+        setIconImage(getIconImage("edit_button"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar ejercicio");
+        // Mostrar datos en campo correspondiente
+        setJtfejercicio(e.getEjercicio());
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
+    
+    // retorna si se realizó algún cambio o no
+    public boolean cambios() {
+        return cambios;
+    }
+     
+    // Setters
+ 
+    public void setJtfejercicio(String jtfejercicio) {
+        this.jtfEjercicio.setText(jtfejercicio);
+    }
 }

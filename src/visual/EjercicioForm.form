@@ -57,7 +57,7 @@
         <Container class="javax.swing.JPanel" name="botones">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+              <Color blue="ed" green="e3" red="dc" type="rgb"/>
             </Property>
           </Properties>
 
@@ -112,7 +112,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/imagenes/view_button.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Ver cliente"/>
+                <Property name="toolTipText" type="java.lang.String" value="Ver ejercicio"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[30, 30]"/>
@@ -124,7 +124,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/imagenes/edit_button.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Editar cliente"/>
+                <Property name="toolTipText" type="java.lang.String" value="Editar ejercicio"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[30, 30]"/>
@@ -139,7 +139,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/imagenes/delete_button.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Eliminar cliente"/>
+                <Property name="toolTipText" type="java.lang.String" value="Eliminar ejercicio"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[30, 30]"/>
