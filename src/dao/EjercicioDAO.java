@@ -105,16 +105,16 @@ public class EjercicioDAO {
     }
     
     // Obtener datos del ejercicio a partir del código
-    public Ejercicio getEjercicio(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public Ejercicio getEjercicio(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         Ejercicio ej = new Ejercicio();
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM ejercicio WHERE cod_ejercicio = ?";
+                String sql = "SELECT * FROM ejercicio WHERE ejercicio = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, Integer.parseInt(codigo));
+                stmt.setString(1, ejercicio);
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
@@ -142,13 +142,11 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE ejercicio SET cod_ejercicio=? ,ejercicio=?, fecha_inicio=?, fecha_fin=? WHERE cod_ejercicio=?";
+                String sql = "UPDATE ejercicio SET cod_ejercicio=? ,ejercicio=? WHERE cod_ejercicio=?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, ejercicio.getCod_ejercicio());
                 stmt.setString(2, ejercicio.getEjercicio());
-                stmt.setDate(3, ejercicio.getFecha_inicio());
-                stmt.setDate(4, ejercicio.getFecha_fin());
-                stmt.setInt(5, Integer.parseInt(cod));
+                stmt.setInt(3, Integer.parseInt(cod));
 
                 //ejecutamos la sentencia
                 int cantidad = stmt.executeUpdate();
