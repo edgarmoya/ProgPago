@@ -2,6 +2,7 @@ package visual;
 
 import dao.UsuarioDAO;
 import entidades.Usuario;
+import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import utiles.JTableUtil;
  */
 public class UsuarioForm extends javax.swing.JPanel {
 
-    private JD_Adicionar_usuario JDAdd;
+    private UsuarioDAO uDAO = new UsuarioDAO();
     
     public UsuarioForm() {
         initComponents();
@@ -62,6 +63,11 @@ public class UsuarioForm extends javax.swing.JPanel {
         btnEdit.setToolTipText("Editar cliente");
         btnEdit.setEnabled(false);
         btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
         btnDelete.setToolTipText("Eliminar cliente");
@@ -73,7 +79,7 @@ public class UsuarioForm extends javax.swing.JPanel {
         botonesLayout.setHorizontalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(10, 10, 10)
                 .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,25 +170,43 @@ public class UsuarioForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtUsuariosMouseClicked
-        int pos = jtUsuarios.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
+        comprobarSeleccion();
     }//GEN-LAST:event_jtUsuariosMouseClicked
 
     private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
         // Acción para agregar usuario
-        JDAdd = new JD_Adicionar_usuario(null, true);       
+        JD_Adicionar_usuario JDAdd = new JD_Adicionar_usuario(null, true);       
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
         
         // Si se efectuaron cambios actualizar tabla
         if (JDAdd.cambios()){           
             mostrarActivos();
+            comprobarSeleccion();
         }  
     }//GEN-LAST:event_btnAdd1ActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // Acción para editar usuario
+        if (posicion() != -1){
+            JD_Editar_usuario JDEdit = new JD_Editar_usuario(null, true); 
+            JDEdit.setLocationRelativeTo(this);
+            Usuario u = getUsuarioSeleccionado();
+            JDEdit.setJtfIdentificador(u.getIdentificador());
+            JDEdit.setJtfNombre(u.getNombre());
+            JDEdit.setJtfApellidos(u.getApellidos());
+            JDEdit.setRoles(u.getRoles());
+            JDEdit.setVisible(true);
+        
+            // Si se efectuaron cambios actualizar tabla
+            if (JDEdit.cambios()){           
+                mostrarActivos();
+                comprobarSeleccion();
+            } 
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
 
     //Método para actualizar la tabla con la lista de usuarios activos
     private void mostrarActivos() {
@@ -203,7 +227,7 @@ public class UsuarioForm extends javax.swing.JPanel {
         for (int i = 0; i < usuarios.size(); i++) {
             data[i][0] = usuarios.get(i).getIdentificador();
             data[i][1] = usuarios.get(i).getNombre();
-            data[i][2] = usuarios.get(i).getApellidos();
+            data[i][2] = usuarios.get(i).getRoles();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -216,6 +240,47 @@ public class UsuarioForm extends javax.swing.JPanel {
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtUsuarios, scrollUsuarios);      
     }
+    
+    // Obtener datos del usuario a partir del identificador
+    private Usuario getUsuarioSeleccionado(){
+        String value = jtUsuarios.getModel().getValueAt(posicion(), 0).toString();
+        Usuario u = new Usuario();
+        try {
+            u = uDAO.getUsuario(value);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return u;
+    }
+    
+    // Habilitar botones
+    private void enabled(boolean estado){
+        btnEdit.setEnabled(estado);
+        btnView.setEnabled(estado);
+        btnDelete.setEnabled(estado);
+    }
+    
+    // Comprobar si hay fila seleccionada
+    private void comprobarSeleccion(){   
+        if (posicion() != -1) {
+            // Si se selecciona una fila habilitar opciones
+            enabled(true);
+        } else {
+            enabled(false);
+        }
+    }
+    
+    // Posición de la fila seleccionada
+    private int posicion(){
+        return jtUsuarios.getSelectedRow();
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

@@ -35,8 +35,8 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         keyboradUtil.isCorreo(jtfcorreo);                
     }
 
-    public Image getIconImage(String nombe_icono) {
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombe_icono+".png"));
+    public Image getIconImage(String nombre_icono) {
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombre_icono+".png"));
         return res;
     }
 
