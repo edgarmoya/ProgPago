@@ -256,7 +256,7 @@ public class EjercicioForm extends javax.swing.JPanel {
             JD_Adicionar_ejercicio JDEdit = new JD_Adicionar_ejercicio(null, true);
             JDEdit.setLocationRelativeTo(this);
             Ejercicio e = getEjercicioSeleccionado();
-            JDEdit.dialogo_editar(e);
+            //JDEdit.dialogo_editar(e);
             JDEdit.setVisible(true);
 
             // Si se efectuaron cambios actualizar tabla

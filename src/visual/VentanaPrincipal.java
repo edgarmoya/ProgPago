@@ -163,7 +163,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }                           
         });
         //Iniciar formulario principal
-        //main.showForm(new Form_Home());           
+        if (usuario.getRoles().equals("administrador")){
+            mainForm.showForm(new UsuarioForm());  
+        } else if (usuario.getRoles().equals("consultor")){
+            // mainForm.showForm(new TableroForm());
+        } else{
+            // mainForm.showForm(new ProgramacionForm());
+        }
     }
     
     

@@ -1,5 +1,6 @@
 package dao;
 
+import entidades.Cliente;
 import entidades.Usuario;
 import excepciones.BDException;
 import excepciones.ConnectionException;
@@ -114,7 +115,7 @@ public class UsuarioDAO {
                 }
                 update = (result == 1);
             } catch (Exception e) {
-                System.out.println("Error actualizar contraseña del usuario: " + e.getMessage());
+                System.out.println("Error al actualizar contraseña del usuario: " + e.getMessage());
             } finally {
                 conn.close();
             }
@@ -130,7 +131,7 @@ public class UsuarioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM public.lista_usuarios_activos()";
+                String sql = "SELECT * FROM lista_usuarios_activos()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -139,8 +140,7 @@ public class UsuarioDAO {
                     Usuario u = new Usuario();
                     u.setIdentificador(rs.getString("identificador"));
                     u.setNombre(rs.getString("nombre"));
-                    // se guarda los roles en los apellidos temporalmente para mostrarlo
-                    u.setApellidos(rs.getString("roles"));
+                    u.setRoles(rs.getString("roles"));
                     usuarios.add(u);
                 }
             } catch (Exception e) {
@@ -150,5 +150,71 @@ public class UsuarioDAO {
             }
         }
         return usuarios;
+    }
+    
+    // Obtener datos del usuario a partir del identificador
+    public Usuario getUsuario(String identificador) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        Usuario u = new Usuario();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM get_usuario(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, identificador);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    u.setIdentificador(rs.getString("identificador"));
+                    u.setNombre(rs.getString("nombre"));
+                    u.setApellidos(rs.getString("apellidos"));
+                    u.setRoles(rs.getString("roles"));                  
+                }
+            } catch (Exception e) {
+                System.out.println("Error al obtener usuario: " + e.getMessage());
+                throw new BDException(e.getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return u;
+    }
+    
+    // Actualizar usuario a partir del identificador
+    public boolean editarUsuario(Usuario usuario, boolean admin, boolean tesorero, boolean consultor) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isUpdate = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "CALL edit_usuario(?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, usuario.getIdentificador());
+                stmt.setString(2, usuario.getNombre());
+                stmt.setString(3, usuario.getApellidos());
+                stmt.setString(4, usuario.getContrasenna());
+                stmt.setBoolean(5, admin);
+                stmt.setBoolean(6, tesorero);
+                stmt.setBoolean(7, consultor);
+
+                //ejecutamos la sentencia
+                stmt.execute();
+                conn.commit();
+                isUpdate = true;
+
+            } catch (PSQLException e) {
+                System.out.println("Error al actualizar usuario " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isUpdate;
     }
 }

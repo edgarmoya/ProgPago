@@ -105,6 +105,23 @@ public class Usuario {
         return true;
     }
     
+    // Validar TODO
+    public boolean isEditValido() throws FaltanDatosException, LongitudException, IdentificadorException {
+        // Validar datos no nulos
+        if (identificador.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()) {
+            throw new FaltanDatosException("Compruebe los campos requeridos(*) antes de continuar.");
+        }
+        // Validar longitud
+        if (!validLength()) {
+            throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
+        }
+        // Validar identificador
+        if (!validIdentificador(identificador)) {
+            throw new IdentificadorException("Compruebe el identificador, solo puede contener punto(.) y guión bajo(_) como caracteres especiales.");
+        }
+        return true;
+    }
+    
     // Validar longitud de los campos
     private boolean validLength() {
         if (identificador.length() <= 20 && nombre.length() <= 40 && apellidos.length() <= 40) {

@@ -164,7 +164,7 @@ public class JD_Cambiar_contrasena extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "La contraseña actual es incorrecta, vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Compruebe la nueva contraseña, no coinciden las contraseñas escritas.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Compruebe la nueva contraseña, no coinciden las contraseñas insertadas.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ConnectionException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
