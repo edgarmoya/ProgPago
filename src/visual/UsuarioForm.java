@@ -46,7 +46,7 @@ public class UsuarioForm extends javax.swing.JPanel {
 
         btnAdd1.setBackground(new java.awt.Color(228, 235, 245));
         btnAdd1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
-        btnAdd1.setToolTipText("Agregar cliente");
+        btnAdd1.setToolTipText("Agregar usuario");
         btnAdd1.setPreferredSize(new java.awt.Dimension(30, 30));
         btnAdd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,12 +55,12 @@ public class UsuarioForm extends javax.swing.JPanel {
         });
 
         btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
-        btnView.setToolTipText("Ver cliente");
+        btnView.setToolTipText("Ver usuario");
         btnView.setEnabled(false);
         btnView.setPreferredSize(new java.awt.Dimension(30, 30));
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
-        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setToolTipText("Editar usuario");
         btnEdit.setEnabled(false);
         btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +70,7 @@ public class UsuarioForm extends javax.swing.JPanel {
         });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
-        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setToolTipText("Eliminar usuario");
         btnDelete.setEnabled(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
 

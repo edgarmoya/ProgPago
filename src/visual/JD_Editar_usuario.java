@@ -288,14 +288,15 @@ public class JD_Editar_usuario extends javax.swing.JDialog {
         boolean admin = jcbAdmin.isSelected();
         boolean tesorero = jcbTesorero.isSelected();
         boolean consultor = jcbConsultor.isSelected();
+        String pass = String.valueOf(jtfContrasenna.getPassword()).equals("") ? null : String.valueOf(jtfContrasenna.getPassword());
         Usuario u = new Usuario();      
         try {
             u.setIdentificador(jtfIdentificador.getText());
             u.setNombre(jtfNombre.getText());
             u.setApellidos(jtfApellidos.getText());
-            u.setContrasenna(String.valueOf(jtfContrasenna.getPassword()));           
+            u.setContrasenna(pass);           
             if (u.isEditValido()) {  // Validar campos completos
-                if (validarPassword()){  // Validar que las contraseñas sean iguales
+                if (validarPassword()){  // Validar que las contraseñas sean iguales                   
                     if (uDAO.editarUsuario(u, admin, tesorero, consultor)){
                         JOptionPane.showMessageDialog(this, "Usuario editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                         cambios = true;

@@ -39,10 +39,10 @@ public class EjercicioForm extends javax.swing.JPanel {
 
         background = new javax.swing.JPanel();
         botones = new javax.swing.JPanel();
-        btnAdd = new custom_swing.Button();
         btnView = new custom_swing.ButtonCircular();
         btnEdit = new custom_swing.ButtonCircular();
         btnDelete = new custom_swing.ButtonCircular();
+        btnAdd = new custom_swing.ButtonCircular();
         split = new javax.swing.JSplitPane();
         scrollEjercicio = new javax.swing.JScrollPane();
         jtEjercicios = new javax.swing.JTable();
@@ -52,15 +52,6 @@ public class EjercicioForm extends javax.swing.JPanel {
         background.setBackground(new java.awt.Color(255, 255, 255));
 
         botones.setBackground(new java.awt.Color(220, 227, 237));
-
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
-        btnAdd.setToolTipText("Agregar ejercicio");
-        btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
 
         btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
         btnView.setToolTipText("Ver ejercicio");
@@ -82,6 +73,16 @@ public class EjercicioForm extends javax.swing.JPanel {
         btnDelete.setEnabled(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
 
+        btnAdd.setBackground(new java.awt.Color(228, 235, 245));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
+        btnAdd.setToolTipText("Agregar ejercicio");
+        btnAdd.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -89,23 +90,23 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(666, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(3, 3, 3)
                 .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -211,7 +212,7 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
+                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -231,20 +232,6 @@ public class EjercicioForm extends javax.swing.JPanel {
     private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
        comprobarSeleccion();
     }//GEN-LAST:event_jtEjerciciosMouseClicked
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Acción para agregar ejercicio
-        JD_Adicionar_ejercicio JDAdd = new JD_Adicionar_ejercicio(null, true);
-        JDAdd.setLocationRelativeTo(this);
-        JDAdd.setVisible(true);
-
-        // Si se efectuaron cambios actualizar tabla
-        if (JDAdd.cambios()){
-            mostrarEjerciciosActivos();
-            seleccionarItem(0);
-            comprobarSeleccion();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void jtPeriodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPeriodoMouseClicked
         // TODO add your handling code here:
@@ -269,6 +256,20 @@ public class EjercicioForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Acción para agregar ejercicio
+        JD_Adicionar_ejercicio JDAdd = new JD_Adicionar_ejercicio(null, true);
+        JDAdd.setLocationRelativeTo(this);
+        JDAdd.setVisible(true);
+
+        // Si se efectuaron cambios actualizar tabla
+        if (JDAdd.cambios()){
+            mostrarEjerciciosActivos();
+            seleccionarItem(0);
+            comprobarSeleccion();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     //Método para actualizar la tabla con la lista de ejercicios
     private void mostrarEjerciciosActivos() {
@@ -389,7 +390,7 @@ public class EjercicioForm extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
-    private custom_swing.Button btnAdd;
+    private custom_swing.ButtonCircular btnAdd;
     private custom_swing.ButtonCircular btnDelete;
     private custom_swing.ButtonCircular btnEdit;
     private custom_swing.ButtonCircular btnView;

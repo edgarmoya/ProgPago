@@ -231,7 +231,7 @@ public class ClienteForm extends javax.swing.JPanel {
             data[i][5] = clientes.get(i).getCorreo();
             data[i][6] = clientes.get(i).getDireccion();
             data[i][7] = clientes.get(i).getTelefono();
-        }
+        }       
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
