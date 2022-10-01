@@ -2,6 +2,7 @@ package visual;
 
 import dao.TipoFinanDAO;
 import entidades.TipoFinan;
+import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import utiles.JTableUtil;
  */
 public class TipoFinanForm extends javax.swing.JPanel {
     
-    private JD_Adicionar_tipo_de_financiamiento JDAdd;
+    private TipoFinanDAO tfDAO = new TipoFinanDAO();
 
     public TipoFinanForm() {
         initComponents();
@@ -31,12 +32,15 @@ public class TipoFinanForm extends javax.swing.JPanel {
         background = new javax.swing.JPanel();
         botones = new javax.swing.JPanel();
         btnAdd = new custom_swing.ButtonCircular();
+        btnView = new custom_swing.ButtonCircular();
+        btnEdit = new custom_swing.ButtonCircular();
+        btnDelete = new custom_swing.ButtonCircular();
         scrollTipoFinans = new javax.swing.JScrollPane();
         jtTipoFinans = new javax.swing.JTable();
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        botones.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setBackground(new java.awt.Color(220, 227, 237));
 
         btnAdd.setBackground(new java.awt.Color(228, 235, 245));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
@@ -48,6 +52,26 @@ public class TipoFinanForm extends javax.swing.JPanel {
             }
         });
 
+        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
+        btnView.setToolTipText("Ver tipo de financiamiento");
+        btnView.setEnabled(false);
+        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar tipo de financiamiento");
+        btnEdit.setEnabled(false);
+        btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
+        btnDelete.setToolTipText("Eliminar tipo de financiamiento");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -55,13 +79,23 @@ public class TipoFinanForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -118,7 +152,7 @@ public class TipoFinanForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollTipoFinans, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                .addComponent(scrollTipoFinans, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -138,25 +172,40 @@ public class TipoFinanForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtTipoFinansMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTipoFinansMouseClicked
-        int pos = jtTipoFinans.getSelectedRow();
-        if (pos != -1) {
-            //elementoSeleccionado(true);
-        } else {
-            //elementoSeleccionado(false);
-        }
+       comprobarSeleccion();
     }//GEN-LAST:event_jtTipoFinansMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar tipo de finan
-        JDAdd = new JD_Adicionar_tipo_de_financiamiento(null, true);
+        JD_Adicionar_tipo_de_financiamiento JDAdd = new JD_Adicionar_tipo_de_financiamiento(null, true);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
         if (JDAdd.cambios()){
             mostrarActivos();
+            comprobarSeleccion();
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // Acción para editar tipo de financiamiento
+        if (posicion() != -1){
+            JD_Adicionar_tipo_de_financiamiento JDEdit = new JD_Adicionar_tipo_de_financiamiento(null, true);
+            JDEdit.setLocationRelativeTo(this);
+            TipoFinan tf = getTipoFinanSeleccionado();
+            JDEdit.dialogo_editar(tf);
+            JDEdit.setVisible(true);
+
+            // Si se efectuaron cambios actualizar tabla
+            if (JDEdit.cambios()){
+                mostrarActivos();
+                comprobarSeleccion();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
 
     //Método para actualizar la tabla con la lista de tipos de financiamiento
     private void mostrarActivos() {
@@ -190,10 +239,52 @@ public class TipoFinanForm extends javax.swing.JPanel {
         JTableUtil.modTable(jtTipoFinans, scrollTipoFinans);
     }
 
+    private TipoFinan getTipoFinanSeleccionado(){
+        String value = jtTipoFinans.getModel().getValueAt(posicion(), 0).toString();
+        TipoFinan tf = new TipoFinan();
+        try {
+            tf = tfDAO.getTipoFinan(value);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return tf;
+    }
+    
+    // Habilitar botones
+    private void enabled(boolean estado){
+        btnEdit.setEnabled(estado);
+        btnView.setEnabled(estado);
+        btnDelete.setEnabled(estado);
+    }
+    
+    // Comprobar si hay fila seleccionada
+    private void comprobarSeleccion(){   
+        if (posicion() != -1) {
+            // Si se selecciona una fila habilitar opciones
+            enabled(true);
+        } else {
+            enabled(false);
+        }
+    }
+    
+    // Posición de la fila seleccionada
+    private int posicion(){
+        return jtTipoFinans.getSelectedRow();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
     private custom_swing.ButtonCircular btnAdd;
+    private custom_swing.ButtonCircular btnDelete;
+    private custom_swing.ButtonCircular btnEdit;
+    private custom_swing.ButtonCircular btnView;
     private javax.swing.JTable jtTipoFinans;
     private javax.swing.JScrollPane scrollTipoFinans;
     // End of variables declaration//GEN-END:variables

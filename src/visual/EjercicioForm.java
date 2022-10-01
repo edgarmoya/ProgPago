@@ -51,7 +51,7 @@ public class EjercicioForm extends javax.swing.JPanel {
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        botones.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setBackground(new java.awt.Color(220, 227, 237));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar ejercicio");
@@ -63,12 +63,12 @@ public class EjercicioForm extends javax.swing.JPanel {
         });
 
         btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
-        btnView.setToolTipText("Ver cliente");
+        btnView.setToolTipText("Ver ejercicio");
         btnView.setEnabled(false);
         btnView.setPreferredSize(new java.awt.Dimension(30, 30));
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
-        btnEdit.setToolTipText("Editar cliente");
+        btnEdit.setToolTipText("Editar ejercicio");
         btnEdit.setEnabled(false);
         btnEdit.setPreferredSize(new java.awt.Dimension(30, 30));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +78,7 @@ public class EjercicioForm extends javax.swing.JPanel {
         });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete_button.png"))); // NOI18N
-        btnDelete.setToolTipText("Eliminar cliente");
+        btnDelete.setToolTipText("Eliminar ejercicio");
         btnDelete.setEnabled(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
 
@@ -262,6 +262,7 @@ public class EjercicioForm extends javax.swing.JPanel {
             // Si se efectuaron cambios actualizar tabla
             if (JDEdit.cambios()){
                 mostrarEjerciciosActivos();
+                seleccionarItem(0);
                 comprobarSeleccion();
             }
         }else{
