@@ -22,7 +22,7 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     private UsuarioDAO uDAO = new UsuarioDAO();
     private boolean cambios;
     private boolean editar;
-    
+
     public JD_Adicionar_usuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -37,10 +37,10 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     }
 
     public Image getIconImage(String nombre_icono) {
-        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/"+nombre_icono+".png"));
+        Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/" + nombre_icono + ".png"));
         return res;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -274,10 +274,10 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jcbConsultorItemStateChanged
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (!editar){
+        if (!editar) {
             // Agregar usuario
             accionAgregar();
-        }else{
+        } else {
             // Editar usuario
             accionEditar();
         }
@@ -297,13 +297,13 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         jtfIdentificador.requestFocus();
         camposRequeridos();
     }
-    
+
     // Agregar usuario a bd
-    private void accionAgregar(){
+    private void accionAgregar() {
         boolean admin = jcbAdmin.isSelected();
         boolean tesorero = jcbTesorero.isSelected();
         boolean consultor = jcbConsultor.isSelected();
-        Usuario u = new Usuario();      
+        Usuario u = new Usuario();
         try {
             u.setIdentificador(jtfIdentificador.getText());
             u.setNombre(jtfNombre.getText());
@@ -313,16 +313,16 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             u.setActivo((byte) (1));
             // Validar 
             if (u.isValido()) {   // Validar campos completos
-                if (validarPassword()){   // Validar que las contraseñas sean iguales
-                    if (uDAO.agregarUsuario(u, admin, tesorero, consultor)){
+                if (validarPassword()) {   // Validar que las contraseñas sean iguales
+                    if (uDAO.agregarUsuario(u, admin, tesorero, consultor)) {
                         JOptionPane.showMessageDialog(this, "Usuario agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                         limpiar();
                         cambios = true;
-                    } 
-                } else{
+                    }
+                } else {
                     JOptionPane.showMessageDialog(this, "Compruebe la nueva contraseña, no coinciden las contraseñas insertadas.", "Error", JOptionPane.ERROR_MESSAGE);
                     jtfConfirmarContrasenna.requestFocus();
-                }          
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -332,39 +332,38 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (FaltanDatosException fd) {
+        } catch (FaltanDatosException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (LongitudException lon) {
+        } catch (LongitudException lon) {
             JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (IdentificadorException ex) {
+        } catch (IdentificadorException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    
+
     // Editar usuario a bd
-    private void accionEditar(){
+    private void accionEditar() {
         boolean admin = jcbAdmin.isSelected();
         boolean tesorero = jcbTesorero.isSelected();
         boolean consultor = jcbConsultor.isSelected();
         String pass = String.valueOf(jtfContrasenna.getPassword()).equals("") ? null : String.valueOf(jtfContrasenna.getPassword());
-        Usuario u = new Usuario();      
+        Usuario u = new Usuario();
         try {
             u.setIdentificador(jtfIdentificador.getText());
             u.setNombre(jtfNombre.getText());
             u.setApellidos(jtfApellidos.getText());
-            u.setContrasenna(pass);           
+            u.setContrasenna(pass);
             if (u.isEditValido()) {  // Validar campos completos
-                if (validarPassword()){  // Validar que las contraseñas sean iguales                   
-                    if (uDAO.editarUsuario(u, admin, tesorero, consultor)){
+                if (validarPassword()) {  // Validar que las contraseñas sean iguales                   
+                    if (uDAO.editarUsuario(u, admin, tesorero, consultor)) {
                         JOptionPane.showMessageDialog(this, "Usuario editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                         cambios = true;
                         dispose();
-                    } 
-                } else{
+                    }
+                } else {
                     JOptionPane.showMessageDialog(this, "Compruebe la nueva contraseña, no coinciden las contraseñas insertadas.", "Error", JOptionPane.ERROR_MESSAGE);
                     jtfConfirmarContrasenna.requestFocus();
-                }                         
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -374,15 +373,15 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (FaltanDatosException fd) {
+        } catch (FaltanDatosException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (LongitudException lon) {
+        } catch (LongitudException lon) {
             JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }catch (IdentificadorException ex) {
+        } catch (IdentificadorException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     // Permitir determinada longitud de caracteres
     private void maxLength() {
         keyboradUtil.maxLength(jtfIdentificador, 20);
@@ -402,21 +401,34 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
 
     //Método para validar que no exista los campos requeridos vacíos
     private void camposRequeridos() {
-        if (jtfIdentificador.getText().isEmpty() || jtfNombre.getText().isEmpty() || 
-                jtfApellidos.getText().isEmpty() || (!jcbTesorero.isSelected() 
-                && !jcbConsultor.isSelected() && !jcbAdmin.isSelected())) {
-            btnAceptar.setEnabled(false);
-        } else {
-            if (!String.valueOf(jtfContrasenna.getPassword()).isEmpty()){
-                if (!String.valueOf(jtfConfirmarContrasenna.getPassword()).isEmpty()){
-                    btnAceptar.setEnabled(true);
-                } else{
-                    btnAceptar.setEnabled(false);
-                }                
-            }else{
+        if (!editar) {
+            if (jtfIdentificador.getText().isEmpty() || jtfNombre.getText().isEmpty()
+                    || jtfApellidos.getText().isEmpty() || String.valueOf(jtfContrasenna.getPassword()).isEmpty()
+                    || String.valueOf(jtfConfirmarContrasenna.getPassword()).isEmpty()
+                    || (!jcbTesorero.isSelected() && !jcbConsultor.isSelected() && !jcbAdmin.isSelected())) {
+                btnAceptar.setEnabled(false);
+            } else {
                 btnAceptar.setEnabled(true);
-            }          
+            }
+        } else {
+            // si se esta editando
+            if (jtfIdentificador.getText().isEmpty() || jtfNombre.getText().isEmpty()
+                    || jtfApellidos.getText().isEmpty() || (!jcbTesorero.isSelected()
+                    && !jcbConsultor.isSelected() && !jcbAdmin.isSelected())) {
+                btnAceptar.setEnabled(false);
+            } else {
+                if (!String.valueOf(jtfContrasenna.getPassword()).isEmpty()) {
+                    if (!String.valueOf(jtfConfirmarContrasenna.getPassword()).isEmpty()) {
+                        btnAceptar.setEnabled(true);
+                    } else {
+                        btnAceptar.setEnabled(false);
+                    }
+                } else {
+                    btnAceptar.setEnabled(true);
+                }
+            }
         }
+
     }
 
     // Método para cambiar el focus al siguiente botón 
@@ -424,22 +436,22 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         keyboradUtil.focusButton(btnAceptar, btnCancelar);
         keyboradUtil.focusButton(btnCancelar, btnAceptar);
     }
-    
+
     // Método para validar que ambas contraseñas sean correctas
-    private boolean validarPassword(){
+    private boolean validarPassword() {
         String contrasena = String.valueOf(jtfContrasenna.getPassword());
         String contrasena_confirmada = String.valueOf(jtfConfirmarContrasenna.getPassword());
-        if (contrasena.equals(contrasena_confirmada)){
+        if (contrasena.equals(contrasena_confirmada)) {
             return true;
         }
         return false;
     }
-    
+
     // Retorna si se efectuaron cambios para actualizar la tabla
     public boolean cambios() {
         return cambios;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -494,8 +506,8 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     private custom_swing.TextField jtfNombre;
     // End of variables declaration//GEN-END:variables
 
-     //Cambios que se producirán si se va a editar el usuario
-    public void dialogo_editar(Usuario u){  
+    //Cambios que se producirán si se va a editar el usuario
+    public void dialogo_editar(Usuario u) {
         editar = true;
         // Editar título e icono
         setTitle("Editar Usuario");
@@ -508,11 +520,11 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
         // Mostrar datos en campo correspondiente
         setJtfIdentificador(u.getIdentificador());
         setJtfNombre(u.getNombre());
-        setJtfApellidos(u.getApellidos());     
+        setJtfApellidos(u.getApellidos());
         // Comprobar campos para que se active el btnAceptar
         camposRequeridos();
     }
-    
+
     // Setters
     public void setJtfIdentificador(String jtfIdentificador) {
         this.jtfIdentificador.setText(jtfIdentificador);
@@ -521,20 +533,20 @@ public class JD_Adicionar_usuario extends javax.swing.JDialog {
     public void setJtfNombre(String jtfNombre) {
         this.jtfNombre.setText(jtfNombre);
     }
-    
+
     public void setJtfApellidos(String jtfApellidos) {
         this.jtfApellidos.setText(jtfApellidos);
     }
-    
+
     // Seleccionar checkboxs correspondiente 
-    public void setRoles(String roles){
-        if (roles.contains("administrador")){
+    public void setRoles(String roles) {
+        if (roles.contains("administrador")) {
             jcbAdmin.setSelected(true);
         }
-        if (roles.contains("tesorero")){
+        if (roles.contains("tesorero")) {
             jcbTesorero.setSelected(true);
         }
-        if (roles.contains("consultor")){
+        if (roles.contains("consultor")) {
             jcbConsultor.setSelected(true);
         }
     }
