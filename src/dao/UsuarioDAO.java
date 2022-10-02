@@ -360,7 +360,7 @@ public class UsuarioDAO {
                 result = rs.getInt(1);
                 
             } catch (PSQLException e) {
-                System.out.println("Error al activar usuario " + e.getMessage());
+                System.out.println("Error al comprobar si el usuario es activo " + e.getMessage());
                 conn.rollback();
                 throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
