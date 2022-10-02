@@ -164,7 +164,6 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jtfcod_tipoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfcod_tipoKeyReleased
-        // TODO add your handling code here:
         camposRequeridos();
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB) {
             completarCodigo(jtfcod_tipo.getText());
@@ -172,12 +171,10 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
     }//GEN-LAST:event_jtfcod_tipoKeyReleased
 
     private void jtfdescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfdescripcionKeyReleased
-        // TODO add your handling code here:
         camposRequeridos();
     }//GEN-LAST:event_jtfdescripcionKeyReleased
 
     private void jtfcod_tipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfcod_tipoFocusLost
-        // TODO add your handling code here:
         completarCodigo(jtfcod_tipo.getText());    
     }//GEN-LAST:event_jtfcod_tipoFocusLost
 
@@ -189,7 +186,7 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         camposRequeridos();
     }
     
-     // Permitir determinada longitud de caracteres
+    // Permitir determinada longitud de caracteres
     private void maxLength() {
         keyboradUtil.maxLength(jtfcod_tipo, 4);
         keyboradUtil.maxLength(jtfdescripcion, 100);
@@ -238,32 +235,23 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         tf.setDescripcion(jtfdescripcion.getText());
         
          try {
-            // Validar
-            if (tf.isValido()) {
+            if (tf.isValido()) {   // Validar
                 if (tfDAO.agregarTipoFinan(tf)) {
-                    JOptionPane.showMessageDialog(this, "Tipo de Financiamiento agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Tipo de financiamiento agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     limpiar();
                     cambios = true;
                 } else {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (FaltanDatosException | LongitudException | ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    // Editar cliente en bd
+    // Editar tipo de financiamiento en bd
     private void accionEditar(){
         TipoFinan tf = new TipoFinan();
         tf.setCod_tipo(jtfcod_tipo.getText());
@@ -272,7 +260,7 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         try {
             // Validar campos
             if (tf.isValido()) {
-                if (tfDAO.actualizarTipoFinan(codTipoFinan, tf)) {
+                if (tfDAO.editarTipoFinan(codTipoFinan, tf)) {
                     JOptionPane.showMessageDialog(this, "Tipo de financiamiento editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();
@@ -280,20 +268,13 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (FaltanDatosException | LongitudException | ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     /**
      * @param args the command line arguments
      */
