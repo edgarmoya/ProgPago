@@ -105,7 +105,7 @@ public class Usuario {
         return true;
     }
     
-    // Validar TODO
+    // Validar TODO al editar
     public boolean isEditValido() throws FaltanDatosException, LongitudException, IdentificadorException {
         // Validar datos no nulos
         if (identificador.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()) {

@@ -1,6 +1,5 @@
 package dao;
 
-import entidades.Cliente;
 import entidades.Usuario;
 import excepciones.BDException;
 import excepciones.ConnectionException;
@@ -84,7 +83,7 @@ public class UsuarioDAO {
                     u.setRoles(rs.getString("roles"));
                 }
 
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al obtener datos del usuario: " + e.getMessage());
             } finally {
                 conn.close();
@@ -101,7 +100,7 @@ public class UsuarioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT public.cambiar_contrasena(?,?,?)";
+                String sql = "SELECT cambiar_contrasena(?,?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, username);
                 stmt.setString(2, pass_actual);
@@ -114,8 +113,8 @@ public class UsuarioDAO {
                     result = (rs.getInt("cambiar_contrasena"));
                 }
                 update = (result == 1);
-            } catch (Exception e) {
-                System.out.println("Error al actualizar contraseña del usuario: " + e.getMessage());
+            } catch (PSQLException e) {
+                System.out.println("Error al actualizar contraseña del usuario: " + e.getMessage());               
             } finally {
                 conn.close();
             }
@@ -124,7 +123,7 @@ public class UsuarioDAO {
     }
 
     // Listar todos los usuarios activos de la bd
-    public ArrayList<Usuario> listaUsuariosActivos() throws SQLException, ClassNotFoundException, ConnectionException {
+    public ArrayList<Usuario> listaUsuariosActivos() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         ArrayList<Usuario> usuarios = new ArrayList<>();
         if (conn == null) {
@@ -143,8 +142,40 @@ public class UsuarioDAO {
                     u.setRoles(rs.getString("roles"));
                     usuarios.add(u);
                 }
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al mostrar los usuarios activos: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());  
+            } finally {
+                conn.close();
+            }
+        }
+        return usuarios;
+    }
+    
+    // Listar todos los usuarios de la bd
+    public ArrayList<Usuario> listaTodosUsuarios() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM lista_usuarios_todos()";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    Usuario u = new Usuario();
+                    u.setIdentificador(rs.getString("identificador"));
+                    u.setNombre(rs.getString("nombre"));
+                    u.setRoles(rs.getString("roles"));
+                    u.setActivo(rs.getByte("activo"));
+                    usuarios.add(u);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al mostrar todos los usuarios: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());  
             } finally {
                 conn.close();
             }
@@ -172,9 +203,9 @@ public class UsuarioDAO {
                     u.setApellidos(rs.getString("apellidos"));
                     u.setRoles(rs.getString("roles"));                  
                 }
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al obtener usuario: " + e.getMessage());
-                throw new BDException(e.getMessage());     
+                throw new BDException(e.getServerErrorMessage().getMessage());     
             } finally {
                 conn.close();
             }
@@ -206,7 +237,6 @@ public class UsuarioDAO {
                 stmt.execute();
                 conn.commit();
                 isUpdate = true;
-
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar usuario " + e.getMessage());
                 conn.rollback();
@@ -216,5 +246,127 @@ public class UsuarioDAO {
             }
         }
         return isUpdate;
+    }
+    
+    
+    // Eliminar usuario a partir del identificador
+    // Si tiene programaciones solo inactivar
+    public boolean eliminarUsuario(String identificador) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isDelete = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "CALL delete_usuario(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, identificador);               
+
+                //ejecutamos la sentencia
+                stmt.execute();
+                conn.commit();
+                isDelete = true;
+            } catch (PSQLException e) {
+                System.out.println("Error al eliminar usuario " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isDelete;
+    }
+    
+    // Obtener si el usuario se encuentra en uso a partir del identificador
+    public int useUsuario(String identificador) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        int result;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "SELECT use_usuario(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, identificador);
+                
+                //ejecutamos la sentencia
+                ResultSet rs = stmt.executeQuery();
+                conn.commit();
+                rs.next();
+                result = rs.getInt(1);
+    
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener si el usuario está en uso: " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return result;
+    }
+    
+    // Activar usuario a partir del identificador
+    public boolean activarUsuario(String identificador) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean activado;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "CALL activate_usuario(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, identificador);               
+
+                //ejecutamos la sentencia
+                stmt.execute();
+                conn.commit();
+                activado = true;
+            } catch (PSQLException e) {
+                System.out.println("Error al activar usuario " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return activado;
+    }
+    
+    // Obtener si el usuario está activo o no
+    public int isActivo(String identificador) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        int result;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "SELECT activo FROM usuario WHERE identificador=?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, identificador);               
+
+                //ejecutamos la sentencia
+                ResultSet rs = stmt.executeQuery();
+                conn.commit();
+                rs.next();
+                result = rs.getInt(1);
+                
+            } catch (PSQLException e) {
+                System.out.println("Error al activar usuario " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return result;
     }
 }
