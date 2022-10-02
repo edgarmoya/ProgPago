@@ -6,8 +6,6 @@ import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +25,7 @@ public class UsuarioForm extends javax.swing.JPanel {
 
         //Editar color de la tabla
         JTableUtil.headerTable(jtUsuarios);
-        mostrarActivos();
+        refrescar();
     }
 
     @SuppressWarnings("unchecked")
@@ -254,7 +252,7 @@ public class UsuarioForm extends javax.swing.JPanel {
             String identificador = jtUsuarios.getModel().getValueAt(posicion(), 0).toString();
             accionEliminar(identificador);
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione el usuario que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -290,7 +288,7 @@ public class UsuarioForm extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione el usuario que desea activar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnActivateActionPerformed
 
@@ -425,7 +423,7 @@ public class UsuarioForm extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione el usuario que desea activar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
 

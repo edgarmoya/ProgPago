@@ -103,8 +103,8 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         jtfreeup.setLabelText("REEUP");
         jtfreeup.setOpaque(false);
         jtfreeup.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtfreeupKeyReleased(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfreeupKeyPressed(evt);
             }
         });
 
@@ -224,20 +224,6 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfreeupKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfreeupKeyReleased
-        // Agregar guiones mientras escribe
-        String contenido = jtfreeup.getText();
-        int length = contenido.length();
-
-        // Si no está borrando agrega un guión en las posiciones indicadas
-        if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getKeyCode() != KeyEvent.VK_DELETE) {
-            if (length == 3 || length == 5) {
-                contenido += "-";
-                jtfreeup.setText(contenido);
-            }
-        }
-    }//GEN-LAST:event_jtfreeupKeyReleased
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -266,6 +252,20 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     private void jtfcod_clienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfcod_clienteFocusLost
         completarCodigo(jtfcod_cliente.getText());       
     }//GEN-LAST:event_jtfcod_clienteFocusLost
+
+    private void jtfreeupKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfreeupKeyPressed
+        // Agregar guiones mientras escribe
+        String contenido = jtfreeup.getText();
+        int length = contenido.length();
+
+        // Si no está borrando agrega un guión en las posiciones indicadas
+        if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getKeyCode() != KeyEvent.VK_DELETE) {
+            if (length == 3 || length == 5) {
+                contenido += "-";
+                jtfreeup.setText(contenido);
+            }
+        }
+    }//GEN-LAST:event_jtfreeupKeyPressed
 
     // Limpiar todos los campos y hacer focus el primero
     private void limpiar() {
@@ -361,22 +361,10 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ReeupException re) {
-            JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (CorreoException ce) {
-            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (FaltanDatosException | ReeupException | LongitudException | CorreoException | ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -396,7 +384,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         try {
             // Validar campos
             if (c.isValido()) {
-                if (cDAO.actualizarCliente(codCliente, c)) {
+                if (cDAO.editarCliente(codCliente, c)) {
                     JOptionPane.showMessageDialog(this, "Cliente editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();
@@ -404,22 +392,10 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
-            JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ReeupException re) {
-            JOptionPane.showMessageDialog(this, re.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (CorreoException ce) {
-            JOptionPane.showMessageDialog(this, ce.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (FaltanDatosException | ReeupException | LongitudException | CorreoException | ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
