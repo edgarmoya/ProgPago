@@ -2,13 +2,16 @@ package entidades;
 
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
+
 /**
  *
  * @author Lester
  */
 public class TipoFinan {
+    
     private String cod_tipo;
     private String descripcion;
+    private Byte activo;
 
     public TipoFinan() {
     }
@@ -32,6 +35,14 @@ public class TipoFinan {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Byte getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Byte activo) {
+        this.activo = activo;
     }
     
     // Validar TODO
@@ -58,6 +69,7 @@ public class TipoFinan {
 
     @Override
     public String toString() {
-        return "TipoFinan{" + "cod_tipo=" + cod_tipo + ", descripcion=" + descripcion + '}';
-    }  
+        return "TipoFinan{" + "cod_tipo=" + cod_tipo + ", descripcion=" + descripcion + ", activo=" + activo + '}';
+    }
+ 
 }

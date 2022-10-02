@@ -19,6 +19,7 @@ public class UsuarioDAO {
 
     private ConexionPg pg = new ConexionPg();
 
+    // Agregar usuario
     public boolean agregarUsuario(Usuario usuario, boolean admin, boolean tesorero, boolean consultor) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         boolean fueAgregado = false;
@@ -122,7 +123,7 @@ public class UsuarioDAO {
         return update;
     }
 
-    // Listar todos los usuarios activos de la bd
+    // Listar todos los usuarios ACTIVOS de la bd
     public ArrayList<Usuario> listaUsuariosActivos() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         ArrayList<Usuario> usuarios = new ArrayList<>();

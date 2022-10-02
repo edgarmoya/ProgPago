@@ -242,7 +242,7 @@ public class UsuarioForm extends javax.swing.JPanel {
                 comprobarSeleccion();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar.", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione el usuario que desea editar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
