@@ -142,15 +142,14 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE ejercicio SET cod_ejercicio=? ,ejercicio=? WHERE cod_ejercicio=?";
+                String sql = "CALL edit_ejercicio(?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, ejercicio.getCod_ejercicio());
+                stmt.setInt(1, Integer.parseInt(cod));
                 stmt.setString(2, ejercicio.getEjercicio());
-                stmt.setInt(3, Integer.parseInt(cod));
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                isUpdate = (cantidad > 0);
+                stmt.execute();
+                isUpdate = true;
 
             } catch (Exception e) {
                 System.out.println("Error al actualizar ejercicio " + e.getMessage());
