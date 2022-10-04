@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.postgresql.util.PSQLException;
 import ppago.ConexionPg;
 
 /**
@@ -19,6 +20,7 @@ public class EjercicioDAO {
 
     private ConexionPg pg = new ConexionPg();
 
+    // Agregar ejercicio
     public boolean agregarEjercicio(Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         boolean fueAgregado = false;
@@ -26,16 +28,20 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
                 String sql = "CALL add_ejercicio(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, ejercicio.getEjercicio());
 
                 //ejecutamos la sentencia
                 stmt.execute();
+                conn.commit();
                 fueAgregado = true;
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al agregar ejercicio " + e.getMessage());
-                throw new BDException(e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
@@ -44,7 +50,7 @@ public class EjercicioDAO {
     }
 
     // Listar todos los ejercicios de la bd
-    public ArrayList<Ejercicio> listaEjercicios() throws SQLException, ClassNotFoundException, ConnectionException {
+    public ArrayList<Ejercicio> listaEjercicios() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         ArrayList<Ejercicio> ejercicios = new ArrayList<>();
         if (conn == null) {
@@ -64,8 +70,9 @@ public class EjercicioDAO {
                     e.setFecha_fin(rs.getDate("fecha_fin"));
                     ejercicios.add(e);
                 }
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al mostrar los ejercicios: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
@@ -74,8 +81,8 @@ public class EjercicioDAO {
     }
     
       
-    // Listar todos los periodos de la bd del ejercicio correspondiente
-    public ArrayList<Periodo> listaPeriodos(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException {
+    // Listar todos los períodos de la bd del ejercicio correspondiente
+    public ArrayList<Periodo> listaPeriodos(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         ArrayList<Periodo> periodos = new ArrayList<>();
         if (conn == null) {
@@ -95,8 +102,9 @@ public class EjercicioDAO {
                     p.setFecha_fin(rs.getDate("fin"));
                     periodos.add(p);
                 }
-            } catch (Exception e) {
-                System.out.println("Error al mostrar los periodos: " + e.getMessage());
+            } catch (PSQLException e) {
+                System.out.println("Error al mostrar los períodos: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
@@ -124,9 +132,9 @@ public class EjercicioDAO {
                     ej.setFecha_inicio(rs.getDate("fecha_inicio"));
                     ej.setFecha_fin(rs.getDate("fecha_fin"));
                 }
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al obtener ejercicio: " + e.getMessage());
-                throw new BDException(e.getMessage());     
+                throw new BDException(e.getServerErrorMessage().getMessage());     
             } finally {
                 conn.close();
             }
@@ -135,13 +143,15 @@ public class EjercicioDAO {
     }
     
     // Actualizar ejercicio a partir del código
-    public boolean actualizarEjercicio(String cod, Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public boolean editarEjercicio(String cod, Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         boolean isUpdate = false;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
                 String sql = "CALL edit_ejercicio(?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, Integer.parseInt(cod));
@@ -149,15 +159,46 @@ public class EjercicioDAO {
 
                 //ejecutamos la sentencia
                 stmt.execute();
+                conn.commit();
                 isUpdate = true;
 
-            } catch (Exception e) {
+            } catch (PSQLException e) {
                 System.out.println("Error al actualizar ejercicio " + e.getMessage());
-                throw new BDException(e.getMessage());             
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
                 conn.close();
             }
         }
         return isUpdate;
+    }
+    
+    // Actualizar ejercicio a partir del código
+    public boolean eliminarEjercicio(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isDelete = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                // Tratar las instrucciones como bloques
+                conn.setAutoCommit(false);
+                String sql = "CALL delete_ejercicio(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, ejercicio);
+
+                //ejecutamos la sentencia
+                stmt.execute();
+                conn.commit();
+                isDelete = true;
+            } catch (PSQLException e) {
+                System.out.println("Error al eliminar ejercicio " + e.getMessage());
+                conn.rollback();
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isDelete;
     }
 }

@@ -427,19 +427,26 @@ public class UsuarioForm extends javax.swing.JPanel {
         }
     }
 
-    // Habilitar botones
-    private void enabled(boolean estado) {
-        btnEdit.setEnabled(estado);
-        btnDelete.setEnabled(estado);
-    }
-
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion() {
         if (posicion() != -1) {
-            // Si se selecciona una fila habilitar opciones
-            enabled(true);
+            btnEdit.setEnabled(true);
+            String ident = jtUsuarios.getModel().getValueAt(posicion(), 0).toString();
+            // Comprobar si se puede activar el btnDelete
+            try {
+                if (uDAO.isActivo(ident) == 1){
+                    btnDelete.setEnabled(true);
+                } else {
+                    btnDelete.setEnabled(false);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }  
         } else {
-            enabled(false);
+            btnEdit.setEnabled(false);
+            btnDelete.setEnabled(false);
         }
     }
     
