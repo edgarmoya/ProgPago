@@ -21,28 +21,27 @@ public class EjercicioForm extends javax.swing.JPanel {
 
     public EjercicioForm() {
         initComponents();
-        
+
         //Editar color de la tabla
         JTableUtil.headerTable(jtEjercicios);
         JTableUtil.headerTable(jtPeriodo);
         JTableUtil.modTable(jtPeriodo, scrollPeriodo);
-        mostrarEjerciciosActivos();
-        
+        mostrarEjercicios();
+
         //Seleccionar primer item por defecto
         seleccionarItem(0);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         background = new javax.swing.JPanel();
         botones = new javax.swing.JPanel();
-        btnView = new custom_swing.ButtonCircular();
         btnEdit = new custom_swing.ButtonCircular();
         btnDelete = new custom_swing.ButtonCircular();
         btnAdd = new custom_swing.ButtonCircular();
+        btnRefresh = new custom_swing.ButtonCircular();
         split = new javax.swing.JSplitPane();
         scrollEjercicio = new javax.swing.JScrollPane();
         jtEjercicios = new javax.swing.JTable();
@@ -52,11 +51,6 @@ public class EjercicioForm extends javax.swing.JPanel {
         background.setBackground(new java.awt.Color(255, 255, 255));
 
         botones.setBackground(new java.awt.Color(220, 227, 237));
-
-        btnView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/view_button.png"))); // NOI18N
-        btnView.setToolTipText("Ver ejercicio");
-        btnView.setEnabled(false);
-        btnView.setPreferredSize(new java.awt.Dimension(30, 30));
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit_button.png"))); // NOI18N
         btnEdit.setToolTipText("Editar ejercicio");
@@ -72,6 +66,11 @@ public class EjercicioForm extends javax.swing.JPanel {
         btnDelete.setToolTipText("Eliminar ejercicio");
         btnDelete.setEnabled(false);
         btnDelete.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(228, 235, 245));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add_button.png"))); // NOI18N
@@ -83,6 +82,15 @@ public class EjercicioForm extends javax.swing.JPanel {
             }
         });
 
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh_button.png"))); // NOI18N
+        btnRefresh.setToolTipText("Refrescar");
+        btnRefresh.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -91,22 +99,22 @@ public class EjercicioForm extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(666, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3))
         );
 
@@ -212,7 +220,7 @@ public class EjercicioForm extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+                .addComponent(split, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -230,7 +238,7 @@ public class EjercicioForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtEjerciciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEjerciciosMouseClicked
-       comprobarSeleccion();
+        comprobarSeleccion();
     }//GEN-LAST:event_jtEjerciciosMouseClicked
 
     private void jtPeriodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPeriodoMouseClicked
@@ -239,7 +247,7 @@ public class EjercicioForm extends javax.swing.JPanel {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar ejercicio
-        if (posicion() != -1){
+        if (posicion() != -1) {
             JD_Adicionar_ejercicio JDEdit = new JD_Adicionar_ejercicio(null, true);
             JDEdit.setLocationRelativeTo(this);
             Ejercicio e = getEjercicioSeleccionado();
@@ -247,13 +255,13 @@ public class EjercicioForm extends javax.swing.JPanel {
             JDEdit.setVisible(true);
 
             // Si se efectuaron cambios actualizar tabla
-            if (JDEdit.cambios()){
-                mostrarEjerciciosActivos();
+            if (JDEdit.cambios()) {
+                mostrarEjercicios();
                 seleccionarItem(0);
                 comprobarSeleccion();
             }
-        }else{
-            JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione el ejercicio que desea editar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -264,33 +272,67 @@ public class EjercicioForm extends javax.swing.JPanel {
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
-        if (JDAdd.cambios()){
-            mostrarEjerciciosActivos();
+        if (JDAdd.cambios()) {
+            mostrarEjercicios();
             seleccionarItem(0);
             comprobarSeleccion();
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        mostrarEjercicios();
+        seleccionarItem(0);
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // Acción para eliminar ejercicio con los períodos correspondientes
+        if (posicion() != -1) {
+            String ej = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
+            accionEliminar(ej);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione el ejercicio que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    // Eliminar ejercicio a partir del año
+    private void accionEliminar(String ejercicio) {
+        int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el ejercicio \"" + ejercicio + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        try {
+            if (input == 0) {   // 0=SI, 1=NO
+                if (eDAO.eliminarEjercicio(ejercicio)) {
+                    mostrarEjercicios();
+                    seleccionarItem(0);
+                    comprobarSeleccion();
+                }
+            } else {
+                JOptionPane.getRootFrame().dispose();
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     //Método para actualizar la tabla con la lista de ejercicios
-    private void mostrarEjerciciosActivos() {
+    private void mostrarEjercicios() {
         EjercicioDAO dao = new EjercicioDAO();
         String[] columnNames = {"Ejercicio", "Inicio", "Fin"};
         ArrayList<Ejercicio> ejercicios = new ArrayList<>();
         try {
             ejercicios = dao.listaEjercicios();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[ejercicios.size()][3];        
+        String[][] data = new String[ejercicios.size()][3];
         for (int i = 0; i < ejercicios.size(); i++) {
             data[i][0] = ejercicios.get(i).getEjercicio();
-            data[i][1] = ""+ejercicios.get(i).getFecha_inicio();
-            data[i][2] = ""+ejercicios.get(i).getFecha_fin();
+            data[i][1] = "" + ejercicios.get(i).getFecha_inicio();
+            data[i][2] = "" + ejercicios.get(i).getFecha_fin();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -298,12 +340,12 @@ public class EjercicioForm extends javax.swing.JPanel {
                 //tabla no editable
                 return false;
             }
-        };       
+        };
         jtEjercicios.setModel(model);
         // Efectuar todas las modificaciones
-        JTableUtil.modTable(jtEjercicios, scrollEjercicio);          
+        JTableUtil.modTable(jtEjercicios, scrollEjercicio);
     }
-    
+
     // Mostar período correspondiente
     private void mostrarPeriodos(String ejercicio) {
         EjercicioDAO dao = new EjercicioDAO();
@@ -311,19 +353,17 @@ public class EjercicioForm extends javax.swing.JPanel {
         ArrayList<Periodo> periodos = new ArrayList<>();
         try {
             periodos = dao.listaPeriodos(ejercicio);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
+        } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[periodos.size()][3];        
+        String[][] data = new String[periodos.size()][3];
         for (int i = 0; i < periodos.size(); i++) {
             data[i][0] = periodos.get(i).getNombre();
-            data[i][1] = ""+periodos.get(i).getFecha_inicio();
-            data[i][2] = ""+periodos.get(i).getFecha_fin();            
+            data[i][1] = "" + periodos.get(i).getFecha_inicio();
+            data[i][2] = "" + periodos.get(i).getFecha_fin();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -331,47 +371,42 @@ public class EjercicioForm extends javax.swing.JPanel {
                 //tabla no editable
                 return false;
             }
-        };       
+        };
         jtPeriodo.setModel(model);
         // Efectuar todas las modificaciones
-        JTableUtil.modTable(jtPeriodo, scrollPeriodo);       
+        JTableUtil.modTable(jtPeriodo, scrollPeriodo);
     }
-    
-    
-    private void seleccionarItem(int pos){
+
+    // Seleccionar item y actualizar periodos correspondientes
+    private void seleccionarItem(int pos) {
         jtEjercicios.getSelectionModel().setSelectionInterval(pos, pos);
-        if (jtEjercicios.getModel().getRowCount() >= 1){
-            String value = jtEjercicios.getModel().getValueAt(pos, pos).toString(); 
+        if (jtEjercicios.getModel().getRowCount() >= 1) {
+            String value = jtEjercicios.getModel().getValueAt(pos, pos).toString();
             mostrarPeriodos(value);
         }
     }
 
-    private Ejercicio getEjercicioSeleccionado(){
+    private Ejercicio getEjercicioSeleccionado() {
         String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
         Ejercicio e = new Ejercicio();
         try {
             e = eDAO.getEjercicio(value);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
+        } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return e;
     }
-    
+
     // Habilitar botones
-    private void enabled(boolean estado){
+    private void enabled(boolean estado) {
         btnEdit.setEnabled(estado);
-        btnView.setEnabled(estado);
         btnDelete.setEnabled(estado);
     }
-    
+
     // Comprobar si hay fila seleccionada
-    private void comprobarSeleccion(){ 
+    private void comprobarSeleccion() {
         String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
         if (posicion() != -1) {
             mostrarPeriodos(value);
@@ -381,19 +416,19 @@ public class EjercicioForm extends javax.swing.JPanel {
             enabled(false);
         }
     }
-    
+
     // Posición de la fila seleccionada
-    private int posicion(){
+    private int posicion() {
         return jtEjercicios.getSelectedRow();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
     private custom_swing.ButtonCircular btnAdd;
     private custom_swing.ButtonCircular btnDelete;
     private custom_swing.ButtonCircular btnEdit;
-    private custom_swing.ButtonCircular btnView;
+    private custom_swing.ButtonCircular btnRefresh;
     private javax.swing.JTable jtEjercicios;
     private javax.swing.JTable jtPeriodo;
     private javax.swing.JScrollPane scrollEjercicio;
