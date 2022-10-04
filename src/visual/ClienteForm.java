@@ -263,7 +263,7 @@ public class ClienteForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnShowAllActionPerformed
 
     private void btnActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateActionPerformed
-        // Acción para activar usuario
+        // Acción para activar cliente
         if (posicion() != -1) {
             String cod = jtClientes.getModel().getValueAt(posicion(), 0).toString();
             try {
