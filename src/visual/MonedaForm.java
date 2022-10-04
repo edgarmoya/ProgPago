@@ -373,9 +373,21 @@ public class MonedaForm extends javax.swing.JPanel {
             data[i][0] = monedas.get(i).getSiglas();
             data[i][1] = monedas.get(i).getNombre();
             data[i][2] = (monedas.get(i).getActivo()==1) ? "Sí" : "No";
-        }       
+        }
+        
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //tabla no editable
+                return false;
+            }
+        };       
+        jtMonedas.setModel(model);
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtMonedas, scrollMonedas);
     } 
     
+    // Obtener datos de la moneda a partir de las siglas
     private Moneda getMonedaSeleccionada(){
         String value = jtMonedas.getModel().getValueAt(posicion(), 0).toString();
         Moneda m = new Moneda();
