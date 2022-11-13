@@ -3,25 +3,24 @@ package entidades;
 import excepciones.CorreoException;
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
-import excepciones.ReeupException;
 import java.io.InputStream;
+import java.io.Serializable;
 import utiles.CorreoUtil;
 
 /**
  *
  * @author Edgar Moya
  */
-public class Organizacion {
+public class Organizacion implements Serializable {
     
     private String codigo;
     private String nombre;
     private String direccion;
     private String telefono;
     private String correo;
-    private InputStream logo;
+    private transient InputStream logo;
     
-    public Organizacion(){
-        
+    public Organizacion(){     
     }
 
     public Organizacion(String codigo, String nombre, String direccion, String telefono, String correo, InputStream logo) {

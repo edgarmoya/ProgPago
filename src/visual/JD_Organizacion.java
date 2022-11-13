@@ -1,20 +1,17 @@
 package visual;
 
-import dao.OrganizacionDAO;
 import entidades.Organizacion;
-import excepciones.BDException;
-import excepciones.ConnectionException;
-import excepciones.CorreoException;
-import excepciones.FaltanDatosException;
-import excepciones.LongitudException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -27,27 +24,27 @@ import utiles.keyboradUtil;
  * @author Edgar Moya
  */
 public class JD_Organizacion extends javax.swing.JDialog {
-   
-    private OrganizacionDAO oDAO = new OrganizacionDAO();
+
     private Organizacion org = new Organizacion();
+    private File file;
+    private byte[] byteImg;
     private InputStream is;
     private int longBytes;
     private boolean nuevoLogo;
 
-    
     public JD_Organizacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();      
+        initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(getIconImage());
-        
+
         siguienteCampo();
         focusButtons();
         maxLength();
         soloNumeros();
-        
-        keyboradUtil.isCorreo(jtfCorreo);  
-        mostrarDatos();
+
+        keyboradUtil.isCorreo(jtfCorreo);
+        cargarOrg();
         camposRequeridos();
     }
 
@@ -55,7 +52,7 @@ public class JD_Organizacion extends javax.swing.JDialog {
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/popup_organizacion.png"));
         return res;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -247,36 +244,16 @@ public class JD_Organizacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        String codigo = jtfCodigo.getText();
-        String nombre = jtfNombre.getText();
-        String direccion = jtfDireccion.getText();
-        String telefono = jtfTelefono.getText();
-        String correo = jtfCorreo.getText();
-        
-        Organizacion o = new Organizacion(codigo, nombre, direccion, telefono, correo, is);              
-        
         try {
-            // comprobar si es valido
-            if(o.isValido()){
-                if (oDAO.agregarOrganizacion(o, nuevoLogo, longBytes)){
-                    JOptionPane.showMessageDialog(this, "Organización actualizada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                }  
-            }                     
-        } catch (FaltanDatosException ex) {
-             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (CorreoException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException ex) {
-             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            guardarOrg();
+            if(nuevoLogo){
+                guardarImage(byteImg);
+            }
+            dispose();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar el logotipo.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar el logotipo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -298,9 +275,51 @@ public class JD_Organizacion extends javax.swing.JDialog {
 
     private void btnDeleteLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteLogoActionPerformed
         lbLogo.setIcon(new ImageIcon(getClass().getResource("/imagenes/no_logo.png")));
-        is = null;
-        nuevoLogo = true;
+        File file = new File("logo.jpg");
+        if (file.exists()) {
+            file.delete();
+        }
     }//GEN-LAST:event_btnDeleteLogoActionPerformed
+
+    // Guardar datos de la organización en archivo binario
+    private void guardarOrg() throws IOException {
+        String codigo = jtfCodigo.getText();
+        String nombre = jtfNombre.getText();
+        String direccion = jtfDireccion.getText();
+        String telefono = jtfTelefono.getText();
+        String correo = jtfCorreo.getText();
+
+        Organizacion o = new Organizacion(codigo, nombre, direccion, telefono, correo, is);
+        guardar(o);
+    }
+
+    // Cargar datos de la organización
+    private void cargarOrg() {
+        try {
+            Organizacion org = cargar();
+            jtfCodigo.setText(org.getCodigo());
+            jtfNombre.setText(org.getNombre());
+            jtfDireccion.setText(org.getDireccion());
+            jtfTelefono.setText(org.getTelefono());
+            jtfCorreo.setText(org.getCorreo());
+
+            // mostrar imagen correspondiente
+            File f = new File("logo.jpg");
+            if (f.exists()) {
+                BufferedImage bi = ImageIO.read(f);
+                if (bi != null) {
+                    ImageIcon foto = new ImageIcon(bi);
+                    Image img = foto.getImage();
+                    Image imgScale = img.getScaledInstance(150, 100, java.awt.Image.SCALE_SMOOTH);
+                    lbLogo.setIcon(new ImageIcon(imgScale));
+                } else {
+                    // mostrar imagen "sin logo"
+                }
+            }
+        } catch (ClassNotFoundException | IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar logotipo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Elegir imagen 
     private void elegirImagen() {
@@ -311,12 +330,12 @@ public class JD_Organizacion extends javax.swing.JDialog {
         int estado = j.showOpenDialog(null);
         if (estado == JFileChooser.APPROVE_OPTION) {
             try {
-                is = new FileInputStream(j.getSelectedFile());
-                //necesitamos saber la cantidad de bytes
+                file = j.getSelectedFile();
                 longBytes = (int) j.getSelectedFile().length();
+                byteImg = cargarImage(file, longBytes);
                 Image icono = ImageIO.read(j.getSelectedFile()).getScaledInstance(lbLogo.getWidth(), lbLogo.getHeight(), Image.SCALE_SMOOTH);
                 lbLogo.setIcon(new ImageIcon(icono));
-                lbLogo.updateUI();  
+                lbLogo.updateUI();
                 nuevoLogo = true;
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(this, "Error al obtener imagen seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -325,42 +344,35 @@ public class JD_Organizacion extends javax.swing.JDialog {
             }
         }
     }
-    
-    // Mostrar datos guardados en bd
-    private void mostrarDatos() {        
-        try {
-            org = oDAO.obtenerOrganizacion();
-            if (org.getCodigo() != null && org.getNombre() != null){
-                jtfCodigo.setText(org.getCodigo());
-                jtfNombre.setText(org.getNombre());
-                jtfDireccion.setText(org.getDireccion());
-                jtfTelefono.setText(org.getTelefono());
-                jtfCorreo.setText(org.getCorreo());               
-                
-                if (org.getLogo() != null){
-                    // mostrar imagen correspondiente
-                    BufferedImage bi = ImageIO.read(org.getLogo());
-                    ImageIcon foto = new ImageIcon(bi);
-                    Image img = foto.getImage();
-                    Image imgScale = img.getScaledInstance(150, 100, java.awt.Image.SCALE_SMOOTH);           
-                    lbLogo.setIcon(new ImageIcon(imgScale));
-                } else{
-                    // mostrar imagen "sin logo"
-                }              
-            }     
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al obtener imagen seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-        }       
+
+    // Guardar datos a un fichero binario
+    public void guardar(Organizacion org) throws IOException {
+        ObjectOutputStream fs = new ObjectOutputStream(new FileOutputStream("organizacion.ppgo"));
+        fs.writeObject(org);
+        fs.close();
     }
-    
+
+    // Cargar datos de un fichero binario
+    public Organizacion cargar() throws IOException, ClassNotFoundException {
+        ObjectInputStream fs = new ObjectInputStream(new FileInputStream("organizacion.ppgo"));
+        Organizacion org = (Organizacion) fs.readObject();
+        fs.close();
+
+        return org;
+    }
+
+    private void guardarImage(byte[] byteImage) throws FileNotFoundException, IOException {
+        FileOutputStream os = new FileOutputStream("logo.jpg");
+        os.write(byteImage);
+    }
+
+    private byte[] cargarImage(File file, int longByte) throws FileNotFoundException, IOException {
+        byte[] img = new byte[longByte];
+        FileInputStream is = new FileInputStream(file);
+        is.read(img);
+        return img;
+    }
+
     //Método para validar que no exista los campos requeridos vacíos
     private void camposRequeridos() {
         if (jtfCodigo.getText().isEmpty() || jtfNombre.getText().isEmpty()) {
@@ -369,7 +381,7 @@ public class JD_Organizacion extends javax.swing.JDialog {
             btnAceptar.setEnabled(true);
         }
     }
-    
+
     // Permitir determinada longitud de caracteres
     private void maxLength() {
         keyboradUtil.maxLength(jtfCodigo, 4);
@@ -378,7 +390,7 @@ public class JD_Organizacion extends javax.swing.JDialog {
         keyboradUtil.maxLength(jtfTelefono, 15);
         keyboradUtil.maxLength(jtfCorreo, 50);
     }
-    
+
     // Ir al siguiente campo al presionar ENTER
     private void siguienteCampo() {
         keyboradUtil.siguienteCampo(jtfCodigo, jtfNombre);
@@ -387,19 +399,19 @@ public class JD_Organizacion extends javax.swing.JDialog {
         keyboradUtil.siguienteCampo(jtfTelefono, jtfCorreo);
         keyboradUtil.siguienteCampo(jtfCorreo, btnAceptar, btnCancelar);
     }
-    
+
     // Permitir solo números
     private void soloNumeros() {
         keyboradUtil.soloNumeros(jtfTelefono);
         keyboradUtil.soloNumeros(jtfCodigo);
     }
-    
+
     // Método para cambiar el focus al siguiente botón 
-    private void focusButtons(){
+    private void focusButtons() {
         keyboradUtil.focusButton(btnAceptar, btnCancelar);
         keyboradUtil.focusButton(btnCancelar, btnAceptar);
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
