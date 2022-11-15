@@ -4,17 +4,20 @@ import entidades.Programacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 /**
  *
  * @author Lester
  */
+
 public class ProgramacionDAO {
-    private ConexionPg conexion = new ConexionPg();
+    
+    private ConexionPg pg = new ConexionPg();
     
     public boolean agregarProgramacion (Programacion programacion) throws SQLException, ClassNotFoundException {
         
         boolean fueAgregado = false;
-        Connection conn = conexion.conectar();
+        Connection conn = pg.conectar();
         try{
             String sql = "insert into programacion values (?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -47,5 +50,7 @@ public class ProgramacionDAO {
     De esta manera se agregaría el date al postgresql
     Date date = new Date();
     java.sql.Date datesql = new java.sql.Date(date.getTime()); 
-    */    
+    */   
+    
+    
 }

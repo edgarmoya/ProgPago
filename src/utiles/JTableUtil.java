@@ -28,12 +28,13 @@ public class JTableUtil {
     /**
      * Método para centrar los textos del header
      * @param jt JTable a editar
+     * @param pos
      */
-    public static void centerTable(JTable jt) {
-        ((DefaultTableCellRenderer) jt.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-        DefaultTableCellRenderer rendar = new DefaultTableCellRenderer();
-        rendar.setHorizontalAlignment(JLabel.CENTER);
-        jt.getColumnModel().getColumn(0).setCellRenderer(rendar);
+    public static void headerAligment(JTable jt, int pos) {
+        ((DefaultTableCellRenderer) jt.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(pos);
+        /*DefaultTableCellRenderer rendar = new DefaultTableCellRenderer();
+        rendar.setHorizontalAlignment(pos);
+        jt.getColumnModel().getColumn(column).setCellRenderer(rendar);*/
     }
 
     /**
@@ -80,5 +81,5 @@ public class JTableUtil {
         // Solo lineas horizontales
         JTableUtil.onlyHorizontalLine(jt);
     }
-
+    
 }

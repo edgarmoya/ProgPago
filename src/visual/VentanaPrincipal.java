@@ -57,7 +57,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex, String name) {            
                 if(name.equals("Programación de Pago")){       //Menú Operaciones
-                    //main.showForm(new Form_Home()); 
+                    mainForm.showForm(new ProgramacionForm()); 
                     
                 }else if(name.equals("Tablero de Control")){   //Menu Tablero de Control
                     System.out.println("tablero");
@@ -82,7 +82,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     
                 }else if(name.equals("Usuarios")){            //Menú Seguridad
                     mainForm.showForm(new UsuarioForm());
-                    
                 }                                   
             }
         });
@@ -168,7 +167,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } else if (usuario.getRoles().equals("consultor")){
             // mainForm.showForm(new TableroForm());
         } else{
-            // mainForm.showForm(new ProgramacionForm());
+            mainForm.showForm(new ProgramacionForm());
         }
     }
     
