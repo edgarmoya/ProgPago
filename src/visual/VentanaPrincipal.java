@@ -27,6 +27,10 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import ppago.ConexionPg;
+import visual.tablero_form.ProgClienteForm;
+import visual.tablero_form.ProgDestinoForm;
+import visual.tablero_form.ProgGeneralForm;
+import visual.tablero_form.ProgTipoForm;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
@@ -59,8 +63,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 if(name.equals("Programación de Pago")){       //Menú Operaciones
                     mainForm.showForm(new ProgramacionForm()); 
                     
-                }else if(name.equals("Tablero de Control")){   //Menu Tablero de Control
-                    System.out.println("tablero");
+                }else if(name.equals("Programación general")){   //Menú Tablero de Control
+                    mainForm.showForm(new ProgGeneralForm()); 
+                    
+                }else if(name.equals("Programación por cliente")){ 
+                    mainForm.showForm(new ProgClienteForm()); 
+                    
+                }else if(name.equals("Programación por destino")){
+                    mainForm.showForm(new ProgDestinoForm()); 
+                    
+                }else if(name.equals("Programación por tipo")){
+                    mainForm.showForm(new ProgTipoForm()); 
                     
                 }else if(name.equals("Clientes")){             //Menu Codificadores
                     mainForm.showForm(new ClienteForm());   

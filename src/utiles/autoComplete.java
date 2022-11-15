@@ -1,5 +1,6 @@
 package utiles;
 
+import java.awt.Color;
 import javax.swing.JComboBox;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 

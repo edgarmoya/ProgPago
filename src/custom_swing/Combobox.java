@@ -75,7 +75,7 @@ public class Combobox<E> extends JComboBox<E> {
                 }
                 return com;
             }
-        });
+        });       
     }
 
     private class ComboUI extends BasicComboBoxUI {
