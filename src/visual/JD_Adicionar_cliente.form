@@ -33,10 +33,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="bg" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-          </Group>
+          <Component id="bg" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -112,7 +109,7 @@
                           <Component id="jtfcod_cliente" min="-2" max="-2" attributes="0"/>
                           <Component id="jtfnombre" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="10" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jtforganismo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jtfnit" alignment="3" min="-2" max="-2" attributes="0"/>
