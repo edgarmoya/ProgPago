@@ -1,5 +1,6 @@
 package dao;
 
+import entidades.ClienteImporteDE;
 import entidades.Destino;
 import entidades.Periodo;
 import excepciones.BDException;
@@ -119,6 +120,37 @@ public class TableroDAO {
         return periodos;
     }
     
-    //**PROGRAMCIÓN POR DESTINO**//
+    //**PROGRAMCIÓN POR DESTINO Y EJERCICIO**//
+    // retornar una lista con los clientes e importes generales en un destino y ejercicio específicos
+    public ArrayList<ClienteImporteDE> progxdestinoyejer(String destino, String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<ClienteImporteDE> clienteimportedes = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * from progxdestinoyejer(?::id4, ?::id4)";
+                PreparedStatement stmt = conn.prepareStatement(sql);             
+                stmt.setString(1, destino);
+                stmt.setString(2, ejercicio);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    ClienteImporteDE cide = new ClienteImporteDE();
+                    cide.setCod_cliente(rs.getString(1));
+                    cide.setNombre(rs.getString(2));
+                    cide.setImporte(rs.getDouble(3));
+                    clienteimportedes.add(cide);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener los clientes: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());   
+            } finally {
+                conn.close();
+            }
+        }
+        return clienteimportedes;
+    }
 
 }
