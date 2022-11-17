@@ -39,7 +39,7 @@ public class PopupMenu extends javax.swing.JDialog {
                 }
             });
             panel.add(item);
-            setSize(new Dimension(180, 35 * subMenu.length));
+            setSize(new Dimension(190, 35 * subMenu.length));
         }
         TimingTarget target = new TimingTargetAdapter() {
             @Override

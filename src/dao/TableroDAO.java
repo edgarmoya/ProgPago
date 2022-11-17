@@ -20,6 +20,7 @@ public class TableroDAO {
     
     private ConexionPg pg = new ConexionPg();
     
+    //**PROGRAMCIÓN POR CLIENTE**//
     // retornar una lista con los destinos dado un cliente y un ejercicio
     public ArrayList<Destino> progXcliente(String cliente, String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -83,5 +84,41 @@ public class TableroDAO {
         }
         return periodos;
     }
+    
+    
+    //**PROGRAMCIÓN GENERAL**//
+    // retornar una lista con los periodos ejercicio
+    public ArrayList<Periodo> proggeneral(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<Periodo> periodos = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * from proggeneral(?::id4)";
+                PreparedStatement stmt = conn.prepareStatement(sql);             
+                stmt.setString(1, ejercicio);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    Periodo p = new Periodo();
+                    p.setNombre(rs.getString(1));
+                    p.setFecha_inicio(rs.getDate(2));
+                    p.setFecha_fin(rs.getDate(3));
+                    p.setImporte(rs.getDouble(4));
+                    periodos.add(p);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener los periodos: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());   
+            } finally {
+                conn.close();
+            }
+        }
+        return periodos;
+    }
+    
+    //**PROGRAMCIÓN POR DESTINO**//
 
 }
