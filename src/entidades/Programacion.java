@@ -10,7 +10,7 @@ public class Programacion {
     
     private int id_prog;
     private Date fecha;
-    private String comentario;
+    private String observacion;
     private String id_cliente;
     private int id_ejercicio;
     private String id_tipo;
@@ -24,7 +24,7 @@ public class Programacion {
     public Programacion(int id_prog, Date fecha, String comentario, String id_cliente, int id_ejercicio, String id_tipo, String id_siglas, String id_usuario, byte estado) {
         this.setId_prog(id_prog);
         this.setFecha(fecha);
-        this.setComentario(comentario);
+        this.setObservacion(observacion);
         this.setId_cliente(id_cliente);
         this.setId_ejercicio(id_ejercicio);
         this.setId_tipo(id_tipo);
@@ -49,12 +49,12 @@ public class Programacion {
         this.fecha = fecha;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getObservacion() {
+        return observacion;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 
     public String getId_cliente() {
@@ -107,7 +107,7 @@ public class Programacion {
 
     @Override
     public String toString() {
-        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", comentario=" + comentario + ", id_cliente=" + id_cliente + ", id_ejercicio=" + id_ejercicio + ", id_tipo=" + id_tipo + ", id_siglas=" + id_siglas + ", id_usuario=" + id_usuario + ", estado=" + estado + '}';
+        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", observacion=" + observacion + ", id_cliente=" + id_cliente + ", id_ejercicio=" + id_ejercicio + ", id_tipo=" + id_tipo + ", id_siglas=" + id_siglas + ", id_usuario=" + id_usuario + ", estado=" + estado + '}';
     }
      
 }

@@ -4,8 +4,6 @@ import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
 import excepciones.ReeupException;
 import excepciones.CorreoException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import utiles.CorreoUtil;
 
 /**
@@ -28,15 +26,15 @@ public class Cliente {
     }
 
     public Cliente(String cod_cliente, String nombre, String organismo, String nit, String reeup, String correo, String direccion, String telefono, byte activo) {
-        this.setCod_cliente(cod_cliente);
-        this.setNombre(nombre);
-        this.setOrganismo(organismo);
-        this.setNit(nit);
-        this.setReeup(reeup);
-        this.setCorreo(correo);
-        this.setDireccion(direccion);
-        this.setTelefono(telefono);
-        this.setActivo(activo);
+        this.cod_cliente = cod_cliente;
+        this.nombre = nombre;
+        this.organismo = organismo;
+        this.nit = nit;
+        this.reeup = reeup;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.activo = activo;
     }
 
     public String getCod_cliente() {
@@ -114,6 +112,9 @@ public class Cliente {
     // Adicionar al reeup los guiones
     public String reeupConGuiones(String reeup) {
         String reeupMod = "";
+        if(reeup == null){
+            return "";
+        }
         if (!reeup.isEmpty() && (reeup.length() == 8 || reeup.length() == 9)) {
             String tres = reeup.substring(0, 3);
             String uno = reeup.substring(3, 4);
@@ -153,17 +154,22 @@ public class Cliente {
 
     // Validar longitud de los campos
     private boolean validLength() {
-        if (cod_cliente.length() <= 4 && nombre.length() <= 50 && organismo.length() <= 50
-                && nit.length() <= 11 && reeup.length() <= 9 && correo.length() <= 30
-                && direccion.length() <= 100 && telefono.length() <= 15) {
-            return true;
+        if (cod_cliente.length() <= 4 && nombre.length() <= 50) {
+            if((organismo == null || organismo.length() <= 50)
+                && (nit == null || (nit.length() >= 11 && nit.length() <= 16)) 
+                && (reeup == null || reeup.length() <= 9)
+                && (correo == null || correo.length() <= 30)
+                && (direccion == null || direccion.length() <= 100)
+                && (telefono == null || telefono.length() <= 15)){
+                return true;
+            }
         }
         return false;
     }
 
     // Validar reeup
     private boolean isReeup() {
-        if (reeup.length() == 0 || reeup.length() == 8 || reeup.length() == 9) {
+        if (reeup == null || reeup.length() == 8 || reeup.length() == 9) {
             return true;
         }
         return false;

@@ -23,7 +23,7 @@ public class ProgramacionDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, programacion.getId_prog());
             stmt.setDate(2, programacion.getFecha());
-            stmt.setString(3, programacion.getComentario());
+            stmt.setString(3, programacion.getObservacion());
             stmt.setString(4, programacion.getId_cliente());
             stmt.setInt(5, programacion.getId_ejercicio());
             stmt.setString(6, programacion.getId_tipo());

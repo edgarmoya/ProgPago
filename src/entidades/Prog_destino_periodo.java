@@ -5,6 +5,7 @@ package entidades;
  * @author Lester
  */
 public class Prog_destino_periodo {
+    
     private int id_prog;
     private String id_destino;
     private int id_periodo;

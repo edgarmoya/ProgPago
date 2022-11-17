@@ -11,10 +11,10 @@ public class CorreoUtil {
     
     // Validar el correo electrónico
     public static boolean isCorreo(String correo) {
-        if (correo.isEmpty()) {
+        if (correo == null || correo.isEmpty()) {
             return true;
         } else {
-            Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+            Pattern patron = Pattern.compile("^[a-z0-9-\\+]+(\\.[a-z0-9-]+)*@[a-z0-9-]*(\\.[a-z]{2,})$");
             Matcher comparar = patron.matcher(correo);
             return comparar.find();
         }

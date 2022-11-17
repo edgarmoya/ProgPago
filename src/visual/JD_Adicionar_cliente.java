@@ -284,7 +284,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         keyboradUtil.maxLength(jtfcod_cliente, 4);
         keyboradUtil.maxLength(jtfreeup, 11);
         keyboradUtil.maxLength(jtfnombre, 50);
-        keyboradUtil.maxLength(jtfnit, 11);
+        keyboradUtil.maxLength(jtfnit, 16);
         keyboradUtil.maxLength(jtfcorreo, 50);
         keyboradUtil.maxLength(jtfdireccion, 100);
         keyboradUtil.maxLength(jtftelefono, 15);
@@ -339,13 +339,25 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     private void accionAgregar(){
         Cliente c = new Cliente();
         c.setCod_cliente(jtfcod_cliente.getText());
-        c.setNombre(jtfnombre.getText());
-        c.setOrganismo(jtforganismo.getText());
-        c.setNit(jtfnit.getText());
-        c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
-        c.setCorreo(jtfcorreo.getText());
-        c.setDireccion(jtfdireccion.getText());
-        c.setTelefono(jtftelefono.getText());
+        c.setNombre(jtfnombre.getText());       
+        if(!jtforganismo.getText().isEmpty()){
+            c.setOrganismo(jtforganismo.getText());
+        }
+        if(!jtfnit.getText().isEmpty()){
+            c.setNit(jtfnit.getText());
+        }
+        if(!jtfreeup.getText().isEmpty()){
+            c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
+        }
+        if(!jtfcorreo.getText().isEmpty()){
+            c.setCorreo(jtfcorreo.getText());
+        }
+        if(!jtfdireccion.getText().isEmpty()){
+            c.setDireccion(jtfdireccion.getText());
+        }
+        if(!jtftelefono.getText().isEmpty()){
+            c.setTelefono(jtftelefono.getText());
+        }
         c.setActivo((byte) (1));
 
         try {
