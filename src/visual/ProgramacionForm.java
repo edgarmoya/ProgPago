@@ -281,21 +281,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActivateActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        ProgramacionDAO pDAO = new ProgramacionDAO();
-        Programacion prog = new Programacion(1, java.sql.Date.valueOf("2017-09-24"),"","0007","2022","0004", "CUP", "edgar", (byte) 1);
-        String[] destinos = {"0005"};
-        String[] importes = {"10", "20","30","40","50","60","70","80","90","100","110","120"};
-        try {
-            pDAO.agregarProgramacion(prog, destinos, importes);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProgramacionForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProgramacionForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException ex) {
-            Logger.getLogger(ProgramacionForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BDException ex) {
-            Logger.getLogger(ProgramacionForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        refrescar();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void jtProgramacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProgramacionMouseClicked
