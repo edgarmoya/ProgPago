@@ -3,6 +3,7 @@ package dao;
 import entidades.ClienteImporteDE;
 import entidades.Destino;
 import entidades.Periodo;
+import entidades.Programacion;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.Connection;
@@ -120,6 +121,7 @@ public class TableroDAO {
         return periodos;
     }
     
+    
     //**PROGRAMCIÓN POR DESTINO Y EJERCICIO**//
     // retornar una lista con los clientes e importes generales en un destino y ejercicio específicos
     public ArrayList<ClienteImporteDE> progxdestinoyejer(String destino, String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
@@ -152,5 +154,71 @@ public class TableroDAO {
         }
         return clienteimportedes;
     }
+    
 
+    //**PROGRAMCIÖN POR TIPO**//
+    // retornar una lista con las programaciones dado un cliente y un tipofinan
+    public ArrayList<Programacion> progXtipo(String cliente, String tipo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<Programacion> programaciones = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM progxtipo(?::id4, ?::id4)";
+                PreparedStatement stmt = conn.prepareStatement(sql);             
+                stmt.setString(1, cliente);
+                stmt.setString(2, tipo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    Programacion p = new Programacion();
+                    p.setId_prog(rs.getInt(1));
+                    p.setEjercicio(rs.getString(2));
+                    p.setFecha(rs.getDate(3));
+                    p.setMoneda(rs.getString(4));
+                    p.setEstado(rs.getByte(5));
+                    programaciones.add(p);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener las programaciones: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());   
+            } finally {
+                conn.close();
+            }
+        }
+        return programaciones;
+    }
+    
+    // retornar una lista con los periodos y el importe dado una programación
+    public ArrayList<Periodo> prog_desglose(int prog) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<Periodo> periodos = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM prog_desglose(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);             
+                stmt.setInt(1, prog);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    Periodo p = new Periodo();
+                    p.setNombre(rs.getString(1));
+                    p.setImporte(rs.getDouble(2));
+                    periodos.add(p);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener el desgloses: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());   
+            } finally {
+                conn.close();
+            }
+        }
+        return periodos;
+    }
+     
 }
