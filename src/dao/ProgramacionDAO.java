@@ -1,56 +1,65 @@
 package dao;
+
 import ppago.ConexionPg;
 import entidades.Programacion;
+import excepciones.BDException;
+import excepciones.ConnectionException;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.postgresql.util.PSQLException;
 
 /**
  *
  * @author Lester
  */
-
 public class ProgramacionDAO {
-    
+
     private ConexionPg pg = new ConexionPg();
-    
-    public boolean agregarProgramacion (Programacion programacion) throws SQLException, ClassNotFoundException {
-        
-        boolean fueAgregado = false;
-        Connection conn = pg.conectar();
-        try{
-            String sql = "insert into programacion values (?,?,?,?,?,?,?,?,?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, programacion.getId_prog());
-            stmt.setDate(2, programacion.getFecha());
-            stmt.setString(3, programacion.getObservacion());
-            stmt.setString(4, programacion.getId_cliente());
-            stmt.setInt(5, programacion.getId_ejercicio());
-            stmt.setString(6, programacion.getId_tipo());
-            stmt.setString(7, programacion.getId_siglas());
-            stmt.setString(8, programacion.getId_usuario());
-            stmt.setByte(9, programacion.getEstado());
-            
-            //ejecutamos la sentencia
-            int cantidad = stmt.executeUpdate();
-            
-            fueAgregado = (cantidad > 0);
-            
-        } catch (Exception e){
-            
-            System.out.println("Error al agregar programacion "+e.getMessage());
-        } finally{
-            conn.close();
+
+    // agregar programación
+    public int agregarProgramacion(Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        int result = -1;
+        Connection conn = pg.getConnection();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                Array arrayDestinos = conn.createArrayOf("varchar", destinos);
+                Array arrayImportes = conn.createArrayOf("numeric", importes);
+
+                String sql = "SELECT add_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[])";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setDate(1, prog.getFecha());
+                stmt.setString(2, prog.getObservacion());
+                stmt.setString(3, prog.getTipofinan());
+                stmt.setString(4, prog.getMoneda());
+                stmt.setString(5, "0");
+                stmt.setString(6, prog.getCliente());
+                stmt.setString(7, prog.getEjercicio());
+                stmt.setArray(8, arrayDestinos);
+                stmt.setArray(9, arrayImportes);
+
+                //ejecutamos la sentencia
+                ResultSet res = stmt.executeQuery();
+
+                res.next();
+                result = res.getInt(1);
+            } catch (PSQLException e) {
+                System.out.println("Error al agregar programación: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());
+            } finally {
+                conn.close();
+            }
         }
-        
-        return fueAgregado;
+        return result;
     }
 
     /*
     De esta manera se agregaría el date al postgresql
     Date date = new Date();
     java.sql.Date datesql = new java.sql.Date(date.getTime()); 
-    */   
-    
-    
+     */
 }

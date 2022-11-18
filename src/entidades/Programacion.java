@@ -11,27 +11,27 @@ public class Programacion {
     private int id_prog;
     private Date fecha;
     private String observacion;
-    private String id_cliente;
-    private int id_ejercicio;
-    private String id_tipo;
-    private String id_siglas;
-    private String id_usuario;
+    private String cliente;
+    private String ejercicio;
+    private String tipofinan;
+    private String moneda;
+    private String usuario;
     private byte estado;
 
     public Programacion() {
     }
 
-    public Programacion(int id_prog, Date fecha, String comentario, String id_cliente, int id_ejercicio, String id_tipo, String id_siglas, String id_usuario, byte estado) {
-        this.setId_prog(id_prog);
-        this.setFecha(fecha);
-        this.setObservacion(observacion);
-        this.setId_cliente(id_cliente);
-        this.setId_ejercicio(id_ejercicio);
-        this.setId_tipo(id_tipo);
-        this.setId_siglas(id_siglas);
-        this.setId_usuario(id_usuario);
-        this.setEstado(estado);
-    }
+    public Programacion(int id_prog, Date fecha, String observacion, String cliente, String ejercicio, String tipofinan, String moneda, String usuario, byte estado) {
+        this.id_prog = id_prog;
+        this.fecha = fecha;
+        this.observacion = observacion;
+        this.cliente = cliente;
+        this.ejercicio = ejercicio;
+        this.tipofinan = tipofinan;
+        this.moneda = moneda;
+        this.usuario = usuario;
+        this.estado = estado;
+    }   
 
     public int getId_prog() {
         return id_prog;
@@ -57,44 +57,44 @@ public class Programacion {
         this.observacion = observacion;
     }
 
-    public String getId_cliente() {
-        return id_cliente;
+    public String getCliente() {
+        return cliente;
     }
 
-    public void setId_cliente(String id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
-    public int getId_ejercicio() {
-        return id_ejercicio;
+    public String getEjercicio() {
+        return ejercicio;
     }
 
-    public void setId_ejercicio(int id_ejercicio) {
-        this.id_ejercicio = id_ejercicio;
+    public void setEjercicio(String ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
-    public String getId_tipo() {
-        return id_tipo;
+    public String getTipofinan() {
+        return tipofinan;
     }
 
-    public void setId_tipo(String id_tipo) {
-        this.id_tipo = id_tipo;
+    public void setTipofinan(String tipofinan) {
+        this.tipofinan = tipofinan;
     }
 
-    public String getId_siglas() {
-        return id_siglas;
+    public String getMoneda() {
+        return moneda;
     }
 
-    public void setId_siglas(String id_siglas) {
-        this.id_siglas = id_siglas;
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 
-    public String getId_usuario() {
-        return id_usuario;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setId_usuario(String id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public byte getEstado() {
@@ -107,7 +107,7 @@ public class Programacion {
 
     @Override
     public String toString() {
-        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", observacion=" + observacion + ", id_cliente=" + id_cliente + ", id_ejercicio=" + id_ejercicio + ", id_tipo=" + id_tipo + ", id_siglas=" + id_siglas + ", id_usuario=" + id_usuario + ", estado=" + estado + '}';
+        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", observacion=" + observacion + ", cliente=" + cliente + ", ejercicio=" + ejercicio + ", tipofinan=" + tipofinan + ", moneda=" + moneda + ", usuario=" + usuario + ", estado=" + estado + '}';
     }
-     
+
 }

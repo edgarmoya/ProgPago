@@ -25,7 +25,7 @@ import utiles.autoComplete;
  */
 public class JD_Adicionar_programacion extends javax.swing.JDialog {
     
-    private ArrayList<DestinoDesglose> ddesg = new ArrayList<>();;
+    private ArrayList<DestinoDesglose> ddesg = new ArrayList<>();
 
     public JD_Adicionar_programacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
