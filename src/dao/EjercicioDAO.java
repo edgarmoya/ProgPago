@@ -57,7 +57,7 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM ejercicio ORDER BY ejercicio DESC";
+                String sql = "SELECT * FROM ejercicio ORDER BY anno DESC";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -65,7 +65,7 @@ public class EjercicioDAO {
                     //Preparar los datos
                     Ejercicio e = new Ejercicio();
                     e.setCod_ejercicio(rs.getInt("cod_ejercicio"));
-                    e.setEjercicio(rs.getString("ejercicio"));
+                    e.setEjercicio(rs.getString("anno"));
                     e.setFecha_inicio(rs.getDate("fecha_inicio"));
                     e.setFecha_fin(rs.getDate("fecha_fin"));
                     ejercicios.add(e);
@@ -120,7 +120,7 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM ejercicio WHERE ejercicio = ?";
+                String sql = "SELECT * FROM ejercicio WHERE anno = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, ejercicio);
                 ResultSet rs = stmt.executeQuery();
@@ -128,7 +128,7 @@ public class EjercicioDAO {
                 while (rs.next()) {
                     //Preparar los datos
                     ej.setCod_ejercicio(rs.getInt("cod_ejercicio"));
-                    ej.setEjercicio(rs.getString("ejercicio"));
+                    ej.setEjercicio(rs.getString("anno"));
                     ej.setFecha_inicio(rs.getDate("fecha_inicio"));
                     ej.setFecha_fin(rs.getDate("fecha_fin"));
                 }
