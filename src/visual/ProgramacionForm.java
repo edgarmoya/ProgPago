@@ -5,10 +5,10 @@ import entidades.Programacion;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 
 /**
@@ -23,7 +23,8 @@ public class ProgramacionForm extends javax.swing.JPanel {
     public ProgramacionForm() {
         initComponents();
         //Editar color de la tabla
-        JTableUtil.headerTable(jtProgramacion);
+        JTableUtil.headerTable(jtProgramaciones);
+        refrescar();
     }
 
     @SuppressWarnings("unchecked")
@@ -39,7 +40,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         btnActivate = new custom_swing.ButtonCircular();
         btnRefresh = new custom_swing.ButtonCircular();
         scrollProgramacion = new javax.swing.JScrollPane();
-        jtProgramacion = new javax.swing.JTable();
+        jtProgramaciones = new javax.swing.JTable();
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -120,7 +121,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 .addComponent(btnActivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(523, Short.MAX_VALUE))
+                .addContainerGap(438, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,14 +141,14 @@ public class ProgramacionForm extends javax.swing.JPanel {
         scrollProgramacion.setBorder(null);
         scrollProgramacion.setOpaque(false);
 
-        jtProgramacion.setBackground(new java.awt.Color(255, 255, 255));
-        jtProgramacion.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jtProgramacion.setModel(new javax.swing.table.DefaultTableModel(
+        jtProgramaciones.setBackground(new java.awt.Color(255, 255, 255));
+        jtProgramaciones.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jtProgramaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Estado", "Usuario"
+                "Código", "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Estado"
             }
         ) {
             Class[] types = new Class [] {
@@ -165,19 +166,19 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jtProgramacion.setToolTipText("Lista de Programaciones");
-        jtProgramacion.setGridColor(new java.awt.Color(204, 204, 204));
-        jtProgramacion.setOpaque(false);
-        jtProgramacion.setRowHeight(25);
-        jtProgramacion.setSelectionBackground(new java.awt.Color(228, 235, 245));
-        jtProgramacion.setSelectionForeground(new java.awt.Color(51, 51, 51));
-        jtProgramacion.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jtProgramacion.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtProgramaciones.setToolTipText("Lista de Programaciones");
+        jtProgramaciones.setGridColor(new java.awt.Color(204, 204, 204));
+        jtProgramaciones.setOpaque(false);
+        jtProgramaciones.setRowHeight(25);
+        jtProgramaciones.setSelectionBackground(new java.awt.Color(228, 235, 245));
+        jtProgramaciones.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        jtProgramaciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jtProgramaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtProgramacionMouseClicked(evt);
+                jtProgramacionesMouseClicked(evt);
             }
         });
-        scrollProgramacion.setViewportView(jtProgramacion);
+        scrollProgramacion.setViewportView(jtProgramaciones);
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -212,20 +213,20 @@ public class ProgramacionForm extends javax.swing.JPanel {
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
-        /*// Si se efectuaron cambios actualizar tabla
+        // Si se efectuaron cambios actualizar tabla
         if (JDAdd.cambios()){
-            //refrescar();
-            //comprobarSeleccion();
-        }*/
+            refrescar();
+            comprobarSeleccion();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar programacion
-        /*if (posicion() != -1){
-            JD_Adicionar_cliente JDEdit = new JD_Adicionar_cliente(null, true);
+        if (posicion() != -1){
+            JD_Adicionar_programacion JDEdit = new JD_Adicionar_programacion(null, true);
             JDEdit.setLocationRelativeTo(this);
-            Cliente c = getClienteSeleccionado();
-            JDEdit.dialogo_editar(c);
+            Programacion p = getProgramacionSeleccionada();
+            JDEdit.dialogo_editar(p);
             JDEdit.setVisible(true);
 
             // Si se efectuaron cambios actualizar tabla
@@ -235,39 +236,39 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         }else{
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // Acción para eliminar programacion
-        /*if (posicion() != -1) {
-            String cod = jtClientes.getModel().getValueAt(posicion(), 0).toString();
+        if (posicion() != -1) {
+            String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             accionEliminar(cod);
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione el cliente que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+            JOptionPane.showMessageDialog(this, "Seleccione la programación que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnShowAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowAllActionPerformed
-        /*if (!showAll){
+        if (!showAll){
             mostrarTodo();
             showAll = true;
-            btnShowAll.setToolTipText("Mostrar clientes activos");
+            btnShowAll.setToolTipText("Mostrar programaciones confirmadas");
             btnShowAll.setIcon(new ImageIcon(getClass().getResource("/imagenes/mostrar_activos_button.png")));
         } else {
-            mostrarActivos();
+            mostrarConfirmadas();
             showAll = false;
-            btnShowAll.setToolTipText("Mostrar todos los clientes");
+            btnShowAll.setToolTipText("Mostrar todas las programaciones");
             btnShowAll.setIcon(new ImageIcon(getClass().getResource("/imagenes/mostrar_todo_button.png")));
-        }*/
+        }
     }//GEN-LAST:event_btnShowAllActionPerformed
 
     private void btnActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateActionPerformed
-        // Acción para activar programacion
-        /*if (posicion() != -1) {
-            String cod = jtClientes.getModel().getValueAt(posicion(), 0).toString();
+        // Acción para confirmar programacion
+        if (posicion() != -1) {
+            String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (cDAO.activarCliente(cod)){
+                if (pDAO.confirmarProgramacion(cod)){
                     refrescar();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -276,29 +277,157 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione el cliente que desea activar.", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+            JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnActivateActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         refrescar();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void jtProgramacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProgramacionMouseClicked
+    private void jtProgramacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProgramacionesMouseClicked
         comprobarSeleccion();
         if (showAll){
-            //comprobarActivo();
+            comprobarConfirmada();
         }
-    }//GEN-LAST:event_jtProgramacionMouseClicked
+    }//GEN-LAST:event_jtProgramacionesMouseClicked
 
+    // Eliminar programacion a partir del codigo
+    private void accionEliminar(String codigo) {
+        int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la programación con código \"" + codigo + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        try {
+            if (input == 0) {   // 0=SI, 1=NO
+                int result = pDAO.confirmadaProgramacion(codigo);
+                if (result == 1) {   // si está en confirmada
+                    JOptionPane.showConfirmDialog(null, "No es posible eliminar la programación con código \"" + codigo + "\" porque está confirmada.");
+                } else {
+                    if (pDAO.eliminarProgramacion(codigo)) {
+                        refrescar();
+                        comprobarSeleccion();
+                    }
+                }
+            } else {
+                JOptionPane.getRootFrame().dispose();
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Método para actualizar la tabla con la lista de programaciones confirmadas
+    private void mostrarConfirmadas() {
+        String[] columnNames = {"Código","Ejercicio","Tipo de Financiamiento","Cliente","Moneda","Importe","Usuario"};
+        ArrayList<Programacion> programaciones = new ArrayList<>();
+        try {
+            programaciones = pDAO.listaProgramacionesConfirmadas();
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        String[][] data = new String[programaciones.size()][7];        
+        for (int i = 0; i < programaciones.size(); i++) {
+            data[i][0] = ""+programaciones.get(i).getId_prog();
+            data[i][1] = programaciones.get(i).getEjercicio();
+            data[i][2] = programaciones.get(i).getTipofinan();
+            data[i][3] = programaciones.get(i).getCliente();
+            data[i][4] = programaciones.get(i).getMoneda();
+            data[i][5] = ""+programaciones.get(i).getImporte();
+            data[i][6] = (programaciones.get(i).getEstado()==0)?"en edición":"confirmada";
+        }       
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //tabla no editable
+                return false;
+            }
+        };       
+        jtProgramaciones.setModel(model);
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
+    }
+    
+    //Método para actualizar la tabla con la lista de todas las programaciones
+    private void mostrarTodo() {
+        String[] columnNames = {"Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Estado", "Usuario"};
+        ArrayList<Programacion> programaciones = new ArrayList<>();
+        try {
+            programaciones = pDAO.listaTodasProgramaciones();
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        String[][] data = new String[programaciones.size()][7];        
+        for (int i = 0; i < programaciones.size(); i++) {
+            data[i][0] = ""+programaciones.get(i).getId_prog();
+            data[i][1] = programaciones.get(i).getEjercicio();
+            data[i][2] = programaciones.get(i).getTipofinan();
+            data[i][3] = programaciones.get(i).getCliente();
+            data[i][4] = programaciones.get(i).getMoneda();
+            data[i][5] = ""+programaciones.get(i).getImporte();
+            data[i][6] = (programaciones.get(i).getEstado()==0)?"en edición":"confirmada";
+        }
+        
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //tabla no editable
+                return false;
+            }
+        };       
+        jtProgramaciones.setModel(model);
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
+    }
+    
+    // Obtener datos de la programacion a partir del codigo
+    private Programacion getProgramacionSeleccionada(){
+        String value = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
+        Programacion p = new Programacion();
+        try {
+            p = pDAO.getProgramacion(value);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return p;
+    }
+    
+    // Comprobar si es una programacion confirmada o en edicion
+    private void comprobarConfirmada(){
+        if (posicion() != -1) {
+            String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
+            try {
+                int res = pDAO.isConfirmada(cod);
+                if (res == 1){
+                    btnActivate.setEnabled(false);
+                } else {
+                    btnActivate.setEnabled(true);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    } 
+    
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion(){   
         if (posicion() != -1) {
             btnEdit.setEnabled(true);
-            String cod = jtProgramacion.getModel().getValueAt(posicion(), 0).toString();
+            String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             // Comprobar si se puede activar el btnDelete
-            /*try {
-                if (cDAO.isActivo(cod) == 1){
+            try {
+                if (pDAO.isConfirmada(cod) == 1){
                     btnDelete.setEnabled(true);
                 } else {
                     btnDelete.setEnabled(false);
@@ -307,7 +436,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (ConnectionException | BDException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }*/    
+            }   
         } else {
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
@@ -317,15 +446,15 @@ public class ProgramacionForm extends javax.swing.JPanel {
     // Refrescar form con tabla correspondiente
     private void refrescar(){
         if (showAll){
-            //mostrarTodo();
+            mostrarTodo();
         } else{ 
-            //mostrarActivos();
+            mostrarConfirmadas();
         }
     }
     
     // Posición de la fila seleccionada
     private int posicion(){
-        return jtProgramacion.getSelectedRow();
+        return jtProgramaciones.getSelectedRow();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -337,7 +466,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private custom_swing.ButtonCircular btnEdit;
     private custom_swing.ButtonCircular btnRefresh;
     private custom_swing.ButtonCircular btnShowAll;
-    private javax.swing.JTable jtProgramacion;
+    private javax.swing.JTable jtProgramaciones;
     private javax.swing.JScrollPane scrollProgramacion;
     // End of variables declaration//GEN-END:variables
 }

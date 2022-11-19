@@ -17,11 +17,12 @@ public class Programacion {
     private String moneda;
     private String usuario;
     private byte estado;
+    private double importe;
 
     public Programacion() {
     }
 
-    public Programacion(int id_prog, Date fecha, String observacion, String cliente, String ejercicio, String tipofinan, String moneda, String usuario, byte estado) {
+    public Programacion(int id_prog, Date fecha, String observacion, String cliente, String ejercicio, String tipofinan, String moneda, String usuario, byte estado, double importe) {
         this.id_prog = id_prog;
         this.fecha = fecha;
         this.observacion = observacion;
@@ -31,6 +32,7 @@ public class Programacion {
         this.moneda = moneda;
         this.usuario = usuario;
         this.estado = estado;
+        this.importe = importe;
     }   
 
     public int getId_prog() {
@@ -105,9 +107,17 @@ public class Programacion {
         this.estado = estado;
     }
 
+    public double getImporte() {
+        return importe;
+    }
+
+    public void setImporte(double importe) {
+        this.importe = importe;
+    }
+
     @Override
     public String toString() {
-        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", observacion=" + observacion + ", cliente=" + cliente + ", ejercicio=" + ejercicio + ", tipofinan=" + tipofinan + ", moneda=" + moneda + ", usuario=" + usuario + ", estado=" + estado + '}';
+        return "Programacion{" + "id_prog=" + id_prog + ", fecha=" + fecha + ", observacion=" + observacion + ", cliente=" + cliente + ", ejercicio=" + ejercicio + ", tipofinan=" + tipofinan + ", moneda=" + moneda + ", usuario=" + usuario + ", estado=" + estado + ", importe=" + importe + '}';
     }
 
 }
