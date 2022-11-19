@@ -157,10 +157,10 @@ public class Cliente {
         if (cod_cliente.length() <= 4 && nombre.length() <= 50) {
             if((organismo == null || organismo.length() <= 50)
                 && (nit == null || (nit.length() >= 11 && nit.length() <= 16)) 
-                && (reeup == null || reeup.length() <= 9)
+                && (reeup == null || (reeup.length() >= 8 && reeup.length() <= 9))
                 && (correo == null || correo.length() <= 30)
                 && (direccion == null || direccion.length() <= 100)
-                && (telefono == null || telefono.length() <= 15)){
+                && (telefono == null || telefono.length() <= 8)){
                 return true;
             }
         }

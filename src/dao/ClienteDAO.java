@@ -20,14 +20,14 @@ public class ClienteDAO {
     private ConexionPg pg = new ConexionPg();
 
     // Método para agregar cliente
-    public boolean agregarCliente(Cliente cliente) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int agregarCliente(Cliente cliente) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "INSERT INTO cliente VALUES(?,?,?,?,?,?,?,?,?::bit(1))";
+                String sql = "SELECT add_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?::bit(1))";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, cliente.getCod_cliente());
                 stmt.setString(2, cliente.getNombre());
@@ -38,11 +38,12 @@ public class ClienteDAO {
                 stmt.setString(7, cliente.getDireccion());
                 stmt.setString(8, cliente.getTelefono());
                 stmt.setString(9, "1");
-
+                
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                fueAgregado = (cantidad > 0);
+                ResultSet res = stmt.executeQuery();
 
+                res.next();
+                result = res.getInt(1);
             } catch (PSQLException e) {
                 System.out.println("Error al agregar cliente " + e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage());             
@@ -50,7 +51,7 @@ public class ClienteDAO {
                 conn.close();
             }
         }
-        return fueAgregado;
+        return result;
     }
 
     // Listar todos los clientes ACTIVOS de la bd
@@ -61,7 +62,7 @@ public class ClienteDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM cliente WHERE activo='1' ORDER BY cod_cliente";
+                String sql = "SELECT * FROM lista_clientes_activos()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -96,7 +97,7 @@ public class ClienteDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM cliente ORDER BY cod_cliente";
+                String sql = "SELECT * FROM lista_todos_clientes()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -166,7 +167,7 @@ public class ClienteDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE cliente SET cod_cliente=? ,nombre=?, organismo=?, nit=?, reeup=?, correo=?, direccion=?, telefono=? WHERE cod_cliente=?";
+                String sql = "CALL edit_cliente(?,?,?,?,?,?,?,?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, cliente.getCod_cliente());
                 stmt.setString(2, cliente.getNombre());
@@ -179,9 +180,8 @@ public class ClienteDAO {
                 stmt.setString(9, cod);
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                isUpdate = (cantidad > 0);
-
+                stmt.execute();
+                isUpdate = true;
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar cliente " + e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage());             
