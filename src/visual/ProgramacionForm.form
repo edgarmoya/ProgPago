@@ -74,7 +74,7 @@
                       <Component id="btnActivate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="438" max="32767" attributes="0"/>
+                      <EmptySpace pref="565" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

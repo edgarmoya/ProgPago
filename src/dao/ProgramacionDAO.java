@@ -56,14 +56,7 @@ public class ProgramacionDAO {
             }
         }
         return result;
-    }
-
-    /*
-    De esta manera se agregaría el date al postgresql
-    Date date = new Date();
-    java.sql.Date datesql = new java.sql.Date(date.getTime()); 
-     */
-    
+    }   
     
     // Listar todas las programaciones confirmadas de la bd
     public ArrayList<Programacion> listaProgramacionesConfirmadas() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
@@ -73,7 +66,7 @@ public class ProgramacionDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT listar_programacion_confirmada(1::boolean)";
+                String sql = "SELECT * FROM listar_programacion_confirmada(1::boolean)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -107,7 +100,7 @@ public class ProgramacionDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT listar_programacion_confirmada(0::boolean)";
+                String sql = "SELECT * FROM listar_programacion_confirmada(0::boolean)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
