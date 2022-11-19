@@ -21,11 +21,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import utiles.JTableCeldasUtil;
 import utiles.JTableUtil;
 import utiles.autoComplete;
 
@@ -301,7 +300,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(scrollDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -376,11 +375,37 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        
+        // Acción para editar destino
+        if (posicion() != -1){
+            int pos = posicion();
+            JD_Desglose_destino JDEdit = new JD_Desglose_destino(null, true);
+            JDEdit.setLocationRelativeTo(this);
+            JDEdit.setDesglose(ddesg.get(pos));
+            JDEdit.setVisible(true);
+
+            if (JDEdit.isAccept()) {
+                String destino = JDEdit.getDestino();
+                ArrayList<Double> importes = JDEdit.getImportes();
+                DestinoDesglose dd = new DestinoDesglose(destino, importes);
+                ddesg.set(pos, dd);
+                actualizarTabla();
+            }
+            camposRequeridos();
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione el destino que desea editar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        // Acción para eliminar destino
+        if (posicion() != -1){
+            int pos = posicion();
+            ddesg.remove(pos);
+            actualizarTabla();
+            camposRequeridos();
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione el destino que desea eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jcbClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbClienteMouseClicked
@@ -499,8 +524,11 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             }
         };
         jtDestinos.setModel(model);
-        // Efectuar todas las modificaciones
-        JTableUtil.modTable(jtDestinos, scrollDestinos);
+        JTableUtil.scrollBackground(scrollDestinos);
+        // Cambiar color de las filas de forma alternada
+        jtDestinos.setDefaultRenderer(Object.class, new JTableCeldasUtil());  
+        // Solo lineas horizontales
+        JTableUtil.onlyHorizontalLine(jtDestinos);
         // Alinear los importes a la derecha
         jtDestinos.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
     }
@@ -570,6 +598,11 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         }
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
+    }
+    
+    // Posición de la fila seleccionada
+    private int posicion() {
+        return jtDestinos.getSelectedRow();
     }
 
     public static void main(String args[]) {
