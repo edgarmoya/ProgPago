@@ -2,6 +2,8 @@ package visual;
 
 import dao.DestinoDAO;
 import entidades.Destino;
+import entidades.DestinoDesglose;
+import entidades.Periodo;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.awt.Image;
@@ -23,6 +25,7 @@ import utiles.autoComplete;
  */
 public class JD_Desglose_destino extends javax.swing.JDialog {
     
+    private boolean editar;
     private ArrayList<Double> importes;
     private boolean accept;
     
@@ -150,7 +153,7 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(16, 16, 16)
                 .addComponent(jcbDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollDesglose, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,6 +226,14 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
         // Alinear los importes a la derecha
         jtDesglose.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
         jtDesglose.getColumnModel().getColumn(2).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
+    }
+    
+    // Método para actualizar la tabla con la lista de importes correspondientes
+    private void mostrarDesglose(DestinoDesglose ddesg) { 
+        DefaultTableModel m = (DefaultTableModel) jtDesglose.getModel();
+        for (int i = 0; i < ddesg.getImportes().size(); i++) {
+            m.setValueAt(String.valueOf(ddesg.getImportes().get(i)), i, 1);
+        }
     }
     
     // Validar que se escriban solo numeric
@@ -312,6 +323,15 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
     public boolean isAccept() {
         return accept;
     }   
+    
+    // 
+    public void setDesglose(DestinoDesglose desglose){  
+        jcbDestino.setSelectedItem((String) desglose.getDestino());
+        mostrarDesglose(desglose);
+        updateAcumulado();
+        editar = true;
+        camposRequeridos();
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

@@ -131,7 +131,7 @@
                               <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="scrollDestinos" min="-2" pref="152" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
