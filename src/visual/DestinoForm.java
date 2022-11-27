@@ -269,6 +269,7 @@ public class DestinoForm extends javax.swing.JPanel {
             try {
                 if (dDAO.activarDestino(cod)){
                     refrescar();
+                    comprobarSeleccion();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
