@@ -20,23 +20,23 @@ public class TipoFinanDAO {
     private ConexionPg pg = new ConexionPg();
     
     // Agregar tipo de financiamiento
-    public boolean agregarTipoFinan (TipoFinan tipofinan) throws SQLException, ClassNotFoundException, ConnectionException, BDException {      
+    public int agregarTipoFinan (TipoFinan tipofinan) throws SQLException, ClassNotFoundException, ConnectionException, BDException {      
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try{
-                String sql = "INSERT INTO tipofinan VALUES (?,?,?::bit)";
+                String sql = "SELECT add_tipofinan(?,?,?::bit)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, tipofinan.getCod_tipo());
                 stmt.setString(2, tipofinan.getDescripcion());
                 stmt.setString(3, "1");
 
-                // ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                fueAgregado = (cantidad > 0);
-
+                //ejecutamos la sentencia
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
             } catch (PSQLException e){
                 System.out.println("Error al agregar tipo de financiamiento "+e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage());
@@ -44,7 +44,7 @@ public class TipoFinanDAO {
                 conn.close();
             }
         }
-        return fueAgregado;
+        return result;
     }
     
     // Listar todos los tipos de financiamiento ACTIVOS de la bd
@@ -55,7 +55,7 @@ public class TipoFinanDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM tipofinan WHERE activo='1' ORDER BY cod_tipo";
+                String sql = "SELECT * FROM lista_tipofinan_activos()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -84,7 +84,7 @@ public class TipoFinanDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM tipofinan ORDER BY cod_tipo";
+                String sql = "SELECT * FROM lista_todos_tipofinan()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -135,22 +135,24 @@ public class TipoFinanDAO {
     }
     
     // Actualizar tipo de financiamiento a partir del código
-    public boolean editarTipoFinan(String cod, TipoFinan tipofinan) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int editarTipoFinan(String cod, TipoFinan tipofinan) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isUpdate = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE tipofinan SET cod_tipo=? , descripcion=? WHERE cod_tipo=?";
+                String sql = "SELECT edit_tipofinan(?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, tipofinan.getCod_tipo());
                 stmt.setString(2, tipofinan.getDescripcion());
                 stmt.setString(3, cod);
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                isUpdate = (cantidad > 0);
+                ResultSet res = stmt.executeQuery();
+
+                res.next();
+                result = res.getInt(1);
 
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar tipo de financiamiento " + e.getMessage());
@@ -159,37 +161,34 @@ public class TipoFinanDAO {
                 conn.close();
             }
         }
-        return isUpdate;
+        return result;
     }
     
     // Eliminar tipo de financiamiento a partir del codigo
     // Si se encuentra en programaciones solo inactivar
-    public boolean eliminarTipoFinan(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int eliminarTipoFinan(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isDelete = false;
+        int result = 0;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                // Tratar las instrucciones como bloques
-                conn.setAutoCommit(false);
-                String sql = "CALL delete_tipofinan(?)";
+                String sql = "SELECT delete_tipofinan(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                isDelete = true;
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar tipo de financiamiento " + e.getMessage());
-                conn.rollback();
                 throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
                 conn.close();
             }
         }
-        return isDelete;
+        return result;
     }
     
     // Obtener si el tipo de financiamiento se encuentra en uso a partir del codigo
@@ -211,7 +210,6 @@ public class TipoFinanDAO {
                 conn.commit();
                 rs.next();
                 result = rs.getInt(1);
-    
             } catch (PSQLException e) {
                 System.out.println("Error al obtener si el tipo de financiamiento está en uso: " + e.getMessage());
                 conn.rollback();
@@ -224,23 +222,24 @@ public class TipoFinanDAO {
     }
     
     // Activar tipo de financiamiento a partir del código
-    public boolean activarTipoFinan(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int activarTipoFinan(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean activado;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL activate_tipofinan(?)";
+                String sql = "SELECT activate_tipofinan(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
                 conn.commit();
-                activado = true;
             } catch (PSQLException e) {
                 System.out.println("Error al activar tipo de financiamiento " + e.getMessage());
                 conn.rollback();
@@ -249,7 +248,7 @@ public class TipoFinanDAO {
                 conn.close();
             }
         }
-        return activado;
+        return result;
     }
     
 

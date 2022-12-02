@@ -267,7 +267,8 @@ public class TipoFinanForm extends javax.swing.JPanel {
         if (posicion() != -1) {
             String codigo = jtTipoFinans.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (tfDAO.activarTipoFinan(codigo)){
+                int res = tfDAO.activarTipoFinan(codigo);
+                if (res != -1){
                     refrescar();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -378,17 +379,23 @@ public class TipoFinanForm extends javax.swing.JPanel {
                 if (result == 1) {   // si está en uso
                     int input2 = JOptionPane.showConfirmDialog(null, "No es posible eliminar al tipo de financiamiento con código \"" + codigo + "\" porque tiene información asociada. \n¿Desea desactivarlo del sistema?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (input2 == 0) {   // 0=SI, 1=NO
-                        if (tfDAO.eliminarTipoFinan(codigo)) {
+                        int res = tfDAO.eliminarTipoFinan(codigo);
+                        if (res == 1) {
                             refrescar();
                             comprobarSeleccion();
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar el tipo de financiamiento con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.getRootFrame().dispose();
                     }
                 } else {
-                    if (tfDAO.eliminarTipoFinan(codigo)) {
+                    int res = tfDAO.eliminarTipoFinan(codigo);
+                    if (res == 1) {
                         refrescar();
                         comprobarSeleccion();
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Ocurrió un error al eliminar el tipo de financiamiento con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {

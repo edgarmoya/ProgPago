@@ -236,7 +236,8 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         
          try {
             if (tf.isValido()) {   // Validar
-                if (tfDAO.agregarTipoFinan(tf)) {
+                int res = tfDAO.agregarTipoFinan(tf);
+                if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Tipo de financiamiento agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     limpiar();
                     cambios = true;
@@ -260,7 +261,8 @@ public class JD_Adicionar_tipo_de_financiamiento extends javax.swing.JDialog {
         try {
             // Validar campos
             if (tf.isValido()) {
-                if (tfDAO.editarTipoFinan(codTipoFinan, tf)) {
+                int res = tfDAO.editarTipoFinan(codTipoFinan, tf);
+                if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Tipo de financiamiento editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();
