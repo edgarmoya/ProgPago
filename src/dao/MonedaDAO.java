@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.postgresql.util.PSQLException;
 import ppago.ConexionPg;
+
 /**
  *
  * @author Lester
@@ -19,23 +20,23 @@ public class MonedaDAO {
     private ConexionPg pg = new ConexionPg();
     
     // Método para agregar moneda
-    public boolean agregarMoneda (Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String agregarMoneda (Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
+        String result = "";
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try{
-                String sql = "INSERT INTO moneda VALUES (?,?,?::bit(1))";
+                String sql = "SELECT add_moneda(?,?,?::bit(1))";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, moneda.getSiglas());
                 stmt.setString(2, moneda.getNombre());
                 stmt.setString(3, "1");
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                fueAgregado = (cantidad > 0);
-
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getString(1);
             } catch (PSQLException e){
                 System.out.println("Error al agregar moneda "+e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage()); 
@@ -43,7 +44,7 @@ public class MonedaDAO {
                 conn.close();
             }
         }
-        return fueAgregado;
+        return result;
     }
     
     // Listar todas las monedas ACTIVAS de la bd
@@ -54,7 +55,7 @@ public class MonedaDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM moneda WHERE activo='1' ORDER BY siglas";
+                String sql = "SELECT * FROM lista_monedas_activas()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -83,7 +84,7 @@ public class MonedaDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM moneda ORDER BY siglas";
+                String sql = "SELECT * FROM lista_todas_monedas()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -134,22 +135,23 @@ public class MonedaDAO {
     }
     
     // Actualizar moneda a partir de la sigla
-    public boolean actualizarMoneda(String sig, Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String actualizarMoneda(String sig, Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isUpdate = false;
+        String result = "";
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE moneda SET siglas=? ,nombre=? WHERE siglas=?";
+                String sql = "SELECT edit_moneda(?,?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, moneda.getSiglas());
                 stmt.setString(2, moneda.getNombre());
                 stmt.setString(3, sig);
 
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                isUpdate = (cantidad > 0);
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getString(1);
 
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar moneda " + e.getMessage());
@@ -158,28 +160,30 @@ public class MonedaDAO {
                 conn.close();
             }
         }
-        return isUpdate;
+        return result;
     }
     
      // Eliminar moneda a partir de las siglas
     // Si tiene programaciones solo inactivar
-    public boolean eliminarMoneda(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String eliminarMoneda(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isDelete = false;
+        String result = "";
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL delete_moneda(?)";
+                String sql = "SELECT delete_moneda(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
+                //ejecutamos la sentencia
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getString(1);
                 conn.commit();
-                isDelete = true;
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar moneda " + e.getMessage());
                 conn.rollback();
@@ -188,7 +192,7 @@ public class MonedaDAO {
                 conn.close();
             }
         }
-        return isDelete;
+        return result;
     }
     
     // Obtener si la moneda se encuentra en uso a partir del codigo
@@ -209,8 +213,7 @@ public class MonedaDAO {
                 ResultSet rs = stmt.executeQuery();
                 conn.commit();
                 rs.next();
-                result = rs.getInt(1);
-    
+                result = rs.getInt(1);   
             } catch (PSQLException e) {
                 System.out.println("Error al obtener si la moneda está en uso: " + e.getMessage());
                 conn.rollback();
@@ -223,23 +226,24 @@ public class MonedaDAO {
     }
     
     // Activar moneda a partir del código
-    public boolean activarMoneda(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String activarMoneda(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean activado;
+        String result;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL activate_moneda(?)";
+                String sql = "SELECT activate_moneda(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getString(1);
                 conn.commit();
-                activado = true;
             } catch (PSQLException e) {
                 System.out.println("Error al activar moneda " + e.getMessage());
                 conn.rollback();
@@ -248,7 +252,7 @@ public class MonedaDAO {
                 conn.close();
             }
         }
-        return activado;
+        return result;
     }
     
     // Obtener si la moneda está activa o no

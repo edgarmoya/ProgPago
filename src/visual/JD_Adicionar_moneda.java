@@ -252,9 +252,9 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
         m.setActivo((byte) (1));
         
         try {
-            // Validar
-            if (m.isValido()) {
-                if (mDAO.agregarMoneda(m)) {
+            if (m.isValido()) {  // Validar
+                String res = mDAO.agregarMoneda(m);
+                if (!res.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Moneda agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     limpiar();
                     cambios = true;
@@ -262,18 +262,10 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
+        } catch (FaltanDatosException | LongitudException | ConnectionException | BDException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -283,10 +275,10 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
         m.setSiglas(jtfsiglas.getText());
         m.setNombre(jtfnombre.getText());
 
-        try {
-            // Validar campos
-            if (m.isValido()) {
-                if (mDAO.actualizarMoneda(sigMoneda, m)) {
+        try {           
+            if (m.isValido()) {   // Validar campos
+                String res = mDAO.actualizarMoneda(sigMoneda, m);
+                if (!res.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Moneda editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();
@@ -294,18 +286,10 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al editar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (FaltanDatosException fd) {
+        } catch (FaltanDatosException | LongitudException | ConnectionException | BDException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (LongitudException lon) {
-            JOptionPane.showMessageDialog(this, lon.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (BDException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
