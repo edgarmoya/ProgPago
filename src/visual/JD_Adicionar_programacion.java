@@ -35,6 +35,10 @@ import utiles.autoComplete;
 public class JD_Adicionar_programacion extends javax.swing.JDialog {
 
     private ArrayList<DestinoDesglose> ddesg = new ArrayList<>();
+    private ProgramacionDAO pDAO = new ProgramacionDAO();
+    private String codProg;
+    private boolean cambios;
+    private boolean editar;
 
     public JD_Adicionar_programacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -329,24 +333,12 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     }//GEN-LAST:event_jtDestinosMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        ProgramacionDAO pDAO = new ProgramacionDAO();
-        Programacion prog = datos_programacion();
-        if (!ddesg.isEmpty()) {
-            try {
-                int res = pDAO.agregarProgramacion(prog, arrayDestinos(), arrayImportes());
-                if (res != -1) {
-                    JOptionPane.showMessageDialog(this, "Programación agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar la programación", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ConnectionException | BDException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Debe agregar al menos un destino en la programación.", "Error", JOptionPane.ERROR_MESSAGE);
+         if (!editar){
+            // Agregar programacion
+            accionAgregar();
+        }else{
+            // Editar programacion
+            accionEditar();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -605,6 +597,48 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         return jtDestinos.getSelectedRow();
     }
 
+    // Agregar programacion a bd
+    private void accionAgregar(){
+        Programacion prog = datos_programacion();
+        if (!ddesg.isEmpty()) {
+            try {
+                int res = pDAO.agregarProgramacion(prog, arrayDestinos(), arrayImportes());
+                if (res != -1) {
+                    JOptionPane.showMessageDialog(this, "Programación agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar la programación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe agregar al menos un destino en la programación.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Editar programacion  en bd
+    private void accionEditar(){
+        Programacion prog = datos_programacion();
+        try {
+                boolean res = pDAO.editarProgramacion(codProg, prog, arrayDestinos(), arrayImportes());
+                if (res) {
+                    JOptionPane.showMessageDialog(this, "Programación editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar la programación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -662,4 +696,48 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     private custom_swing.TextField jtfObservacion;
     private javax.swing.JScrollPane scrollDestinos;
     // End of variables declaration//GEN-END:variables
+
+    //Cambios que se producirán si se va a editar la programacion
+    /*public void dialogo_editar(Programacion p){  
+        editar = true;
+        codProg = ""+p.getId_prog();
+        // Editar título e icono
+        setTitle("Editar Programación");
+        setIconImage(getIconImage("edit_button"));
+        // Cambiar toolTip del btnAceptar
+        btnAceptar.setToolTipText("Editar programación");
+        // Mostrar datos en campo correspondiente
+        setjcb_cliente(p.getCliente());
+        setjcb_ejercicio(p.getEjercicio());
+        setjcb_moneda(p.getMoneda());
+        setjcb_tipofinan(p.getTipofinan());
+        setJtftelefono(c.getTelefono());
+
+        // Comprobar campos para que se active el btnAceptar
+        camposRequeridos();
+    }
+    
+    // retorna si se realizó algún cambio o no
+    public boolean cambios() {
+        return cambios;
+    }
+     
+    // Setters
+    public void setjcb_cliente(String jcb_cliente) {
+        this.jcbCliente.setSelectedItem(jcb_cliente);
+    }
+
+    public void setjcb_ejercicio(String jcb_ejercicio) {
+        this.jcbEjercicio.setSelectedItem(jcb_ejercicio);
+    }
+
+    public void setjcb_moneda(String jcb_moneda) {
+        this.jcbMoneda.setSelectedItem(jcb_moneda);
+    }
+    
+    public void setjcb_tipofinan(String jcb_tipofinan) {
+        this.jcbTipoFinan.setSelectedItem(jcb_tipofinan);
+    }*/
+    
+    
 }
