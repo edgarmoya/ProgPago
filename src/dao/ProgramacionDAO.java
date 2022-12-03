@@ -125,4 +125,72 @@ public class ProgramacionDAO {
         }
         return programaciones;
     }
+    
+    // Obtener datos de la programacion a partir del código
+    /*public Programacion getProgramacion(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        Programacion p = new Programacion();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM cliente WHERE cod_cliente = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, codigo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    c.setCod_cliente(rs.getString("cod_cliente"));
+                    c.setNombre(rs.getString("nombre"));
+                    c.setOrganismo(rs.getString("organismo"));
+                    c.setNit(rs.getString("nit"));
+                    c.setReeup(c.reeupConGuiones(rs.getString("reeup")));
+                    c.setCorreo(rs.getString("correo"));
+                    c.setDireccion(rs.getString("direccion"));
+                    c.setTelefono(rs.getString("telefono"));
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener cliente: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return c;
+    }
+    
+    // Actualizar cliente a partir del código
+    public boolean editarProgramacion(String cod, Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        boolean isUpdate = false;
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "UPDATE cliente SET cod_cliente=? ,nombre=?, organismo=?, nit=?, reeup=?, correo=?, direccion=?, telefono=? WHERE cod_cliente=?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, cliente.getCod_cliente());
+                stmt.setString(2, cliente.getNombre());
+                stmt.setString(3, cliente.getOrganismo());
+                stmt.setString(4, cliente.getNit());
+                stmt.setString(5, cliente.getReeup());
+                stmt.setString(6, cliente.getCorreo());
+                stmt.setString(7, cliente.getDireccion());
+                stmt.setString(8, cliente.getTelefono());
+                stmt.setString(9, cod);
+
+                //ejecutamos la sentencia
+                int cantidad = stmt.executeUpdate();
+                isUpdate = (cantidad > 0);
+
+            } catch (PSQLException e) {
+                System.out.println("Error al actualizar cliente " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());             
+            } finally {
+                conn.close();
+            }
+        }
+        return isUpdate;
+    }*/
 }

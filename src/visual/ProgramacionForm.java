@@ -214,15 +214,15 @@ public class ProgramacionForm extends javax.swing.JPanel {
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
-        /*if (JDAdd.cambios()){
+        if (JDAdd.cambios()){
             refrescar();
             comprobarSeleccion();
-        }*/
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar programacion
-        /*if (posicion() != -1){
+        if (posicion() != -1){
             JD_Adicionar_programacion JDEdit = new JD_Adicionar_programacion(null, true);
             JDEdit.setLocationRelativeTo(this);
             Programacion p = getProgramacionSeleccionada();
@@ -236,7 +236,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         }else{
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -265,7 +265,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private void btnActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateActionPerformed
         // Acción para confirmar programacion
-        /*if (posicion() != -1) {
+        if (posicion() != -1) {
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             try {
                 if (pDAO.confirmarProgramacion(cod)){
@@ -278,7 +278,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_btnActivateActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -294,7 +294,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     // Eliminar programacion a partir del codigo
     private void accionEliminar(String codigo) {
-        /*int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la programación con código \"" + codigo + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la programación con código \"" + codigo + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         try {
             if (input == 0) {   // 0=SI, 1=NO
                 int result = pDAO.confirmadaProgramacion(codigo);
@@ -313,7 +313,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }*/
+        }
     }
     
     //Método para actualizar la tabla con la lista de programaciones confirmadas
@@ -386,7 +386,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     }
     
     // Obtener datos de la programacion a partir del codigo
-    /*private Programacion getProgramacionSeleccionada(){
+    private Programacion getProgramacionSeleccionada(){
         String value = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
         Programacion p = new Programacion();
         try {
@@ -397,11 +397,11 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return p;
-    }*/
+    }
     
     // Comprobar si es una programacion confirmada o en edicion
     private void comprobarConfirmada(){
-        /*if (posicion() != -1) {
+        if (posicion() != -1) {
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             try {
                 int res = pDAO.isConfirmada(cod);
@@ -417,12 +417,12 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     } 
     
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion(){   
-        /*if (posicion() != -1) {
+        if (posicion() != -1) {
             btnEdit.setEnabled(true);
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             // Comprobar si se puede activar el btnDelete
@@ -440,7 +440,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         } else {
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
-        }*/
+        }
     }
     
     // Refrescar form con tabla correspondiente
