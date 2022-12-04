@@ -135,7 +135,7 @@ public class MonedaDAO {
     }
     
     // Actualizar moneda a partir de la sigla
-    public String actualizarMoneda(String sig, Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String editarMoneda(String sig, Moneda moneda) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         String result = "";
         if (conn == null) {
@@ -178,7 +178,6 @@ public class MonedaDAO {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
-                //ejecutamos la sentencia
                 //ejecutamos la sentencia
                 ResultSet res = stmt.executeQuery();
                 res.next();

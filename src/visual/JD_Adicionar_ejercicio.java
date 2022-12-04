@@ -189,10 +189,10 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         Ejercicio e = new Ejercicio();
         e.setEjercicio(jtfEjercicio.getText());
         
-         try {
-            // Validar
-            if (e.isValido()) {
-                if (eDAO.agregarEjercicio(e)) {
+         try {           
+            if (e.isValido()) {   // Validar
+                int res = eDAO.agregarEjercicio(e);
+                if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Ejercicio agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     limpiar();
                     cambios = true;
@@ -212,10 +212,10 @@ public class JD_Adicionar_ejercicio extends javax.swing.JDialog {
         Ejercicio e = new Ejercicio();
         e.setEjercicio(jtfEjercicio.getText());
         
-         try {
-            // Validar campos
-            if (e.isValido()) {
-                if (eDAO.editarEjercicio(codEjercicio, e)) {
+         try {           
+            if (e.isValido()) {   // Validar campos
+                String res = eDAO.editarEjercicio(codEjercicio, e);
+                if (!res.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Ejercicio editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();

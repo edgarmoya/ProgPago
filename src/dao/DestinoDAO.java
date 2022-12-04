@@ -163,25 +163,25 @@ public class DestinoDAO {
         return result;
     }
     
-    // Eliminar destino a partir del codigo
-    // Si tiene programaciones solo inactivar
-    public boolean eliminarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Eliminar destino a partir del codigo, si tiene programaciones solo inactivar
+    public int eliminarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isDelete = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL delete_destino(?)";
+                String sql = "SELECT delete_destino(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                isDelete = true;
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
+                conn.commit();   
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar destino " + e.getMessage());
                 conn.rollback();
@@ -190,7 +190,7 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return isDelete;
+        return result;
     }
     
     // Obtener si el destino se encuentra en uso a partir del codigo
@@ -225,23 +225,24 @@ public class DestinoDAO {
     }
     
     // Activar destino a partir del código
-    public boolean activarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int activarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean activado;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL activate_destino(?)";
+                String sql = "SELECT activate_destino(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
                 conn.commit();
-                activado = true;
             } catch (PSQLException e) {
                 System.out.println("Error al activar destino " + e.getMessage());
                 conn.rollback();
@@ -250,7 +251,7 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return activado;
+        return result;
     }
     
     // Obtener si el destino está activo o no
