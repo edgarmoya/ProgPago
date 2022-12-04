@@ -267,7 +267,8 @@ public class ClienteForm extends javax.swing.JPanel {
         if (posicion() != -1) {
             String cod = jtClientes.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (cDAO.activarCliente(cod)){
+                int res = cDAO.activarCliente(cod);
+                if (res != -1){
                     refrescar();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -303,17 +304,23 @@ public class ClienteForm extends javax.swing.JPanel {
                 if (result == 1) {   // si está en uso
                     int input2 = JOptionPane.showConfirmDialog(null, "No es posible eliminar el cliente con código \"" + codigo + "\" porque tiene información asociada. \n¿Desea desactivarlo del sistema?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (input2 == 0) {   // 0=SI, 1=NO
-                        if (cDAO.eliminarCliente(codigo)) {
+                        int res = cDAO.eliminarCliente(codigo);
+                        if (res != -1) {
                             refrescar();
                             comprobarSeleccion();
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Error al eliminar el cliente con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.getRootFrame().dispose();
                     }
                 } else {
-                    if (cDAO.eliminarCliente(codigo)) {
+                    int res = cDAO.eliminarCliente(codigo);
+                    if (res != -1) {
                         refrescar();
                         comprobarSeleccion();
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Error al eliminar el cliente con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {

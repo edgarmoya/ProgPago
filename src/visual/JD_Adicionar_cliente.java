@@ -405,10 +405,10 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
             c.setTelefono(jtftelefono.getText());
         }
 
-        try {
-            // Validar campos
-            if (c.isValido()) {
-                if (cDAO.editarCliente(codCliente, c)) {
+        try {          
+            if (c.isValido()) {   // Validar campos
+                int res = cDAO.editarCliente(codCliente, c);
+                if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Cliente editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();

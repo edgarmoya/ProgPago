@@ -277,7 +277,7 @@ public class JD_Adicionar_moneda extends javax.swing.JDialog {
 
         try {           
             if (m.isValido()) {   // Validar campos
-                String res = mDAO.actualizarMoneda(sigMoneda, m);
+                String res = mDAO.editarMoneda(sigMoneda, m);
                 if (!res.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Moneda editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
