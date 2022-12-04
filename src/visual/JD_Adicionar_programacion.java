@@ -622,7 +622,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     
     //Editar programacion  en bd
     private void accionEditar(){
-        Programacion prog = datos_programacion();
+        /*Programacion prog = datos_programacion();
         try {
                 boolean res = pDAO.editarProgramacion(codProg, prog, arrayDestinos(), arrayImportes());
                 if (res) {
@@ -636,7 +636,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (ConnectionException | BDException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            }*/
     }
     
     public static void main(String args[]) {
