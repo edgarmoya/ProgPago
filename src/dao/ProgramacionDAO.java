@@ -179,7 +179,9 @@ public class ProgramacionDAO {
                     ArrayList<Double> importes = new ArrayList<>();
                     for (int i = 0; i < 12; i++) {
                         importes.add(rs.getDouble("importes"));
-                        rs.next();
+                        if(i != 11){
+                            rs.next();
+                        }                   
                     }
                     dd.setImportes(importes);
                     lista.add(dd);
