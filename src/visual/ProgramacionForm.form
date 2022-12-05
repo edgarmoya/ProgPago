@@ -36,7 +36,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="scrollProgramacion" max="32767" attributes="0"/>
+              <Component id="scrollProgramacion" pref="795" max="32767" attributes="0"/>
               <Component id="botones" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
@@ -45,7 +45,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="botones" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="scrollProgramacion" pref="495" max="32767" attributes="0"/>
+                  <Component id="scrollProgramacion" pref="492" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -71,10 +71,12 @@
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="btnShowAll" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="btnActivate" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnConfirm" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="565" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnHistory" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -83,14 +85,15 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnHistory" min="-2" max="-2" attributes="0"/>
                           <Component id="btnRefresh" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnActivate" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnConfirm" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnShowAll" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEdit" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAdd" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -157,19 +160,19 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnShowAllActionPerformed"/>
               </Events>
             </Component>
-            <Component class="custom_swing.ButtonCircular" name="btnActivate">
+            <Component class="custom_swing.ButtonCircular" name="btnConfirm">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/imagenes/activate_button.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Activar programaci&#xf3;n"/>
+                <Property name="toolTipText" type="java.lang.String" value="Confirmar programaci&#xf3;n"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[30, 30]"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActivateActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfirmActionPerformed"/>
               </Events>
             </Component>
             <Component class="custom_swing.ButtonCircular" name="btnRefresh">
@@ -184,6 +187,20 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRefreshActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="custom_swing.ButtonCircular" name="btnHistory">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagenes/historial_button.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Mostrar historial"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[30, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHistoryActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
