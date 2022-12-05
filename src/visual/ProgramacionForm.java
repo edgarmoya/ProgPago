@@ -214,15 +214,15 @@ public class ProgramacionForm extends javax.swing.JPanel {
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
-        /*if (JDAdd.cambios()){
+        if (JDAdd.cambios()){
             refrescar();
             comprobarSeleccion();
-        }*/
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar programacion
-        /*if (posicion() != -1){
+        if (posicion() != -1){
             JD_Adicionar_programacion JDEdit = new JD_Adicionar_programacion(null, true);
             JDEdit.setLocationRelativeTo(this);
             Programacion p = getProgramacionSeleccionada();
@@ -236,7 +236,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         }else{
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -386,18 +386,18 @@ public class ProgramacionForm extends javax.swing.JPanel {
     }
     
     // Obtener datos de la programacion a partir del codigo
-    /*private Programacion getProgramacionSeleccionada(){
+    private Programacion getProgramacionSeleccionada(){
         String value = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
         Programacion p = new Programacion();
         try {
-            p = pDAO.getProgramacion(value);
+            p = pDAO.getProgramacion(Integer.parseInt(value));
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return p;
-    }*/
+    }
     
     // Comprobar si es una programacion confirmada o en edicion
     private void comprobarConfirmada(){
