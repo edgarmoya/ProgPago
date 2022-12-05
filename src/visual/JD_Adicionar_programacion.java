@@ -1,6 +1,5 @@
 package visual;
 
-import custom_swing.Combobox;
 import dao.ClienteDAO;
 import dao.EjercicioDAO;
 import dao.MonedaDAO;
@@ -679,7 +678,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         });
     }
     // Agregar programacion a bd
-    private void accionAgregar(){
+    /*private void accionAgregar(){
         Programacion prog = datos_programacion();
         if (!ddesg.isEmpty()) {
             try {
@@ -698,10 +697,10 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Debe agregar al menos un destino en la programación.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
     
     // Editar cliente en bd
-    private void accionEditar(){
+    /*private void accionEditar(){
         Programacion prog = datos_programacion();
             try {
                 int res = pDAO.editarProgramacion(codProgramacion, prog, arrayDestinos(), arrayImportes());
@@ -716,7 +715,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             } catch (ConnectionException | BDException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
