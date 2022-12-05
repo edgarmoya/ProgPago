@@ -183,13 +183,13 @@ public class JD_Log_programacion extends javax.swing.JDialog {
         String res;
         switch(a){
             case "i":
-                res = "Insertar";
+                res = "Inserción";
                 break;
             case "m":
-                res = "Modificar";
+                res = "Modificación";
                 break;
             case "c":
-                res = "Confirmar";
+                res = "Confirmación";
                 break;
             default:
                 res = "";

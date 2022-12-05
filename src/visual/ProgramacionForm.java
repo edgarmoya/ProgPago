@@ -6,6 +6,7 @@ import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
@@ -18,7 +19,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private ProgramacionDAO pDAO = new ProgramacionDAO();
     private boolean showAll = true;
-    
+
     public ProgramacionForm() {
         initComponents();
         //Editar color de la tabla
@@ -106,6 +107,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
         btnHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/historial_button.png"))); // NOI18N
         btnHistory.setToolTipText("Mostrar historial");
+        btnHistory.setEnabled(false);
         btnHistory.setPreferredSize(new java.awt.Dimension(30, 30));
         btnHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,24 +131,25 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 .addGap(8, 8, 8)
                 .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         botonesLayout.setVerticalGroup(
             botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnHistory, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(3, 3, 3))
         );
 
         scrollProgramacion.setBackground(new java.awt.Color(255, 255, 255));
@@ -204,7 +207,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollProgramacion, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                .addComponent(scrollProgramacion, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -226,7 +229,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         JDAdd.setVisible(true);
 
         // Si se efectuaron cambios actualizar tabla
-        if (JDAdd.cambios()){
+        if (JDAdd.cambios()) {
             refrescar();
             comprobarSeleccion();
         }
@@ -234,7 +237,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar programacion
-        if (posicion() != -1){
+        if (posicion() != -1) {
             JD_Adicionar_programacion JDEdit = new JD_Adicionar_programacion(null, true);
             JDEdit.setLocationRelativeTo(this);
             Programacion p = getProgramacionSeleccionada();
@@ -242,11 +245,11 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JDEdit.setVisible(true);
 
             // Si se efectuaron cambios actualizar tabla
-            if (JDEdit.cambios()){
+            if (JDEdit.cambios()) {
                 refrescar();
                 comprobarSeleccion();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione la fila que desea editar", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -262,7 +265,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnShowAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowAllActionPerformed
-        if (!showAll){
+        if (!showAll) {
             mostrarTodo();
             showAll = true;
             btnShowAll.setToolTipText("Mostrar programaciones confirmadas");
@@ -280,7 +283,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         if (posicion() != -1) {
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (pDAO.confirmarProgramacion(Integer.parseInt(cod))){
+                if (pDAO.confirmarProgramacion(Integer.parseInt(cod))) {
                     refrescar();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -299,17 +302,21 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private void jtProgramacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProgramacionesMouseClicked
         comprobarSeleccion();
-        if (showAll){
+        if (showAll) {
             comprobarConfirmada();
         }
     }//GEN-LAST:event_jtProgramacionesMouseClicked
 
     private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
-        // TODO add your handling code here:
-        JD_Log_programacion JDLog = new JD_Log_programacion(null, true);
-        JDLog.setLocationRelativeTo(this);
-        JDLog.setIdprog(63);
-        JDLog.setVisible(true);
+        if (posicion() != -1) {
+            int cod = Integer.valueOf(jtProgramaciones.getModel().getValueAt(posicion(), 0).toString());
+            JD_Log_programacion JDLog = new JD_Log_programacion(null, true);
+            JDLog.setLocationRelativeTo(this);
+            JDLog.setIdprog(cod);
+            JDLog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione la programación que desea ver el historial.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnHistoryActionPerformed
 
     // Eliminar programacion a partir del codigo
@@ -317,10 +324,10 @@ public class ProgramacionForm extends javax.swing.JPanel {
         int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la programación con código \"" + codigo + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         try {
             if (input == 0) {   // 0=SI, 1=NO
-                    if (pDAO.eliminarProgramacion(Integer.parseInt(codigo))) {
-                        refrescar();
-                        comprobarSeleccion();
-                    }
+                if (pDAO.eliminarProgramacion(Integer.parseInt(codigo))) {
+                    refrescar();
+                    comprobarSeleccion();
+                }
             } else {
                 JOptionPane.getRootFrame().dispose();
             }
@@ -330,10 +337,10 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     //Método para actualizar la tabla con la lista de programaciones confirmadas
     private void mostrarConfirmadas() {
-        String[] columnNames = {"Código","Ejercicio","Tipo de Financiamiento","Cliente","Moneda","Importe","Usuario"};
+        String[] columnNames = {"Código", "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Usuario"};
         ArrayList<Programacion> programaciones = new ArrayList<>();
         try {
             programaciones = pDAO.listaProgramacionesConfirmadas();
@@ -343,28 +350,28 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[programaciones.size()][7];        
+        String[][] data = new String[programaciones.size()][7];
         for (int i = 0; i < programaciones.size(); i++) {
-            data[i][0] = ""+programaciones.get(i).getId_prog();
+            data[i][0] = "" + programaciones.get(i).getId_prog();
             data[i][1] = programaciones.get(i).getEjercicio();
             data[i][2] = programaciones.get(i).getTipofinan();
             data[i][3] = programaciones.get(i).getCliente();
             data[i][4] = programaciones.get(i).getMoneda();
-            data[i][5] = ""+programaciones.get(i).getImporte();
-            data[i][6] = (programaciones.get(i).getEstado()==0)?"en edición":"confirmada";
-        }       
+            data[i][5] = "" + programaciones.get(i).getImporte();
+            data[i][6] = (programaciones.get(i).getEstado() == 0) ? "Edición" : "Confirmada";
+        }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 //tabla no editable
                 return false;
             }
-        };       
+        };
         jtProgramaciones.setModel(model);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
     }
-    
+
     //Método para actualizar la tabla con la lista de todas las programaciones
     private void mostrarTodo() {
         String[] columnNames = {"Código", "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Estado"};
@@ -377,31 +384,31 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        String[][] data = new String[programaciones.size()][7];        
+        String[][] data = new String[programaciones.size()][7];
         for (int i = 0; i < programaciones.size(); i++) {
-            data[i][0] = ""+programaciones.get(i).getId_prog();
+            data[i][0] = "" + programaciones.get(i).getId_prog();
             data[i][1] = programaciones.get(i).getEjercicio();
             data[i][2] = programaciones.get(i).getTipofinan();
             data[i][3] = programaciones.get(i).getCliente();
             data[i][4] = programaciones.get(i).getMoneda();
-            data[i][5] = ""+programaciones.get(i).getImporte();
-            data[i][6] = (programaciones.get(i).getEstado()==0) ? "Edición" : "Confirmada";
+            data[i][5] = "" + programaciones.get(i).getImporte();
+            data[i][6] = (programaciones.get(i).getEstado() == 0) ? "Edición" : "Confirmada";
         }
-        
+
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 //tabla no editable
                 return false;
             }
-        };       
+        };
         jtProgramaciones.setModel(model);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
     }
-    
+
     // Obtener datos de la programacion a partir del codigo
-    private Programacion getProgramacionSeleccionada(){
+    private Programacion getProgramacionSeleccionada() {
         String value = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
         Programacion p = new Programacion();
         try {
@@ -413,14 +420,14 @@ public class ProgramacionForm extends javax.swing.JPanel {
         }
         return p;
     }
-    
+
     // Comprobar si es una programacion confirmada o en edicion
-    private void comprobarConfirmada(){
+    private void comprobarConfirmada() {
         if (posicion() != -1) {
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             try {
                 int res = pDAO.isConfirmada(Integer.parseInt(cod));
-                if (res == 1){
+                if (res == 1) {
                     btnConfirm.setEnabled(false);
                 } else {
                     btnConfirm.setEnabled(true);
@@ -433,42 +440,44 @@ public class ProgramacionForm extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
         }
-    } 
-    
+    }
+
     // Comprobar si hay fila seleccionada
-    private void comprobarSeleccion(){   
+    private void comprobarSeleccion() {
         if (posicion() != -1) {
             btnEdit.setEnabled(true);
+            btnHistory.setEnabled(true);
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             // Comprobar si se puede activar el btnDelete
             try {
-                if (pDAO.isConfirmada(Integer.parseInt(cod)) == 1){
-                    btnDelete.setEnabled(true);
-                } else {
+                if (pDAO.isConfirmada(Integer.parseInt(cod)) == 1) {
                     btnDelete.setEnabled(false);
+                } else {
+                    btnDelete.setEnabled(true);
                 }
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (ConnectionException | BDException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }   
+            }
         } else {
+            btnHistory.setEnabled(false);
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
         }
     }
-    
+
     // Refrescar form con tabla correspondiente
-    private void refrescar(){
-        if (showAll){
+    private void refrescar() {
+        if (showAll) {
             mostrarTodo();
-        } else{ 
+        } else {
             mostrarConfirmadas();
         }
     }
-    
+
     // Posición de la fila seleccionada
-    private int posicion(){
+    private int posicion() {
         return jtProgramaciones.getSelectedRow();
     }
 

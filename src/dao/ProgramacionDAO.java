@@ -57,8 +57,8 @@ public class ProgramacionDAO {
             }
         }
         return result;
-    }   
-    
+    }
+
     // Listar todas las programaciones confirmadas de la bd
     public ArrayList<Programacion> listaProgramacionesConfirmadas() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -85,14 +85,14 @@ public class ProgramacionDAO {
                 }
             } catch (PSQLException e) {
                 System.out.println("Error al mostrar las programaciones confirmadas: " + e.getMessage());
-                throw new BDException(e.getServerErrorMessage().getMessage());   
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return programaciones;
     }
-    
+
     // Listar TODAS las programaciones de la bd
     public ArrayList<Programacion> listaTodasProgramaciones() throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -106,7 +106,7 @@ public class ProgramacionDAO {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
-                   //Preparar los datos
+                    //Preparar los datos
                     Programacion p = new Programacion();
                     p.setId_prog(rs.getInt("id_prog"));
                     p.setEjercicio(rs.getString("anno"));
@@ -119,14 +119,13 @@ public class ProgramacionDAO {
                 }
             } catch (PSQLException e) {
                 System.out.println("Error al mostrar todas las programaciones: " + e.getMessage());
-                throw new BDException(e.getServerErrorMessage().getMessage());   
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return programaciones;
     }
-    
 
     // Obtener datos de la programación a partir del código
     public Programacion getProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
@@ -153,14 +152,14 @@ public class ProgramacionDAO {
                 }
             } catch (PSQLException e) {
                 System.out.println("Error al obtener programación: " + e.getMessage());
-                throw new BDException(e.getServerErrorMessage().getMessage());     
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return p;
     }
-    
+
     public ArrayList<DestinoDesglose> getDestinos(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         ArrayList<DestinoDesglose> lista = new ArrayList<>();
@@ -187,14 +186,14 @@ public class ProgramacionDAO {
                 }
             } catch (PSQLException e) {
                 System.out.println("Error al obtener destinos: " + e.getMessage());
-                throw new BDException(e.getServerErrorMessage().getMessage());     
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return lista;
-    }    
-    
+    }
+
     // Actualizar programacion a partir del código
     public int editarProgramacion(int cod, Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -211,7 +210,7 @@ public class ProgramacionDAO {
                 stmt.setString(2, prog.getObservacion());
                 stmt.setString(3, prog.getTipofinan());
                 stmt.setString(4, prog.getMoneda());
-                stmt.setString(5, ""+prog.getEstado());
+                stmt.setString(5, "" + prog.getEstado());
                 stmt.setString(6, prog.getCliente());
                 stmt.setString(7, prog.getEjercicio());
                 stmt.setArray(8, arrayDestinos);
@@ -223,17 +222,17 @@ public class ProgramacionDAO {
 
                 res.next();
                 result = res.getInt(1);
-                
+
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar programación " + e.getMessage());
-                throw new BDException(e.getServerErrorMessage().getMessage());             
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return result;
     }
-    
+
     // Eliminar programacion a partir del codigo
     public boolean eliminarProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -246,7 +245,7 @@ public class ProgramacionDAO {
                 conn.setAutoCommit(false);
                 String sql = "SELECT public.delete_programacion(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, codigo);               
+                stmt.setInt(1, codigo);
 
                 //ejecutamos la sentencia
                 stmt.execute();
@@ -255,14 +254,14 @@ public class ProgramacionDAO {
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar la programación " + e.getMessage());
                 conn.rollback();
-                throw new BDException(e.getServerErrorMessage().getMessage());             
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return isDelete;
     }
-    
+
     // Confirmar programación a partir del código
     public boolean confirmarProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -275,7 +274,7 @@ public class ProgramacionDAO {
                 conn.setAutoCommit(false);
                 String sql = "SELECT public.confirmar_programacion(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, codigo);               
+                stmt.setInt(1, codigo);
 
                 //ejecutamos la sentencia
                 stmt.execute();
@@ -284,14 +283,14 @@ public class ProgramacionDAO {
             } catch (PSQLException e) {
                 System.out.println("Error al confirmar programación " + e.getMessage());
                 conn.rollback();
-                throw new BDException(e.getServerErrorMessage().getMessage());             
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
         }
         return confirmada;
     }
-    
+
     // Obtener si la programacion está confirmada o no
     public int isConfirmada(int cod) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -304,18 +303,18 @@ public class ProgramacionDAO {
                 conn.setAutoCommit(false);
                 String sql = "SELECT public.is_progconfirmada(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, cod);               
+                stmt.setInt(1, cod);
 
                 //ejecutamos la sentencia
                 ResultSet rs = stmt.executeQuery();
                 conn.commit();
                 rs.next();
                 result = rs.getInt(1);
-                
+
             } catch (PSQLException e) {
                 System.out.println("Error al comprobar si la programación está confirmada o no" + e.getMessage());
                 conn.rollback();
-                throw new BDException(e.getServerErrorMessage().getMessage());             
+                throw new BDException(e.getServerErrorMessage().getMessage());
             } finally {
                 conn.close();
             }
