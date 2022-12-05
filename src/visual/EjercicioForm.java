@@ -299,15 +299,17 @@ public class EjercicioForm extends javax.swing.JPanel {
         int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el ejercicio \"" + ejercicio + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         try {
             if (input == 0) {   // 0=SI, 1=NO
-                if (eDAO.eliminarEjercicio(ejercicio)) {
+                int res = eDAO.eliminarEjercicio(ejercicio);
+                if (res != -1) {
                     mostrarEjercicios();
                     seleccionarItem(0);
                     comprobarSeleccion();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Error al eliminar el ejercicio \"" + ejercicio + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.getRootFrame().dispose();
             }
-
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException | BDException ex) {

@@ -21,23 +21,24 @@ public class EjercicioDAO {
     private ConexionPg pg = new ConexionPg();
 
     // Agregar ejercicio
-    public boolean agregarEjercicio(Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int agregarEjercicio(Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL add_ejercicio(?)";
+                String sql = "SELECT add_ejercicio(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, ejercicio.getEjercicio());
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                fueAgregado = true;
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
+                conn.commit();                
             } catch (PSQLException e) {
                 System.out.println("Error al agregar ejercicio " + e.getMessage());
                 conn.rollback();
@@ -46,7 +47,7 @@ public class EjercicioDAO {
                 conn.close();
             }
         }
-        return fueAgregado;
+        return result;
     }
 
     // Listar todos los ejercicios de la bd
@@ -57,17 +58,17 @@ public class EjercicioDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM ejercicio ORDER BY anno DESC";
+                String sql = "SELECT * FROM lista_ejercicios()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     //Preparar los datos
                     Ejercicio e = new Ejercicio();
-                    e.setCod_ejercicio(rs.getInt("cod_ejercicio"));
-                    e.setEjercicio(rs.getString("anno"));
-                    e.setFecha_inicio(rs.getDate("fecha_inicio"));
-                    e.setFecha_fin(rs.getDate("fecha_fin"));
+                    e.setCod_ejercicio(rs.getInt(1));
+                    e.setEjercicio(rs.getString(2));
+                    e.setFecha_inicio(rs.getDate(3));
+                    e.setFecha_fin(rs.getDate(4));
                     ejercicios.add(e);
                 }
             } catch (PSQLException e) {
@@ -143,25 +144,25 @@ public class EjercicioDAO {
     }
     
     // Actualizar ejercicio a partir del código
-    public boolean editarEjercicio(String cod, Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public String editarEjercicio(String cod, Ejercicio ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isUpdate = false;
+        String result = "";
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL edit_ejercicio(?,?)";
+                String sql = "SELECT edit_ejercicio(?,?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, Integer.parseInt(cod));
                 stmt.setString(2, ejercicio.getEjercicio());
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                isUpdate = true;
-
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getString(1);
+                conn.commit(); 
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar ejercicio " + e.getMessage());
                 conn.rollback();
@@ -170,27 +171,28 @@ public class EjercicioDAO {
                 conn.close();
             }
         }
-        return isUpdate;
+        return result;
     }
     
     // Actualizar ejercicio a partir del código
-    public boolean eliminarEjercicio(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int eliminarEjercicio(String ejercicio) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isDelete = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL delete_ejercicio(?)";
+                String sql = "SELECT delete_ejercicio(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, ejercicio);
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                isDelete = true;
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
+                conn.commit(); 
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar ejercicio " + e.getMessage());
                 conn.rollback();
@@ -199,6 +201,6 @@ public class EjercicioDAO {
                 conn.close();
             }
         }
-        return isDelete;
+        return result;
     }
 }

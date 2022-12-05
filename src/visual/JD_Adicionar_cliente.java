@@ -287,7 +287,7 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         keyboradUtil.maxLength(jtfnit, 16);
         keyboradUtil.maxLength(jtfcorreo, 50);
         keyboradUtil.maxLength(jtfdireccion, 100);
-        keyboradUtil.maxLength(jtftelefono, 15);
+        keyboradUtil.maxLength(jtftelefono, 8);
     }
 
     // Permitir solo números
@@ -363,11 +363,12 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         try {
             // Validar campos
             if (c.isValido()) {
-                if (cDAO.agregarCliente(c)) {
+                int res = cDAO.agregarCliente(c);
+                if (res != -1){
                     JOptionPane.showMessageDialog(this, "Cliente agregado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     limpiar();
                     cambios = true;
-                } else {
+                }else{
                     JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -384,17 +385,30 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
         Cliente c = new Cliente();
         c.setCod_cliente(jtfcod_cliente.getText());
         c.setNombre(jtfnombre.getText());
-        c.setOrganismo(jtforganismo.getText());
-        c.setNit(jtfnit.getText());
-        c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
-        c.setCorreo(jtfcorreo.getText());
-        c.setDireccion(jtfdireccion.getText());
-        c.setTelefono(jtftelefono.getText());
+        
+        if(!jtforganismo.getText().isEmpty()){
+            c.setOrganismo(jtforganismo.getText());
+        }
+        if(!jtfnit.getText().isEmpty()){
+            c.setNit(jtfnit.getText());
+        }
+        if(!jtfreeup.getText().isEmpty()){
+            c.setReeup(c.reeupSinGuiones(jtfreeup.getText()));
+        }
+        if(!jtfcorreo.getText().isEmpty()){
+            c.setCorreo(jtfcorreo.getText());
+        }
+        if(!jtfdireccion.getText().isEmpty()){
+            c.setDireccion(jtfdireccion.getText());
+        }
+        if(!jtftelefono.getText().isEmpty()){
+            c.setTelefono(jtftelefono.getText());
+        }
 
-        try {
-            // Validar campos
-            if (c.isValido()) {
-                if (cDAO.editarCliente(codCliente, c)) {
+        try {          
+            if (c.isValido()) {   // Validar campos
+                int res = cDAO.editarCliente(codCliente, c);
+                if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Cliente editado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
                     dispose();
@@ -497,15 +511,21 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     }
 
     public void setJtfcorreo(String jtfcorreo) {
-        this.jtfcorreo.setText(jtfcorreo);
+        if(jtfcorreo != null){
+            this.jtfcorreo.setText(jtfcorreo);
+        }
     }
 
     public void setJtfdireccion(String jtfdireccion) {
-        this.jtfdireccion.setText(jtfdireccion);
+        if(jtfdireccion != null){
+            this.jtfdireccion.setText(jtfdireccion);
+        }
     }
 
     public void setJtfnit(String jtfnit) {
-        this.jtfnit.setText(jtfnit);
+        if(jtfnit != null){
+            this.jtfnit.setText(jtfnit);
+        }
     }
 
     public void setJtfnombre(String jtfnombre) {
@@ -513,15 +533,21 @@ public class JD_Adicionar_cliente extends javax.swing.JDialog {
     }
 
     public void setJtforganismo(String jtforganismo) {
-        this.jtforganismo.setText(jtforganismo);
+        if(jtforganismo != null){
+            this.jtforganismo.setText(jtforganismo);
+        }
     }
 
     public void setJtfreeup(String jtfreeup) {
-        this.jtfreeup.setText(jtfreeup);
+        if(jtfreeup != null){
+            this.jtfreeup.setText(jtfreeup);
+        }
     }
 
     public void setJtftelefono(String jtftelefono) {
-        this.jtftelefono.setText(jtftelefono);
+        if(jtftelefono != null){
+            this.jtftelefono.setText(jtftelefono);
+        }
     } 
 
 }

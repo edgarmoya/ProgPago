@@ -267,7 +267,8 @@ public class MonedaForm extends javax.swing.JPanel {
         if (posicion() != -1) {
             String cod = jtMonedas.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (mDAO.activarMoneda(cod)){
+                String res = mDAO.activarMoneda(cod);
+                if (!res.isEmpty()){
                     refrescar();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -303,7 +304,8 @@ public class MonedaForm extends javax.swing.JPanel {
                 if (result == 1) {   // si está en uso
                     int input2 = JOptionPane.showConfirmDialog(null, "No es posible eliminar la moneda con siglas \"" + codigo + "\" porque tiene información asociada. \n¿Desea desactivarla del sistema?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (input2 == 0) {   // 0=SI, 1=NO
-                        if (mDAO.eliminarMoneda(codigo)) {
+                        String res = mDAO.eliminarMoneda(codigo);
+                        if (!res.isEmpty()) {
                             refrescar();
                             comprobarSeleccion();
                         }
@@ -311,7 +313,8 @@ public class MonedaForm extends javax.swing.JPanel {
                         JOptionPane.getRootFrame().dispose();
                     }
                 } else {
-                    if (mDAO.eliminarMoneda(codigo)) {
+                    String res = mDAO.eliminarMoneda(codigo);
+                    if (!res.isEmpty()) {
                         refrescar();
                         comprobarSeleccion();
                     }

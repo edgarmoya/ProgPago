@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.postgresql.util.PSQLException;
 import ppago.ConexionPg;
+
 /**
  *
  * @author Lester
@@ -18,23 +19,24 @@ public class DestinoDAO {
     
     private ConexionPg pg = new ConexionPg();
     
-    public boolean agregarDestino (Destino destino) throws SQLException, ClassNotFoundException, ConnectionException, BDException {      
+    public int agregarDestino (Destino destino) throws SQLException, ClassNotFoundException, ConnectionException, BDException {      
         Connection conn = pg.getConnection();
-        boolean fueAgregado = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try{
-                String sql = "INSERT INTO destino VALUES (?,?,?::bit(1))";
+                String sql = "SELECT add_destino(?, ?, ?::bit(1))";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, destino.getId_destino());
                 stmt.setString(2, destino.getNombre());
                 stmt.setString(3, "1");
-
+                
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                fueAgregado = (cantidad > 0);
+                ResultSet res = stmt.executeQuery();
 
+                res.next();
+                result = res.getInt(1);
             } catch (PSQLException e){
                 System.out.println("Error al agregar destino "+e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage());  
@@ -42,7 +44,7 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return fueAgregado;
+        return result;
     }
     
     // Listar todos los destinos ACTIVOS de la bd
@@ -53,7 +55,7 @@ public class DestinoDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM destino WHERE activo='1' ORDER BY id_destino";
+                String sql = "SELECT * FROM lista_destinos_activos()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -82,7 +84,7 @@ public class DestinoDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM destino ORDER BY id_destino";
+                String sql = "SELECT * FROM lista_todos_destinos()";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
 
@@ -133,23 +135,24 @@ public class DestinoDAO {
     }
     
     // Actualizar destino a partir del código
-    public boolean actualizarDestino(String cod, Destino destino) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int actualizarDestino(String cod, Destino destino) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isUpdate = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "UPDATE destino SET id_destino=? ,nombre=? WHERE id_destino=?";
+                String sql = "SELECT edit_destino(?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, destino.getId_destino());
                 stmt.setString(2, destino.getNombre());
                 stmt.setString(3, cod);
-
+                
                 //ejecutamos la sentencia
-                int cantidad = stmt.executeUpdate();
-                isUpdate = (cantidad > 0);
+                ResultSet res = stmt.executeQuery();
 
+                res.next();
+                result = res.getInt(1);
             } catch (PSQLException e) {
                 System.out.println("Error al actualizar destino " + e.getMessage());
                 throw new BDException(e.getServerErrorMessage().getMessage());             
@@ -157,28 +160,28 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return isUpdate;
+        return result;
     }
     
-    // Eliminar destino a partir del codigo
-    // Si tiene programaciones solo inactivar
-    public boolean eliminarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Eliminar destino a partir del codigo, si tiene programaciones solo inactivar
+    public int eliminarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean isDelete = false;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL delete_destino(?)";
+                String sql = "SELECT delete_destino(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
-                conn.commit();
-                isDelete = true;
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
+                conn.commit();   
             } catch (PSQLException e) {
                 System.out.println("Error al eliminar destino " + e.getMessage());
                 conn.rollback();
@@ -187,7 +190,7 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return isDelete;
+        return result;
     }
     
     // Obtener si el destino se encuentra en uso a partir del codigo
@@ -222,23 +225,24 @@ public class DestinoDAO {
     }
     
     // Activar destino a partir del código
-    public boolean activarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int activarDestino(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        boolean activado;
+        int result = -1;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL activate_destino(?)";
+                String sql = "SELECT activate_destino(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);               
 
                 //ejecutamos la sentencia
-                stmt.execute();
+                ResultSet res = stmt.executeQuery();
+                res.next();
+                result = res.getInt(1);
                 conn.commit();
-                activado = true;
             } catch (PSQLException e) {
                 System.out.println("Error al activar destino " + e.getMessage());
                 conn.rollback();
@@ -247,7 +251,7 @@ public class DestinoDAO {
                 conn.close();
             }
         }
-        return activado;
+        return result;
     }
     
     // Obtener si el destino está activo o no

@@ -598,6 +598,48 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         return jtDestinos.getSelectedRow();
     }
 
+    // Agregar programacion a bd
+    private void accionAgregar(){
+        Programacion prog = datos_programacion();
+        if (!ddesg.isEmpty()) {
+            try {
+                int res = pDAO.agregarProgramacion(prog, arrayDestinos(), arrayImportes());
+                if (res != -1) {
+                    JOptionPane.showMessageDialog(this, "Programación agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al agregar la programación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe agregar al menos un destino en la programación.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Editar programacion  en bd
+    private void accionEditar(){
+        /*Programacion prog = datos_programacion();
+        try {
+                boolean res = pDAO.editarProgramacion(codProg, prog, arrayDestinos(), arrayImportes());
+                if (res) {
+                    JOptionPane.showMessageDialog(this, "Programación editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    cambios = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al editar la programación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (ConnectionException | BDException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }*/
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -695,6 +737,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollDestinos;
     // End of variables declaration//GEN-END:variables
 
+
  //Cambios que se producirán si se va a editar la programacion
     public void dialogo_editar(Programacion p){  
         editar = true;
@@ -704,6 +747,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         setIconImage(getIconImage("edit_button"));
         // Cambiar toolTip del btnAceptar
         btnAceptar.setToolTipText("Editar programación");
+
         // Mostrar datos en campo correspondiente     
        setJcbCliente(p.getCliente());
        setJcbEjercicio(p.getEjercicio()); 
@@ -740,4 +784,5 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
      public void setJtfObservacion(String jtfobservacion) {
         this.jtfObservacion.setText(jtfobservacion);
     }
+
 }

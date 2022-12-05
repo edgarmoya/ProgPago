@@ -23,8 +23,8 @@ public class ProgramacionForm extends javax.swing.JPanel {
     public ProgramacionForm() {
         initComponents();
         //Editar color de la tabla
-        JTableUtil.headerTable(jtProgramaciones);
-        refrescar();
+        //JTableUtil.headerTable(jtProgramaciones);
+        //refrescar();
     }
 
     @SuppressWarnings("unchecked")
@@ -241,16 +241,16 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // Acción para eliminar programacion
-        if (posicion() != -1) {
+        /*if (posicion() != -1) {
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             accionEliminar(cod);
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione la programación que desea eliminar.", "Error", JOptionPane.WARNING_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnShowAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowAllActionPerformed
-        if (!showAll){
+        /*if (!showAll){
             mostrarTodo();
             showAll = true;
             btnShowAll.setToolTipText("Mostrar programaciones confirmadas");
@@ -260,7 +260,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             showAll = false;
             btnShowAll.setToolTipText("Mostrar todas las programaciones");
             btnShowAll.setIcon(new ImageIcon(getClass().getResource("/imagenes/mostrar_todo_button.png")));
-        }
+        }*/
     }//GEN-LAST:event_btnShowAllActionPerformed
 
     private void btnActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateActionPerformed
@@ -283,6 +283,11 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         refrescar();
+        JD_Log_programacion JDLog = new JD_Log_programacion(null, true);
+        JDLog.setLocationRelativeTo(this);
+        JDLog.setIdprog(63);
+        JDLog.setVisible(true);
+
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void jtProgramacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProgramacionesMouseClicked

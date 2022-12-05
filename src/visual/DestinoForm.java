@@ -267,8 +267,10 @@ public class DestinoForm extends javax.swing.JPanel {
         if (posicion() != -1) {
             String cod = jtDestinos.getModel().getValueAt(posicion(), 0).toString();
             try {
-                if (dDAO.activarDestino(cod)){
+                int res = dDAO.activarDestino(cod);
+                if (res != -1){
                     refrescar();
+                    comprobarSeleccion();
                 }
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -303,17 +305,23 @@ public class DestinoForm extends javax.swing.JPanel {
                 if (result == 1) {   // si está en uso
                     int input2 = JOptionPane.showConfirmDialog(null, "No es posible eliminar el destino con código \"" + codigo + "\" porque tiene información asociada. \n¿Desea desactivarlo del sistema?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (input2 == 0) {   // 0=SI, 1=NO
-                        if (dDAO.eliminarDestino(codigo)) {
+                        int res = dDAO.eliminarDestino(codigo);
+                        if (res != -1) {
                             refrescar();
                             comprobarSeleccion();
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Error al eliminar el destino con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.getRootFrame().dispose();
                     }
                 } else {
-                    if (dDAO.eliminarDestino(codigo)) {
+                    int res = dDAO.eliminarDestino(codigo);
+                    if (res != -1) {
                         refrescar();
                         comprobarSeleccion();
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Error al eliminar el destino con código \"" + codigo + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {

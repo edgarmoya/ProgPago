@@ -126,7 +126,8 @@ public class ProgramacionDAO {
         return programaciones;
     }
     
-     // Obtener datos de la programacion a partir del código
+
+    // Obtener datos de la programacion a partir del código
     public Programacion getProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         Programacion p = new Programacion();
