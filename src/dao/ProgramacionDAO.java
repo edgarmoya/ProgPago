@@ -234,9 +234,8 @@ public class ProgramacionDAO {
         return result;
     }
     
-    // Eliminar cliente a partir del codigo
-    // Si tiene programaciones solo inactivar
-   /* public boolean eliminarCliente(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Eliminar programacion a partir del codigo
+    public boolean eliminarProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         boolean isDelete = false;
         if (conn == null) {
@@ -245,16 +244,16 @@ public class ProgramacionDAO {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "CALL delete_cliente(?)";
+                String sql = "SELECT public.delete_programacion(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, codigo);               
+                stmt.setInt(1, codigo);               
 
                 //ejecutamos la sentencia
                 stmt.execute();
                 conn.commit();
                 isDelete = true;
             } catch (PSQLException e) {
-                System.out.println("Error al eliminar cliente " + e.getMessage());
+                System.out.println("Error al eliminar la programación " + e.getMessage());
                 conn.rollback();
                 throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
@@ -264,68 +263,37 @@ public class ProgramacionDAO {
         return isDelete;
     }
     
-    // Obtener si el cliente se encuentra en uso a partir del codigo
-    public int useCliente(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Confirmar programación a partir del código
+    public boolean confirmarProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
-        int result;
+        boolean confirmada;
         if (conn == null) {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "SELECT use_cliente(?)";
+                String sql = "SELECT public.confirmar_programacion(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, codigo);
-                
-                //ejecutamos la sentencia
-                ResultSet rs = stmt.executeQuery();
-                conn.commit();
-                rs.next();
-                result = rs.getInt(1);
-    
-            } catch (PSQLException e) {
-                System.out.println("Error al obtener si el cliente está en uso: " + e.getMessage());
-                conn.rollback();
-                throw new BDException(e.getServerErrorMessage().getMessage());     
-            } finally {
-                conn.close();
-            }
-        }
-        return result;
-    }
-    
-    // Activar cliente a partir del código
-    public boolean activarCliente(String codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
-        Connection conn = pg.getConnection();
-        boolean activado;
-        if (conn == null) {
-            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
-        } else {
-            try {
-                // Tratar las instrucciones como bloques
-                conn.setAutoCommit(false);
-                String sql = "CALL activate_cliente(?)";
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, codigo);               
+                stmt.setInt(1, codigo);               
 
                 //ejecutamos la sentencia
                 stmt.execute();
                 conn.commit();
-                activado = true;
+                confirmada = true;
             } catch (PSQLException e) {
-                System.out.println("Error al activar cliente " + e.getMessage());
+                System.out.println("Error al confirmar programación " + e.getMessage());
                 conn.rollback();
                 throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
                 conn.close();
             }
         }
-        return activado;
+        return confirmada;
     }
     
-    // Obtener si el cliente está activo o no
-    public int isActivo(String cod) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    // Obtener si la programacion está confirmada o no
+    public int isConfirmada(int cod) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         int result;
         if (conn == null) {
@@ -334,9 +302,9 @@ public class ProgramacionDAO {
             try {
                 // Tratar las instrucciones como bloques
                 conn.setAutoCommit(false);
-                String sql = "SELECT activo FROM cliente WHERE cod_cliente=?";
+                String sql = "SELECT public.is_progconfirmada(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, cod);               
+                stmt.setInt(1, cod);               
 
                 //ejecutamos la sentencia
                 ResultSet rs = stmt.executeQuery();
@@ -345,7 +313,7 @@ public class ProgramacionDAO {
                 result = rs.getInt(1);
                 
             } catch (PSQLException e) {
-                System.out.println("Error al comprobar si el cliente es activo" + e.getMessage());
+                System.out.println("Error al comprobar si la programación está confirmada o no" + e.getMessage());
                 conn.rollback();
                 throw new BDException(e.getServerErrorMessage().getMessage());             
             } finally {
@@ -353,5 +321,5 @@ public class ProgramacionDAO {
             }
         }
         return result;
-    }*/
+    }
 }

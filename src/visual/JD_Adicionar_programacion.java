@@ -601,6 +601,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         return formatter.format(date);
     }
     
+
     // convertir fecha con formato yyyy-MM-dd a date
     private String convertDatetoString(String fecha) {
         DateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
