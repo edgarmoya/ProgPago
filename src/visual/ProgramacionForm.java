@@ -6,7 +6,6 @@ import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;

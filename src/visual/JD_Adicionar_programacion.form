@@ -312,6 +312,9 @@
               <Dimension value="[64, 48]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfObservacionKeyReleased"/>
+          </Events>
         </Component>
         <Component class="custom_swing.Button" name="btnDate">
           <Properties>
