@@ -6,7 +6,6 @@ import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
@@ -23,8 +22,8 @@ public class ProgramacionForm extends javax.swing.JPanel {
     public ProgramacionForm() {
         initComponents();
         //Editar color de la tabla
-        //JTableUtil.headerTable(jtProgramaciones);
-        //refrescar();
+        JTableUtil.headerTable(jtProgramaciones);
+        refrescar();
     }
 
     @SuppressWarnings("unchecked")
@@ -427,25 +426,13 @@ public class ProgramacionForm extends javax.swing.JPanel {
     
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion(){   
-        /*if (posicion() != -1) {
+        if (posicion() != -1) {
             btnEdit.setEnabled(true);
-            String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
-            // Comprobar si se puede activar el btnDelete
-            try {
-                if (pDAO.isConfirmada(cod) == 1){
-                    btnDelete.setEnabled(true);
-                } else {
-                    btnDelete.setEnabled(false);
-                }
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ConnectionException | BDException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }   
+            btnDelete.setEnabled(true);      
         } else {
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
-        }*/
+        }
     }
     
     // Refrescar form con tabla correspondiente

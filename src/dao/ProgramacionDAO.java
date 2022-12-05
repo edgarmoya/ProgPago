@@ -2,6 +2,7 @@ package dao;
 
 import ppago.ConexionPg;
 import entidades.Programacion;
+import entidades.DestinoDesglose;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.Array;
@@ -127,7 +128,7 @@ public class ProgramacionDAO {
     }
     
 
-    // Obtener datos de la programacion a partir del código
+    // Obtener datos de la programación a partir del código
     public Programacion getProgramacion(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         Programacion p = new Programacion();
@@ -135,13 +136,14 @@ public class ProgramacionDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "    ";
+                String sql = "SELECT * FROM get_programacion(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, codigo);
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     //Preparar los datos
+                    p.setId_prog(rs.getInt("id_prog"));
                     p.setCliente(rs.getString("cliente"));
                     p.setEjercicio(rs.getString("anno"));
                     p.setMoneda(rs.getString("moneda"));
@@ -159,6 +161,40 @@ public class ProgramacionDAO {
         return p;
     }
     
+    public ArrayList<DestinoDesglose> getDestinos(int codigo) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+        Connection conn = pg.getConnection();
+        ArrayList<DestinoDesglose> lista = new ArrayList<>();
+        if (conn == null) {
+            throw new ConnectionException("No se pudo establecer conexión con la base de datos");
+        } else {
+            try {
+                String sql = "SELECT * FROM get_destinos(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, codigo);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    //Preparar los datos
+                    DestinoDesglose dd = new DestinoDesglose();
+                    dd.setDestino(rs.getString("destinos"));
+                    ArrayList<Double> importes = new ArrayList<>();
+                    for (int i = 0; i < 12; i++) {
+                        importes.add(rs.getDouble("importes"));
+                        rs.next();
+                    }
+                    dd.setImportes(importes);
+                    lista.add(dd);
+                }
+            } catch (PSQLException e) {
+                System.out.println("Error al obtener destinos: " + e.getMessage());
+                throw new BDException(e.getServerErrorMessage().getMessage());     
+            } finally {
+                conn.close();
+            }
+        }
+        return lista;
+    }    
+    
     // Actualizar programacion a partir del código
     public int editarProgramacion(int cod, Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
@@ -169,18 +205,18 @@ public class ProgramacionDAO {
             try {
                 Array arrayDestinos = conn.createArrayOf("varchar", destinos);
                 Array arrayImportes = conn.createArrayOf("numeric", importes);
-                String sql = "SELECT edit_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[],?)";
-               PreparedStatement stmt = conn.prepareStatement(sql);
+                String sql = "SELECT edit_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[], ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, prog.getFecha());
                 stmt.setString(2, prog.getObservacion());
                 stmt.setString(3, prog.getTipofinan());
                 stmt.setString(4, prog.getMoneda());
-                stmt.setString(5, "0");
+                stmt.setString(5, ""+prog.getEstado());
                 stmt.setString(6, prog.getCliente());
                 stmt.setString(7, prog.getEjercicio());
                 stmt.setArray(8, arrayDestinos);
                 stmt.setArray(9, arrayImportes);
-                stmt.setInt(10,cod);
+                stmt.setInt(10, cod);
 
                 //ejecutamos la sentencia
                 ResultSet res = stmt.executeQuery();
