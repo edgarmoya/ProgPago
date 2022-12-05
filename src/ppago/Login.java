@@ -85,7 +85,7 @@ public class Login {
      * @throws SQLException
      */
     public static boolean validarBD(String username, String password, String servidor, String puerto, String bd) throws ClassNotFoundException, SQLException, IOException, ConnectionException, FaltanDatosException {
-        List<String> lista = Arrays.asList("rol", "usuario_rol", "usuario", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo", "prog_destino_periodo");
+        List<String> lista = Arrays.asList("rol", "usuario_rol", "usuario", "cliente", "programacion", "ejercicio", "tipofinan", "moneda", "destino", "periodo", "prog_destino_periodo", "prog_cliente_ejer", "prog_usuario_log");
         if (!username.isEmpty() && !password.isEmpty() && servidor != null && puerto != null && bd != null) {
             ConexionPg c = new ConexionPg(username, password, servidor, puerto, bd);
             Connection conn = c.conectar();

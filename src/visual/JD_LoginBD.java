@@ -297,16 +297,12 @@ public class JD_LoginBD extends javax.swing.JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "La base de datos elegida no es válida, vuelva a intentarlo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (FaltanDatosException fd) {
+        } catch (FaltanDatosException | ConnectionException fd) {
             JOptionPane.showMessageDialog(this, fd.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ConnectionException cex) {
-            JOptionPane.showMessageDialog(this, cex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al guardar la conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos \"" + bd + "\".", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException io) {
-            JOptionPane.showMessageDialog(this, "Error al guardar la conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
