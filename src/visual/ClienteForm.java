@@ -365,6 +365,8 @@ public class ClienteForm extends javax.swing.JPanel {
             }
         };       
         jtClientes.setModel(model);
+        jtClientes.getColumnModel().getColumn(0).setMaxWidth(75);
+        jtClientes.getColumnModel().getColumn(7).setMaxWidth(75);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtClientes, scrollCliente);
     }
@@ -401,6 +403,9 @@ public class ClienteForm extends javax.swing.JPanel {
             }
         };       
         jtClientes.setModel(model);
+        jtClientes.getColumnModel().getColumn(0).setMaxWidth(75);
+        jtClientes.getColumnModel().getColumn(7).setMaxWidth(75);
+        jtClientes.getColumnModel().getColumn(8).setMaxWidth(50);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtClientes, scrollCliente);
     }

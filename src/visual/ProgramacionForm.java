@@ -340,7 +340,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     //Método para actualizar la tabla con la lista de programaciones confirmadas
     private void mostrarConfirmadas() {
-        String[] columnNames = {"Código", "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Usuario"};
+        String[] columnNames = {"Código", "Ejercicio", "Tipo de Financiamiento", "Cliente", "Moneda", "Importe", "Estado"};
         ArrayList<Programacion> programaciones = new ArrayList<>();
         try {
             programaciones = pDAO.listaProgramacionesConfirmadas();

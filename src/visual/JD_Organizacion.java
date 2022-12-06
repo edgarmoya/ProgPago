@@ -317,7 +317,7 @@ public class JD_Organizacion extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException | IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar logotipo.", "Error", JOptionPane.ERROR_MESSAGE);
+            /// puede que no haya guaradado ninguna organizacion anteriormente
         }
     }
 

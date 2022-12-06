@@ -576,10 +576,10 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
 
     // Método para validar que no exista los campos requeridos vacíos
     private void camposRequeridos() {
-        String cliente = jcbCliente.getSelectedItem().toString();
-        String ejercicio = jcbEjercicio.getSelectedItem().toString();
-        String moneda = jcbMoneda.getSelectedItem().toString();
-        String tipo = jcbTipoFinan.getSelectedItem().toString();
+        String cliente = (jcbCliente.getSelectedIndex() != -1) ? jcbCliente.getSelectedItem().toString() : "";
+        String ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
+        String moneda = (jcbMoneda.getSelectedIndex() != -1) ? jcbMoneda.getSelectedItem().toString() : "";
+        String tipo = (jcbTipoFinan.getSelectedIndex() != -1) ? jcbTipoFinan.getSelectedItem().toString() : "";
         if (cliente.isEmpty() || ejercicio.isEmpty() || moneda.isEmpty() || tipo.isEmpty()
                 || jtfFecha.getText().isEmpty() || ddesg.isEmpty()) {
             btnAceptar.setEnabled(false);

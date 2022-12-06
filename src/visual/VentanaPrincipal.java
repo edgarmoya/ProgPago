@@ -21,6 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -267,9 +268,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         cerrar_sesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                JD_Login JDLogin = new JD_Login(null, true);
-                JDLogin.setVisible(true);
+                int input = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión de la aplicación?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (input == 0){
+                    dispose();
+                    JD_Login JDLogin = new JD_Login(null, true);
+                    JDLogin.setVisible(true);
+                }                
             }
         });
         
@@ -277,7 +281,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int input = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (input == 0){
+                    System.exit(0);
+                }               
             }
         });
     }

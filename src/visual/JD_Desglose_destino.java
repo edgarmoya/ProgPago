@@ -3,7 +3,6 @@ package visual;
 import dao.DestinoDAO;
 import entidades.Destino;
 import entidades.DestinoDesglose;
-import entidades.Periodo;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.awt.Image;
@@ -97,6 +96,18 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
         jtDesglose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtDesgloseMouseClicked(evt);
+            }
+        });
+        jtDesglose.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jtDesgloseInputMethodTextChanged(evt);
+            }
+        });
+        jtDesglose.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtDesgloseKeyReleased(evt);
             }
         });
         scrollDesglose.setViewportView(jtDesglose);
@@ -195,6 +206,16 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
     private void jcbDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbDestinoMouseClicked
         camposRequeridos();
     }//GEN-LAST:event_jcbDestinoMouseClicked
+
+    private void jtDesgloseInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jtDesgloseInputMethodTextChanged
+        updateAcumulado();
+        camposRequeridos();
+    }//GEN-LAST:event_jtDesgloseInputMethodTextChanged
+
+    private void jtDesgloseKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDesgloseKeyReleased
+        updateAcumulado();
+        camposRequeridos();
+    }//GEN-LAST:event_jtDesgloseKeyReleased
 
     //Método para actualizar la tabla con la lista de períodos
     private void mostrarTablaVacia() {
