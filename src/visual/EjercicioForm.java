@@ -8,6 +8,7 @@ import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 
@@ -280,8 +281,7 @@ public class EjercicioForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        mostrarEjercicios();
-        seleccionarItem(0);
+        refrescar();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -301,10 +301,9 @@ public class EjercicioForm extends javax.swing.JPanel {
             if (input == 0) {   // 0=SI, 1=NO
                 int res = eDAO.eliminarEjercicio(ejercicio);
                 if (res != -1) {
-                    mostrarEjercicios();
-                    seleccionarItem(0);
+                    refrescar();
                     comprobarSeleccion();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Error al eliminar el ejercicio \"" + ejercicio + "\".", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
@@ -385,6 +384,8 @@ public class EjercicioForm extends javax.swing.JPanel {
         if (jtEjercicios.getModel().getRowCount() >= 1) {
             String value = jtEjercicios.getModel().getValueAt(pos, pos).toString();
             mostrarPeriodos(value);
+        }else{
+            limpiarTabla(jtPeriodo);
         }
     }
 
@@ -409,19 +410,33 @@ public class EjercicioForm extends javax.swing.JPanel {
 
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion() {
-        String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
-        if (posicion() != -1) {
-            mostrarPeriodos(value);
-            // Si se selecciona una fila habilitar opciones
-            enabled(true);
-        } else {
-            enabled(false);
+        if (jtEjercicios.getModel().getRowCount() >= 1) {
+            String value = jtEjercicios.getModel().getValueAt(posicion(), 0).toString();
+            if (posicion() != -1) {
+                mostrarPeriodos(value);
+                // Si se selecciona una fila habilitar opciones
+                enabled(true);
+            } else {
+                enabled(false);
+            }
         }
     }
 
     // Posición de la fila seleccionada
     private int posicion() {
         return jtEjercicios.getSelectedRow();
+    }
+
+    private void refrescar() {
+        mostrarEjercicios();
+        seleccionarItem(0);
+    }
+    
+    private void limpiarTabla(JTable jt) {
+        DefaultTableModel model = (DefaultTableModel) jt.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -437,4 +452,5 @@ public class EjercicioForm extends javax.swing.JPanel {
     private javax.swing.JScrollPane scrollPeriodo;
     private javax.swing.JSplitPane split;
     // End of variables declaration//GEN-END:variables
+
 }

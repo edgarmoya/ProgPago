@@ -158,7 +158,7 @@ public class Cliente {
             if((organismo == null || organismo.length() <= 50)
                 && (nit == null || (nit.length() >= 11 && nit.length() <= 16)) 
                 && (reeup == null || (reeup.length() >= 8 && reeup.length() <= 9))
-                && (correo == null || correo.length() <= 30)
+                && (correo == null || correo.length() <= 50)
                 && (direccion == null || direccion.length() <= 100)
                 && (telefono == null || telefono.length() <= 8)){
                 return true;
