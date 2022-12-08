@@ -259,7 +259,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         acerca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // nada por ahora
+                JD_Acerca JDAcerca = new JD_Acerca(null, true);
+                JDAcerca.setVisible(true);
             }
         });
         

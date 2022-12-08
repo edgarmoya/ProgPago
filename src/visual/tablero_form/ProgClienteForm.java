@@ -12,6 +12,7 @@ import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 import utiles.autoComplete;
@@ -236,11 +237,32 @@ public class ProgClienteForm extends javax.swing.JPanel {
         ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
         if (!cliente.isEmpty() && !ejercicio.isEmpty()) {
             mostrarDestinos(this.cliente, ejercicio);
+            // seleccionar la primera fila
+            seleccionarItem(0);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente y un ejercicio antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    // Seleccionar item y actualizar los desgloses correspondientes
+    private void seleccionarItem(int pos) {
+        jtDestinos.getSelectionModel().setSelectionInterval(pos, pos);
+        if (jtDestinos.getModel().getRowCount() >= 1) {
+            String destino = jtDestinos.getModel().getValueAt(pos, pos).toString();
+            mostrarDesglose(cliente, ejercicio, destino);
+            updateAcumulado();
+        }else{
+            limpiarTabla(jtDesglose);
+        }
+    }
+    
+    private void limpiarTabla(JTable jt) {
+        DefaultTableModel model = (DefaultTableModel) jt.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+    }
+    
     // Buscar clientes de la BD
     private void buscarClientes() {
         //Limpiar ComboBox

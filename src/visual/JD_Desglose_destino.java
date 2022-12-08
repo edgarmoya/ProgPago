@@ -239,14 +239,14 @@ public class JD_Desglose_destino extends javax.swing.JDialog {
             public void setValueAt(Object aValue, int row, int column) {
                 double valor = validateCell(aValue);
                 super.setValueAt(valor, row, column); 
-            }        
+            }      
         };
         jtDesglose.setModel(model);
+        // Alinear los importes y acumulados a la derecha
+        jtDesglose.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
+        jtDesglose.getColumnModel().getColumn(2).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
         // Efectuar todas las modificaciones
-        JTableUtil.modTable(jtDesglose, scrollDesglose);
-        // Alinear los importes a la derecha
-        jtDesglose.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
-        jtDesglose.getColumnModel().getColumn(2).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
+        JTableUtil.modTable(jtDesglose, scrollDesglose);        
     }
     
     // Método para actualizar la tabla con la lista de importes correspondientes
