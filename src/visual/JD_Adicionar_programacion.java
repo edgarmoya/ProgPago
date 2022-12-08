@@ -525,13 +525,10 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             }
         };
         jtDestinos.setModel(model);
-        JTableUtil.scrollBackground(scrollDestinos);
-        // Cambiar color de las filas de forma alternada
-        jtDestinos.setDefaultRenderer(Object.class, new JTableCeldasUtil());  
-        // Solo lineas horizontales
-        JTableUtil.onlyHorizontalLine(jtDestinos);
         // Alinear los importes a la derecha
-        jtDestinos.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(DefaultTableCellRenderer.RIGHT));
+        jtDestinos.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDestinos,DefaultTableCellRenderer.RIGHT));
+        // Efectuar todas las modificaciones
+        JTableUtil.modTable(jtDestinos, scrollDestinos);
     }
 
     private Programacion datos_programacion() {

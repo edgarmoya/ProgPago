@@ -2,7 +2,6 @@ package utiles;
 
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -39,11 +38,12 @@ public class JTableUtil {
 
     /**
      * Método para alinear los textos de una columna
+     * @param jt
      * @param alig Tipo de alineación
      * @return DefaultTableCellRenderer
      */
-    public static DefaultTableCellRenderer alinearColumna(int alig) {
-        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    public static DefaultTableCellRenderer alinearColumna(JTable jt, int alig) {
+        DefaultTableCellRenderer rightRenderer = new JTableCeldasUtil();    
         rightRenderer.setHorizontalAlignment(alig);
         return rightRenderer;
     }

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 
@@ -281,15 +282,19 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // Acción para confirmar programacion
         if (posicion() != -1) {
+            // mostrar diálogo de confirmación
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
-            try {
-                if (pDAO.confirmarProgramacion(Integer.parseInt(cod))) {
-                    refrescar();
+            int input = JOptionPane.showConfirmDialog(null, "¿Desea confirmar la programación con código \"" + cod + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (input == 0) {
+                try {
+                    if (pDAO.confirmarProgramacion(Integer.parseInt(cod))) {
+                        refrescar();
+                    }
+                } catch (SQLException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (ConnectionException | BDException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ConnectionException | BDException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione la programación que desea confirmar.", "Error", JOptionPane.WARNING_MESSAGE);
@@ -368,8 +373,20 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         };
         jtProgramaciones.setModel(model);
+        // Tamaño de las columnas
+        jtProgramaciones.getColumnModel().getColumn(0).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(1).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(4).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(5).setMaxWidth(600);
+        jtProgramaciones.getColumnModel().getColumn(6).setMinWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(6).setMaxWidth(101);
+        // Alinear los importes a la derecha
+        jtProgramaciones.getColumnModel().getColumn(4).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.CENTER));
+        jtProgramaciones.getColumnModel().getColumn(5).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.RIGHT));
+        jtProgramaciones.getColumnModel().getColumn(6).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.CENTER));
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
+             
     }
 
     //Método para actualizar la tabla con la lista de todas las programaciones
@@ -403,6 +420,17 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         };
         jtProgramaciones.setModel(model);
+        // Tamaño de las columnas
+        jtProgramaciones.getColumnModel().getColumn(0).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(1).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(4).setMaxWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(5).setMaxWidth(600);
+        jtProgramaciones.getColumnModel().getColumn(6).setMinWidth(100);
+        jtProgramaciones.getColumnModel().getColumn(6).setMaxWidth(101);
+        // Alinear los importes a la derecha
+        jtProgramaciones.getColumnModel().getColumn(4).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.CENTER));
+        jtProgramaciones.getColumnModel().getColumn(5).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.RIGHT));
+        jtProgramaciones.getColumnModel().getColumn(6).setCellRenderer(JTableUtil.alinearColumna(jtProgramaciones, DefaultTableCellRenderer.CENTER));
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtProgramaciones, scrollProgramacion);
     }

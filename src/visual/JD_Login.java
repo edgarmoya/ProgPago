@@ -281,11 +281,7 @@ public class JD_Login extends javax.swing.JDialog {
                 no_conectado();
                 estadoConn = false;
             }
-        } catch (ClassNotFoundException e) {
-            no_conectado();
-        } catch (IOException e) {
-            no_conectado();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | IOException | SQLException e) {
             no_conectado();
         }
     }
