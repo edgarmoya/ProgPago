@@ -42,78 +42,77 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private MainForm mainForm;
     private Animator animator;
     private JPopupMenu popupOpciones;
-    
+
     public VentanaPrincipal(Usuario usuario) {
         initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);   
-        setIconImage(getIconImage()); 
-        
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setIconImage(getIconImage());
+
         this.usuario = usuario;
         init();
     }
-    
+
     private void init() {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
-        bg.setLayout(layout);  
+        bg.setLayout(layout);
         menu = new Menu();
         header = new Header();
         mainForm = new MainForm();
         menu.addEvent(new EventMenuSelected() {
             @Override
-            public void menuSelected(int menuIndex, int subMenuIndex, String name) {            
-                if(name.equals("Programación de Pago")){       //Menú Operaciones
-                    mainForm.showForm(new ProgramacionForm()); 
-                    
-                }else if(name.equals("Programación general")){   //Menú Tablero de Control
-                    mainForm.showForm(new ProgGeneralForm()); 
-                    
-                }else if(name.equals("Programación por cliente")){ 
-                    mainForm.showForm(new ProgClienteForm()); 
-                    
-                }else if(name.equals("Programación por destino")){
-                    mainForm.showForm(new ProgDestinoForm()); 
-                    
-                }else if(name.equals("Programación por tipo")){
-                    mainForm.showForm(new ProgTipoForm()); 
-                    
-                }else if(name.equals("Clientes")){             //Menu Codificadores
-                    mainForm.showForm(new ClienteForm());   
-                    
-                }else if(name.equals("Destinos")){
-                   mainForm.showForm(new DestinoForm()); 
-                    
-                }else if(name.equals("Ejercicios")){
-                   mainForm.showForm(new EjercicioForm());
-                    
-                }else if(name.equals("Monedas")){
+            public void menuSelected(int menuIndex, int subMenuIndex, String name) {
+                if (name.equals("Programación de Pago")) {       //Menú Operaciones
+                    mainForm.showForm(new ProgramacionForm());
+
+                } else if (name.equals("Programación general")) {   //Menú Tablero de Control
+                    mainForm.showForm(new ProgGeneralForm());
+
+                } else if (name.equals("Programación por cliente")) {
+                    mainForm.showForm(new ProgClienteForm());
+
+                } else if (name.equals("Programación por destino")) {
+                    mainForm.showForm(new ProgDestinoForm());
+
+                } else if (name.equals("Programación por tipo")) {
+                    mainForm.showForm(new ProgTipoForm());
+
+                } else if (name.equals("Clientes")) {             //Menu Codificadores
+                    mainForm.showForm(new ClienteForm());
+
+                } else if (name.equals("Destinos")) {
+                    mainForm.showForm(new DestinoForm());
+
+                } else if (name.equals("Ejercicios")) {
+                    mainForm.showForm(new EjercicioForm());
+
+                } else if (name.equals("Monedas")) {
                     mainForm.showForm(new MonedaForm());
-                    
-                }else if(name.equals("Tipo de Financiamiento")){
+
+                } else if (name.equals("Tipo de Financiamiento")) {
                     mainForm.showForm(new TipoFinanForm());
-                    
-                }else if(name.equals("General")){            //Menú Configuración
-                   
-                    
-                }else if(name.equals("Usuarios")){            //Menú Seguridad
+
+                } else if (name.equals("General")) {            //Menú Configuración
+
+                } else if (name.equals("Usuarios")) {            //Menú Seguridad
                     mainForm.showForm(new UsuarioForm());
-                }                                   
+                }
             }
         });
-        
+
         //Evento cuando está ocultado el munú
         //Muestra las opciones en un popup
         menu.addEventShowPopup(new EventShowPopupMenu() {
             @Override
             public void showPopup(Component com) {
-                MenuItem item = (MenuItem) com;               
-                PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());                                             
+                MenuItem item = (MenuItem) com;
+                PopupMenu popup = new PopupMenu(VentanaPrincipal.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
                 int x = VentanaPrincipal.this.getX() + 52;
                 int y = VentanaPrincipal.this.getY() + com.getY() + 115;
                 popup.setLocation(x, y);
-                popup.setVisible(true);                              
+                popup.setVisible(true);
             }
         });
-        
+
         //Agregando componentes al panel
         menu.initMenuItem(usuario.getRoles());
         bg.add(menu, "w 230!, spany 3");    // SpanY 3cell
@@ -130,7 +129,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     width = 60 + (170 * fraction);
                 }
                 layout.setComponentConstraints(menu, "w " + width + "!, spany3");
-                menu.revalidate();               
+                menu.revalidate();
                 //Cambiar icono de flecha para la derecha o izquierda
                 cambiarFlecha();
             }
@@ -139,78 +138,76 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             public void end() {
                 menu.setShowMenu(!menu.isShowMenu());
                 menu.setEnableMenu(true);
-                 //Cambia el logo a VERSAT ó V
-                menu.setLogo();                   
+                //Cambia el logo a VERSAT ó V
+                menu.setLogo();
             }
         };
         animator = new Animator(500, target);
         animator.setResolution(0);
         animator.setDeceleration(0.5f);
         animator.setAcceleration(0.5f);
-        
-        
-        /*********************
-        //Eventos del Header
-        **********************/
+
+        /**
+         * *******************
+         * //Eventos del Header ********************
+         */
         //Evento para mostrar y ocultar el menú
         setHeader(usuario);
-        header.addMenuEvent(new ActionListener() {        
+        header.addMenuEvent(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (!animator.isRunning()) {
                     animator.start();
                 }
-                menu.setEnableMenu(false);                             
+                menu.setEnableMenu(false);
                 if (menu.isShowMenu()) {
-                    menu.hideallMenu();                   
+                    menu.hideallMenu();
                 }
             }
-        });   
-        
+        });
+
         //Mouse clicked en jLabel OPCIONES
-        header.addOpcionesEvent(new MouseAdapter() {           
+        header.addOpcionesEvent(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {       
+            public void mouseClicked(MouseEvent e) {
                 //Abrir popupMenu con todas las opciones
-                popupOpciones.show(header.getOpciones(), e.getX(), e.getY()+10);
-            }                           
+                popupOpciones.show(header.getOpciones(), e.getX(), e.getY() + 10);
+            }
         });
         //Iniciar formulario principal
-        if (usuario.getRoles().equals("administrador")){
-            mainForm.showForm(new UsuarioForm());  
-        } else if (usuario.getRoles().equals("consultor")){
+        if (usuario.getRoles().equals("administrador")) {
+            mainForm.showForm(new UsuarioForm());
+        } else if (usuario.getRoles().equals("consultor")) {
             // mainForm.showForm(new TableroForm());
-        } else{
+        } else {
             mainForm.showForm(new ProgramacionForm());
         }
     }
-    
-    
+
     @Override
-    public Image getIconImage (){
+    public Image getIconImage() {
         Image res = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logo_principal.png"));
         return res;
-    } 
-    
-    //Cambiando el icono de la flecha al ocultar y mostrar
-    private void cambiarFlecha(){
-        if(menu.isShowMenu()){
-            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_right.png")));
-        }else{
-            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_left.png")));
-        }    
     }
-    
-    
+
+    //Cambiando el icono de la flecha al ocultar y mostrar
+    private void cambiarFlecha() {
+        if (menu.isShowMenu()) {
+            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_right.png")));
+        } else {
+            header.setIconHome(new ImageIcon(getClass().getResource("/imagenes/arrow_left.png")));
+        }
+    }
+
     // Popup Opciones
-    private void popupOpciones(){
+    private void popupOpciones() {
         // Inicializar popup y poner fondo blanco
-        popupOpciones = new JPopupMenu(){
+        popupOpciones = new JPopupMenu() {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, getWidth(), getHeight());
-            }          
+            }
         };
         // Items del popup
         JMenuItem contrasena = new JMenuItem("Cambiar contraseña", getIcon("/imagenes/popup_contrasena.png", 16, 16));
@@ -219,7 +216,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JMenuItem acerca = new JMenuItem("Acerca de Versat", getIcon("/imagenes/popup_acerca.png", 16, 16));
         JMenuItem cerrar_sesion = new JMenuItem("Cerrar sesión", getIcon("/imagenes/popup_cerrarsesion.png", 16, 16));
         JMenuItem salir = new JMenuItem("Salir", getIcon("/imagenes/popup_salir.png", 16, 16));
-        
+
         // Agregar items y escuchar acción
         popupOpciones.add(contrasena);
         contrasena.addActionListener(new ActionListener() {
@@ -230,12 +227,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JDContrasena.setVisible(true);
             }
         });
-        
+
         // La opcion de cambiar contraseña no se debe mostrar si es el administrador del postgresql
-        if (usuario.getIdentificador().equals(cargar().getUsuario())){
+        if (usuario.getIdentificador().equals(cargar().getUsuario())) {
             contrasena.setEnabled(false);
-        } 
-        
+        }
+
         popupOpciones.add(organizacion);
         organizacion.addActionListener(new ActionListener() {
             @Override
@@ -243,7 +240,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JD_Organizacion JDOrg = new JD_Organizacion(null, true);
                 JDOrg.setVisible(true);
             }
-        });      
+        });
 
         popupOpciones.addSeparator();
         popupOpciones.add(contacto);
@@ -254,7 +251,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JDCont.setVisible(true);
             }
         });
-                
+
         popupOpciones.add(acerca);
         acerca.addActionListener(new ActionListener() {
             @Override
@@ -263,39 +260,39 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JDAcerca.setVisible(true);
             }
         });
-        
+
         popupOpciones.addSeparator();
         popupOpciones.add(cerrar_sesion);
         cerrar_sesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int input = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión de la aplicación?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (input == 0){
+                if (input == 0) {
                     dispose();
                     JD_Login JDLogin = new JD_Login(null, true);
                     JDLogin.setVisible(true);
-                }                
+                }
             }
         });
-        
+
         popupOpciones.add(salir);
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int input = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (input == 0){
+                if (input == 0) {
                     System.exit(0);
-                }               
+                }
             }
         });
     }
-    
-    public Icon getIcon(String ruta, int width, int heigth){
+
+    public Icon getIcon(String ruta, int width, int heigth) {
         Icon mIcono = new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage().getScaledInstance(width, heigth, 0));
-        return mIcono;       
-    }   
-    
-    private ConexionPg cargar(){
+        return mIcono;
+    }
+
+    private ConexionPg cargar() {
         ConexionPg pg = new ConexionPg();
         try {
             pg = pg.cargar();
@@ -306,7 +303,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
         return pg;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -315,6 +312,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Tesorería");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         bg.setBackground(new java.awt.Color(204, 204, 204));
         bg.setOpaque(true);
@@ -344,7 +346,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int input = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (input == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -387,5 +395,5 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         header.setApellidos(usuario.getApellidos());
         popupOpciones();
     }
-    
+
 }
