@@ -199,7 +199,7 @@ public class TableroDAO {
             throw new ConnectionException("No se pudo establecer conexión con la base de datos");
         } else {
             try {
-                String sql = "SELECT * FROM prog_desglose(?)";
+                String sql = "SELECT * FROM progxtipo_desglose(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);             
                 stmt.setInt(1, prog);
                 ResultSet rs = stmt.executeQuery();

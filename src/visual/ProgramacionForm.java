@@ -20,10 +20,11 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     private ProgramacionDAO pDAO = new ProgramacionDAO();
     private boolean showAll = true;
+    private String usuario;
 
     public ProgramacionForm() {
         initComponents();
-        //Editar color de la tabla
+        // Editar color de la tabla
         JTableUtil.headerTable(jtProgramaciones);
         refrescar();
     }
@@ -226,6 +227,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Acción para agregar programacion
         JD_Adicionar_programacion JDAdd = new JD_Adicionar_programacion(null, true);
+        JDAdd.setUsuario(usuario);
         JDAdd.setLocationRelativeTo(this);
         JDAdd.setVisible(true);
 
@@ -242,6 +244,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             JD_Adicionar_programacion JDEdit = new JD_Adicionar_programacion(null, true);
             JDEdit.setLocationRelativeTo(this);
             Programacion p = getProgramacionSeleccionada();
+            JDEdit.setUsuario(usuario);
             JDEdit.dialogo_editar(p);
             JDEdit.setVisible(true);
 
@@ -508,7 +511,11 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private int posicion() {
         return jtProgramaciones.getSelectedRow();
     }
-
+    
+    public void setUsuario(String usuario){
+        this.usuario = usuario;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JPanel botones;

@@ -24,7 +24,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import utiles.JTableCeldasUtil;
 import utiles.JTableUtil;
 import utiles.autoComplete;
 
@@ -39,6 +38,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     private int codProgramacion;
     private boolean cambios;
     private boolean editar;
+    private String usuario;
 
     public JD_Adicionar_programacion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -53,8 +53,8 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         buscarMonedas();
         buscarTipoFinan();
         buscarEjercicios();
-        
-        actualizarTabla();  
+
+        actualizarTabla();
         camposRequeridos();
     }
 
@@ -338,10 +338,10 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     }//GEN-LAST:event_jtDestinosMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-       if (!editar){
+        if (!editar) {
             // Agregar programacion
             accionAgregar();
-        }else{
+        } else {
             // Editar programacion
             accionEditar();
         }
@@ -373,7 +373,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Acción para editar destino
-        if (posicion() != -1){
+        if (posicion() != -1) {
             int pos = posicion();
             JD_Desglose_destino JDEdit = new JD_Desglose_destino(null, true);
             JDEdit.setLocationRelativeTo(this);
@@ -388,19 +388,19 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
                 actualizarTabla();
             }
             camposRequeridos();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione el destino que desea editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // Acción para eliminar destino
-        if (posicion() != -1){
+        if (posicion() != -1) {
             int pos = posicion();
             ddesg.remove(pos);
             actualizarTabla();
             camposRequeridos();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione el destino que desea eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -526,7 +526,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         };
         jtDestinos.setModel(model);
         // Alinear los importes a la derecha
-        jtDestinos.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDestinos,DefaultTableCellRenderer.RIGHT));
+        jtDestinos.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDestinos, DefaultTableCellRenderer.RIGHT));
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtDestinos, scrollDestinos);
     }
@@ -597,7 +597,6 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
     }
-    
 
     // convertir fecha con formato yyyy-MM-dd a date
     private String convertDatetoString(String fecha) {
@@ -611,12 +610,12 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         return formatter.format(date);
     }
-    
+
     // Posición de la fila seleccionada
     private int posicion() {
         return jtDestinos.getSelectedRow();
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -655,13 +654,13 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             }
         });
     }
-    
+
     // Agregar programacion a bd
-    private void accionAgregar(){
+    private void accionAgregar() {
         Programacion prog = datos_programacion();
         if (!ddesg.isEmpty()) {
             try {
-                int res = pDAO.agregarProgramacion(prog, arrayDestinos(), arrayImportes());
+                int res = pDAO.agregarProgramacion(prog, arrayDestinos(), arrayImportes(), usuario);
                 if (res != -1) {
                     JOptionPane.showMessageDialog(this, "Programación agregada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     cambios = true;
@@ -678,12 +677,12 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debe agregar al menos un destino en la programación.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     // Editar programacion en bd
-    private void accionEditar(){
+    private void accionEditar() {
         Programacion prog = datos_programacion();
         try {
-            int res = pDAO.editarProgramacion(codProgramacion, prog, arrayDestinos(), arrayImportes());
+            int res = pDAO.editarProgramacion(codProgramacion, prog, arrayDestinos(), arrayImportes(), usuario);
             if (res != -1) {
                 JOptionPane.showMessageDialog(this, "Programación editada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 cambios = true;
@@ -695,7 +694,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }    
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -717,9 +716,8 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     private javax.swing.JScrollPane scrollDestinos;
     // End of variables declaration//GEN-END:variables
 
-
     //Cambios que se producirán si se va a editar la programacion
-    public void dialogo_editar(Programacion p){  
+    public void dialogo_editar(Programacion p) {
         editar = true;
         codProgramacion = p.getId_prog();
         // Editar título e icono
@@ -730,12 +728,12 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
 
         // Mostrar datos en campo correspondiente     
         setJcbCliente(p.getCliente());
-        setJcbEjercicio(p.getEjercicio()); 
-        setJcbMoneda(p.getMoneda()); 
-        setJcbTipoFinan(p.getTipofinan()); 
-        setJtfFecha(""+p.getFecha());
+        setJcbEjercicio(p.getEjercicio());
+        setJcbMoneda(p.getMoneda());
+        setJcbTipoFinan(p.getTipofinan());
+        setJtfFecha("" + p.getFecha());
         setJtfObservacion(p.getObservacion());
-        
+
         try {
             // actualizar tabla destinos
             ddesg = pDAO.getDestinos(codProgramacion);
@@ -745,34 +743,43 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         } catch (ConnectionException | BDException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         // Comprobar campos para que se active el btnAceptar
         camposRequeridos();
     }
-      
+
     // retorna si se realizó algún cambio o no
     public boolean cambios() {
         return cambios;
     }
-     
+
     // Setters
     public void setJcbCliente(String jcbCliente) {
-        this.jcbCliente.setSelectedItem(jcbCliente); 
+        this.jcbCliente.setSelectedItem(jcbCliente);
     }
+
     public void setJcbEjercicio(String jcbEjercicio) {
-        this.jcbEjercicio.setSelectedItem(jcbEjercicio); 
+        this.jcbEjercicio.setSelectedItem(jcbEjercicio);
     }
-     public void setJcbMoneda(String jcbMoneda) {
-        this.jcbMoneda.setSelectedItem(jcbMoneda); 
+
+    public void setJcbMoneda(String jcbMoneda) {
+        this.jcbMoneda.setSelectedItem(jcbMoneda);
     }
+
     public void setJcbTipoFinan(String jcbTipoFinan) {
-        this.jcbTipoFinan.setSelectedItem(jcbTipoFinan); 
+        this.jcbTipoFinan.setSelectedItem(jcbTipoFinan);
     }
+
     public void setJtfFecha(String jtffecha) {
         this.jtfFecha.setText(convertDatetoString(jtffecha));
     }
-     public void setJtfObservacion(String jtfobservacion) {
+
+    public void setJtfObservacion(String jtfobservacion) {
         this.jtfObservacion.setText(jtfobservacion);
+    }
+    
+    public void setUsuario(String usuario){
+        this.usuario = usuario;        
     }
 
 }

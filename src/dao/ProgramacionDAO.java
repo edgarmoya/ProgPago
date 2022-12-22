@@ -22,7 +22,7 @@ public class ProgramacionDAO {
     private ConexionPg pg = new ConexionPg();
 
     // agregar programación
-    public int agregarProgramacion(Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int agregarProgramacion(Programacion prog, String[] destinos, String[] importes, String usuario) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         int result = -1;
         Connection conn = pg.getConnection();
         if (conn == null) {
@@ -32,7 +32,7 @@ public class ProgramacionDAO {
                 Array arrayDestinos = conn.createArrayOf("varchar", destinos);
                 Array arrayImportes = conn.createArrayOf("numeric", importes);
 
-                String sql = "SELECT add_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[])";
+                String sql = "SELECT add_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[], ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, prog.getFecha());
                 stmt.setString(2, prog.getObservacion());
@@ -43,6 +43,7 @@ public class ProgramacionDAO {
                 stmt.setString(7, prog.getEjercicio());
                 stmt.setArray(8, arrayDestinos);
                 stmt.setArray(9, arrayImportes);
+                stmt.setString(10, usuario);
 
                 //ejecutamos la sentencia
                 ResultSet res = stmt.executeQuery();
@@ -197,7 +198,7 @@ public class ProgramacionDAO {
     }
 
     // Actualizar programacion a partir del código
-    public int editarProgramacion(int cod, Programacion prog, String[] destinos, String[] importes) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
+    public int editarProgramacion(int cod, Programacion prog, String[] destinos, String[] importes, String usuario) throws SQLException, ClassNotFoundException, ConnectionException, BDException {
         Connection conn = pg.getConnection();
         int result = 0;
         if (conn == null) {
@@ -206,7 +207,7 @@ public class ProgramacionDAO {
             try {
                 Array arrayDestinos = conn.createArrayOf("varchar", destinos);
                 Array arrayImportes = conn.createArrayOf("numeric", importes);
-                String sql = "SELECT edit_programacion(?, ?, ?::id4, ?::siglasd, ?::bit, ?::id4, ?::id4, ?, ?::numeric[], ?)";
+                String sql = "SELECT edit_programacion(?, ?, ?, ?, ?::bit, ?, ?, ?, ?::numeric[], ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, prog.getFecha());
                 stmt.setString(2, prog.getObservacion());
@@ -217,7 +218,8 @@ public class ProgramacionDAO {
                 stmt.setString(7, prog.getEjercicio());
                 stmt.setArray(8, arrayDestinos);
                 stmt.setArray(9, arrayImportes);
-                stmt.setInt(10, cod);
+                stmt.setString(10, usuario);
+                stmt.setInt(11, cod);
 
                 //ejecutamos la sentencia
                 ResultSet res = stmt.executeQuery();
