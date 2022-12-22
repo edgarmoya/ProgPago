@@ -11,8 +11,10 @@ import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 import utiles.autoComplete;
@@ -35,6 +37,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
         JTableUtil.headerTable(jtDesglose);
         JTableUtil.modTable(jtDestinos, scrollDestinos);
         JTableUtil.modTable(jtDesglose, scrollDesglose);
+        JTableUtil.headerAligment(jtDesglose, JLabel.CENTER);
 
         buscarClientes();
         buscarEjercicios();
@@ -362,6 +365,9 @@ public class ProgClienteForm extends javax.swing.JPanel {
         jtDesglose.setModel(model);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtDesglose, scrollDesglose);
+        JTableUtil.headerAligment(jtDesglose, JLabel.CENTER);
+        jtDesglose.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
+        jtDesglose.getColumnModel().getColumn(2).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
     }
     
     // Actualizar la columna de acumulados

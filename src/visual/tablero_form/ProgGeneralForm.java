@@ -9,6 +9,7 @@ import excepciones.ConnectionException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import utiles.JTableUtil;
 import utiles.autoComplete;
@@ -218,6 +219,8 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         jtPeriodos.setModel(model);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtPeriodos, scrollPeriodos);
+        jtPeriodos.getColumnModel().getColumn(3).setMaxWidth(200);
+        jtPeriodos.getColumnModel().getColumn(3).setCellRenderer(JTableUtil.alinearColumna(jtPeriodos, DefaultTableCellRenderer.RIGHT));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

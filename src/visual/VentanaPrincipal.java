@@ -61,8 +61,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex, String name) {
-                if (name.equals("Programación de Pago")) {       //Menú Operaciones
-                    mainForm.showForm(new ProgramacionForm());
+                if (name.equals("Programación de Pago")) {          //Menú Operaciones
+                    ProgramacionForm pf = new ProgramacionForm();
+                    mainForm.showForm(pf);
+                    pf.setUsuario(usuario.getIdentificador());
 
                 } else if (name.equals("Programación general")) {   //Menú Tablero de Control
                     mainForm.showForm(new ProgGeneralForm());
@@ -76,7 +78,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 } else if (name.equals("Programación por tipo")) {
                     mainForm.showForm(new ProgTipoForm());
 
-                } else if (name.equals("Clientes")) {             //Menu Codificadores
+                } else if (name.equals("Clientes")) {                //Menu Codificadores
                     mainForm.showForm(new ClienteForm());
 
                 } else if (name.equals("Destinos")) {
@@ -91,9 +93,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 } else if (name.equals("Tipo de Financiamiento")) {
                     mainForm.showForm(new TipoFinanForm());
 
-                } else if (name.equals("General")) {            //Menú Configuración
-
-                } else if (name.equals("Usuarios")) {            //Menú Seguridad
+                } else if (name.equals("Usuarios")) {                //Menú Seguridad
                     mainForm.showForm(new UsuarioForm());
                 }
             }
@@ -179,8 +179,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             mainForm.showForm(new UsuarioForm());
         } else if (usuario.getRoles().equals("consultor")) {
             // mainForm.showForm(new TableroForm());
-        } else {
-            mainForm.showForm(new ProgramacionForm());
+        } else {           
+            ProgramacionForm pf = new ProgramacionForm();
+            mainForm.showForm(pf);
+            pf.setUsuario(usuario.getIdentificador());
         }
     }
 
@@ -310,7 +312,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         bg = new javax.swing.JLayeredPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Gestión de Tesorería");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -390,7 +392,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     // Obtener usuario logueado desde Login
-    public void setHeader(Usuario u) {
+    public void setHeader(Usuario u) {       
         header.setNombre(usuario.getNombre());
         header.setApellidos(usuario.getApellidos());
         popupOpciones();
