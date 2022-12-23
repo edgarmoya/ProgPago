@@ -30,6 +30,7 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         JTableUtil.modTable(jtPeriodos, scrollPeriodos);
 
         buscarEjercicios();
+        accionMostrar();
     }
 
     @SuppressWarnings("unchecked")
@@ -81,11 +82,6 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         jtPeriodos.setSelectionBackground(new java.awt.Color(228, 235, 245));
         jtPeriodos.setSelectionForeground(new java.awt.Color(51, 51, 51));
         jtPeriodos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jtPeriodos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtPeriodosMouseClicked(evt);
-            }
-        });
         scrollPeriodos.setViewportView(jtPeriodos);
 
         botones.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,20 +149,8 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtPeriodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPeriodosMouseClicked
-        /*comprobarSeleccion();
-        if (showAll){
-            comprobarActivo();
-        }*/
-    }//GEN-LAST:event_jtPeriodosMouseClicked
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
-        if (!ejercicio.isEmpty()) {
-            mostrarPeriodos(ejercicio);
-        } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un ejercicio antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        accionMostrar();
     }//GEN-LAST:event_btnSearchActionPerformed
 
     // Buscar ejercicios de la BD
@@ -221,6 +205,15 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         JTableUtil.modTable(jtPeriodos, scrollPeriodos);
         jtPeriodos.getColumnModel().getColumn(3).setMaxWidth(200);
         jtPeriodos.getColumnModel().getColumn(3).setCellRenderer(JTableUtil.alinearColumna(jtPeriodos, DefaultTableCellRenderer.RIGHT));
+    }
+    
+    private void accionMostrar(){
+        String ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
+        if (!ejercicio.isEmpty()) {
+            mostrarPeriodos(ejercicio);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un ejercicio antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
