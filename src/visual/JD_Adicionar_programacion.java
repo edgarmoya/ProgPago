@@ -431,13 +431,13 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         jcbCliente.removeAllItems();
         ClienteDAO cDAO = new ClienteDAO();
         try {
-            ArrayList<Cliente> clientes = cDAO.listaTodosClientes();
-            //Copiar la lista a un arreglo
+            ArrayList<Cliente> clientes = cDAO.listaClientesActivos();
+            // Copiar la lista a un arreglo
             String[] veDatos = new String[clientes.size()];
             for (int i = 0; i < clientes.size(); i++) {
                 veDatos[i] = clientes.get(i).getCod_cliente() + " " + clientes.get(i).getNombre();
             }
-            //Agregar datos al comboBox
+            // Agregar datos al comboBox
             autoComplete.setAutoComplete(jcbCliente, veDatos);
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -452,7 +452,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         jcbMoneda.removeAllItems();
         MonedaDAO mDAO = new MonedaDAO();
         try {
-            ArrayList<Moneda> monedas = mDAO.listaTodasMonedas();
+            ArrayList<Moneda> monedas = mDAO.listaMonedasActivas();
             //Copiar la lista a un arreglo
             String[] veDatos = new String[monedas.size()];
             for (int i = 0; i < monedas.size(); i++) {
@@ -473,7 +473,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         jcbTipoFinan.removeAllItems();
         TipoFinanDAO tDAO = new TipoFinanDAO();
         try {
-            ArrayList<TipoFinan> tipos = tDAO.listaTodoTipoFinan();
+            ArrayList<TipoFinan> tipos = tDAO.listaTipoFinanActivos();
             //Copiar la lista a un arreglo
             String[] veDatos = new String[tipos.size()];
             for (int i = 0; i < tipos.size(); i++) {
