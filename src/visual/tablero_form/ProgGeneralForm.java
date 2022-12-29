@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +21,14 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import utiles.JTableUtil;
 import utiles.autoComplete;
@@ -269,8 +273,9 @@ public class ProgGeneralForm extends javax.swing.JPanel {
             ArrayList<Periodo> datos = tDAO.proggeneral(ejercicio);           
             periodos.addAll(datos);
             
-            String path = "src\\reportes\\reporte_proggeneral.jasper";
-            JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            String reportUrl = "/reportes/reporte_proggeneral.jasper"; //path
+            InputStream reportFile = getClass().getResourceAsStream(reportUrl);          
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(reportFile);
             JRBeanArrayDataSource ds = new JRBeanArrayDataSource(periodos.toArray());
 
             Map<String, Object> parameters = new HashMap();
