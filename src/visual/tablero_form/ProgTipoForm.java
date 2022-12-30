@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import utiles.DateUtil;
 import utiles.JTableUtil;
 import utiles.autoComplete;
 import visual.JD_Organizacion;
@@ -371,7 +372,7 @@ public class ProgTipoForm extends javax.swing.JPanel {
         for (int i = 0; i < programaciones.size(); i++) {
             data[i][0] = "" + programaciones.get(i).getId_prog();
             data[i][1] = programaciones.get(i).getEjercicio();
-            data[i][2] = "" + programaciones.get(i).getFecha();
+            data[i][2] = DateUtil.convertDatetoString(String.valueOf(programaciones.get(i).getFecha()));
             data[i][3] = programaciones.get(i).getMoneda();
             data[i][4] = (programaciones.get(i).getEstado() == 0) ? "En edición" : "Confirmada";
         }

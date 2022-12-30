@@ -24,6 +24,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import utiles.DateUtil;
 import utiles.JTableUtil;
 import utiles.autoComplete;
 
@@ -547,7 +548,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         String tipo = (jcbTipoFinan.getSelectedIndex() != -1) ? jcbTipoFinan.getSelectedItem().toString() : "";
         p.setTipofinan(tipo.split(" ")[0]);
         // fecha
-        p.setFecha(java.sql.Date.valueOf(convertStringtoDate(jtfFecha.getText())));
+        p.setFecha(java.sql.Date.valueOf(DateUtil.convertStringtoDate(jtfFecha.getText())));
         // observación
         p.setObservacion(jtfObservacion.getText());
         System.out.println("" + p);
@@ -584,32 +585,6 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         } else {
             btnAceptar.setEnabled(true);
         }
-    }
-
-    // convertir fecha con formato dd-MM-yyyy a date
-    private String convertStringtoDate(String fecha) {
-        DateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = null;
-        try {
-            date = (Date) parser.parse(fecha);
-        } catch (ParseException ex) {
-            // nada
-        }
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(date);
-    }
-
-    // convertir fecha con formato yyyy-MM-dd a date
-    private String convertDatetoString(String fecha) {
-        DateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = (Date) parser.parse(fecha);
-        } catch (ParseException ex) {
-            // nada
-        }
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        return formatter.format(date);
     }
 
     // Posición de la fila seleccionada
@@ -772,7 +747,7 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
     }
 
     public void setJtfFecha(String jtffecha) {
-        this.jtfFecha.setText(convertDatetoString(jtffecha));
+        this.jtfFecha.setText(DateUtil.convertDatetoString(jtffecha));
     }
 
     public void setJtfObservacion(String jtfobservacion) {

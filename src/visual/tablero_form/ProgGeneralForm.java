@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import utiles.DateUtil;
 import utiles.JTableUtil;
 import utiles.autoComplete;
 import visual.JD_Organizacion;
@@ -221,8 +222,8 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         String[][] data = new String[periodos.size()][4];
         for (int i = 0; i < periodos.size(); i++) {
             data[i][0] = periodos.get(i).getNombre();
-            data[i][1] = "" + periodos.get(i).getFecha_inicio();
-            data[i][2] = "" + periodos.get(i).getFecha_fin();
+            data[i][1] = DateUtil.convertDatetoString(String.valueOf(periodos.get(i).getFecha_inicio()));
+            data[i][2] = DateUtil.convertDatetoString(String.valueOf(periodos.get(i).getFecha_fin()));
             data[i][3] = "" + periodos.get(i).getImporte();
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
@@ -235,8 +236,8 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         jtPeriodos.setModel(model);
         // Efectuar todas las modificaciones
         JTableUtil.modTable(jtPeriodos, scrollPeriodos);
-        jtPeriodos.getColumnModel().getColumn(3).setMaxWidth(200);
-        jtPeriodos.getColumnModel().getColumn(3).setCellRenderer(JTableUtil.alinearColumna(jtPeriodos, DefaultTableCellRenderer.RIGHT));
+        // jtPeriodos.getColumnModel().getColumn(3).setMaxWidth(200);
+        // jtPeriodos.getColumnModel().getColumn(3).setCellRenderer(JTableUtil.alinearColumna(jtPeriodos, DefaultTableCellRenderer.RIGHT));
     }
 
     private void accionMostrar() {
