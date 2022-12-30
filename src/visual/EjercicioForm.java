@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import utiles.DateUtil;
 import utiles.JTableUtil;
 
 /**
@@ -332,8 +333,8 @@ public class EjercicioForm extends javax.swing.JPanel {
         String[][] data = new String[ejercicios.size()][3];
         for (int i = 0; i < ejercicios.size(); i++) {
             data[i][0] = ejercicios.get(i).getEjercicio();
-            data[i][1] = "" + ejercicios.get(i).getFecha_inicio();
-            data[i][2] = "" + ejercicios.get(i).getFecha_fin();
+            data[i][1] = DateUtil.convertDatetoString(String.valueOf(ejercicios.get(i).getFecha_inicio()));
+            data[i][2] = DateUtil.convertDatetoString(String.valueOf(ejercicios.get(i).getFecha_fin()));
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -363,8 +364,8 @@ public class EjercicioForm extends javax.swing.JPanel {
         String[][] data = new String[periodos.size()][3];
         for (int i = 0; i < periodos.size(); i++) {
             data[i][0] = periodos.get(i).getNombre();
-            data[i][1] = "" + periodos.get(i).getFecha_inicio();
-            data[i][2] = "" + periodos.get(i).getFecha_fin();
+            data[i][1] = DateUtil.convertDatetoString(String.valueOf(periodos.get(i).getFecha_inicio()));
+            data[i][2] = DateUtil.convertDatetoString(String.valueOf(periodos.get(i).getFecha_fin()));
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
             @Override
