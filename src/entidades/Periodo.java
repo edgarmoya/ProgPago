@@ -13,16 +13,18 @@ public class Periodo {
     private Date fecha_inicio; 
     private Date fecha_fin; 
     private double importe;
+    private double acumulado;
 
     public Periodo() {
     }
 
-    public Periodo(int id_periodo, String nombre, Date fecha_inicio, Date fecha_fin, double importe) {
+    public Periodo(int id_periodo, String nombre, Date fecha_inicio, Date fecha_fin, double importe, double acumulado) {
         this.id_periodo = id_periodo;
         this.nombre = nombre;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
         this.importe = importe;
+        this.acumulado = acumulado;
     }
 
     public int getId_periodo() {
@@ -63,6 +65,14 @@ public class Periodo {
 
     public void setImporte(double importe) {
         this.importe = importe;
+    }
+
+    public double getAcumulado() {
+        return acumulado;
+    }
+
+    public void setAcumulado(double acumulado) {
+        this.acumulado = acumulado;
     }
 
     @Override

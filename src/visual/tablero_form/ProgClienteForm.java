@@ -6,18 +6,35 @@ import dao.TableroDAO;
 import entidades.Cliente;
 import entidades.Destino;
 import entidades.Ejercicio;
+import entidades.Organizacion;
 import entidades.Periodo;
 import excepciones.BDException;
 import excepciones.ConnectionException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import utiles.JTableUtil;
 import utiles.autoComplete;
+import visual.JD_Organizacion;
 
 /**
  *
@@ -28,6 +45,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
     private TableroDAO tDAO = new TableroDAO();
     private String cliente;
     private String ejercicio;
+    private String rpt_cliente, rpt_ejercicio, rpt_destino;
 
     public ProgClienteForm() {
         initComponents();
@@ -52,6 +70,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
         jcbEjercicio = new custom_swing.Combobox();
         jcbCliente = new custom_swing.Combobox();
         btnSearch = new custom_swing.Button();
+        btnExport = new custom_swing.Button();
         split = new javax.swing.JSplitPane();
         scrollDestinos = new javax.swing.JScrollPane();
         jtDestinos = new javax.swing.JTable();
@@ -66,17 +85,35 @@ public class ProgClienteForm extends javax.swing.JPanel {
         jcbEjercicio.setLabeText("EJERCICIO*");
         jcbEjercicio.setOpaque(false);
         jcbEjercicio.setPreferredSize(new java.awt.Dimension(58, 48));
+        jcbEjercicio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbEjercicioItemStateChanged(evt);
+            }
+        });
 
         jcbCliente.setToolTipText("Seleccione el cliente");
         jcbCliente.setLabeText("CLIENTE*");
         jcbCliente.setOpaque(false);
         jcbCliente.setPreferredSize(new java.awt.Dimension(58, 48));
+        jcbCliente.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbClienteItemStateChanged(evt);
+            }
+        });
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/search_button.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar destinos");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchActionPerformed(evt);
+            }
+        });
+
+        btnExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/export_button.png"))); // NOI18N
+        btnExport.setToolTipText("Exportar");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
             }
         });
 
@@ -87,9 +124,11 @@ public class ProgClienteForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jcbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(25, 25, 25)
                 .addComponent(jcbEjercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -98,6 +137,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(2, 2, 2)
                 .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jcbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,7 +261,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
 
     private void jtDestinosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtDestinosMouseClicked
         String destino = jtDestinos.getModel().getValueAt(posicion(), 0).toString();
-        if (posicion() != -1) {            
+        if (posicion() != -1) {
             if (!cliente.isEmpty() && !ejercicio.isEmpty() && !destino.isEmpty()) {
                 mostrarDesglose(cliente, ejercicio, destino);
                 updateAcumulado();
@@ -234,6 +274,9 @@ public class ProgClienteForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jtDestinosMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        rpt_cliente = (jcbCliente.getSelectedIndex() != -1) ? jcbCliente.getSelectedItem().toString() : "";
+        rpt_ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
+        
         String cliente = (jcbCliente.getSelectedIndex() != -1) ? jcbCliente.getSelectedItem().toString() : "";
         String[] arrayCliente = cliente.split(" ");
         this.cliente = arrayCliente[0];
@@ -247,6 +290,18 @@ public class ProgClienteForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        accionExportar();
+    }//GEN-LAST:event_btnExportActionPerformed
+
+    private void jcbClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbClienteItemStateChanged
+        jtDestinos.clearSelection();
+    }//GEN-LAST:event_jcbClienteItemStateChanged
+
+    private void jcbEjercicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbEjercicioItemStateChanged
+        jtDestinos.clearSelection();
+    }//GEN-LAST:event_jcbEjercicioItemStateChanged
+
     // Seleccionar item y actualizar los desgloses correspondientes
     private void seleccionarItem(int pos) {
         jtDestinos.getSelectionModel().setSelectionInterval(pos, pos);
@@ -254,18 +309,18 @@ public class ProgClienteForm extends javax.swing.JPanel {
             String destino = jtDestinos.getModel().getValueAt(pos, pos).toString();
             mostrarDesglose(cliente, ejercicio, destino);
             updateAcumulado();
-        }else{
+        } else {
             limpiarTabla(jtDesglose);
         }
     }
-    
+
     private void limpiarTabla(JTable jt) {
         DefaultTableModel model = (DefaultTableModel) jt.getModel();
-        while(model.getRowCount() > 0){
+        while (model.getRowCount() > 0) {
             model.removeRow(0);
         }
     }
-    
+
     // Buscar clientes de la BD
     private void buscarClientes() {
         //Limpiar ComboBox
@@ -369,19 +424,19 @@ public class ProgClienteForm extends javax.swing.JPanel {
         jtDesglose.getColumnModel().getColumn(1).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
         jtDesglose.getColumnModel().getColumn(2).setCellRenderer(JTableUtil.alinearColumna(jtDesglose, DefaultTableCellRenderer.RIGHT));
     }
-    
+
     // Actualizar la columna de acumulados
-    private void updateAcumulado(){    
+    private void updateAcumulado() {
         DefaultTableModel m = (DefaultTableModel) jtDesglose.getModel();
         for (int i = 0; i < m.getRowCount(); i++) {
             double acumAnterior;
             try {
-                acumAnterior = Double.parseDouble((String.valueOf(m.getValueAt(i-1, 2))));
+                acumAnterior = Double.parseDouble((String.valueOf(m.getValueAt(i - 1, 2))));
             } catch (Exception e) {
                 acumAnterior = 0.0;
             }
             double impMes = Double.parseDouble(String.valueOf(m.getValueAt(i, 1)));
-            m.setValueAt(String.valueOf(acumAnterior+impMes), i, 2);
+            m.setValueAt(String.valueOf(acumAnterior + impMes), i, 2);
         }
     }
 
@@ -389,10 +444,88 @@ public class ProgClienteForm extends javax.swing.JPanel {
     private int posicion() {
         return jtDestinos.getSelectedRow();
     }
+    
+    public ArrayList<Periodo> getTableData(JTable jt) {
+        DefaultTableModel dtm = (DefaultTableModel) jt.getModel();
+        int nRow = dtm.getRowCount();
+        ArrayList<Periodo> list = new ArrayList<>();
+        for (int i = 0; i < nRow; i++) {
+            Periodo p = new Periodo();
+            p.setNombre((String) dtm.getValueAt(i, 0));
+            p.setImporte(Double.parseDouble((String) dtm.getValueAt(i, 1)));
+            p.setAcumulado(Double.parseDouble((String) dtm.getValueAt(i, 2)));
+            list.add(p);
+        }
+        return list;
+    }
+
+    private void accionExportar() {
+        if (posicion() != -1 && jtDestinos.getModel().getRowCount() != 0) {    
+            rpt_destino = jtDestinos.getModel().getValueAt(posicion(), 0).toString() + " " +jtDestinos.getModel().getValueAt(posicion(), 1).toString();
+            if (!rpt_cliente.isEmpty() && !rpt_ejercicio.isEmpty() && !rpt_destino.isEmpty() && jtDesglose.getModel().getRowCount() != 0) {
+                exportar(rpt_ejercicio, rpt_cliente, rpt_destino);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente y un ejercicio antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione el destino que desea exportar.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void exportar(String ejercicio, String cliente, String destino) {        
+        try {
+            // obtener datos de la organización
+            JD_Organizacion org = new JD_Organizacion(null, true);
+            Organizacion o = org.cargar();
+            File img = new File("logo.jpg");
+
+            ArrayList<Periodo> periodos = new ArrayList<>();
+            periodos.add(new Periodo());
+            periodos.addAll(getTableData(jtDesglose));
+
+            String reportUrl = "/reportes/reporte_progcliente.jasper"; //path
+            InputStream reportFile = getClass().getResourceAsStream(reportUrl);
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(reportFile);
+            JRBeanArrayDataSource ds = new JRBeanArrayDataSource(periodos.toArray());
+
+            Map<String, Object> parameters = new HashMap();
+            parameters.put("ds", ds);
+            if (img.exists()) {
+                parameters.put("logotipo", new FileInputStream(img));
+            } else {
+                parameters.put("logotipo", getClass().getResourceAsStream("/imagenes/no_logo.png"));
+            }
+            parameters.put("org_cod", o.getCodigo());
+            parameters.put("org_nombre", o.getNombre());
+            parameters.put("org_direccion", o.getDireccion());
+            parameters.put("org_telefono", o.getTelefono());
+            parameters.put("org_correo", o.getCorreo());
+            parameters.put("ejercicio", ejercicio);
+            parameters.put("cliente", cliente);
+            parameters.put("destino", destino);
+
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parameters, ds);
+            JasperViewer view = new JasperViewer(jprint, false);
+            view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Inserte los datos de la organización correspondiente antes de elaborar un reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+            JD_Organizacion JDOrg = new JD_Organizacion(null, true);
+            JDOrg.setVisible(true);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al elaborar reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JPanel botones;
+    private custom_swing.Button btnExport;
     private custom_swing.Button btnSearch;
     private custom_swing.Combobox jcbCliente;
     private custom_swing.Combobox jcbEjercicio;
@@ -402,4 +535,5 @@ public class ProgClienteForm extends javax.swing.JPanel {
     private javax.swing.JScrollPane scrollDestinos;
     private javax.swing.JSplitPane split;
     // End of variables declaration//GEN-END:variables
+
 }
