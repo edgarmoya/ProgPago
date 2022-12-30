@@ -407,7 +407,7 @@ public class ProgClienteForm extends javax.swing.JPanel {
         String[][] data = new String[periodos.size()][3];
         for (int i = 0; i < periodos.size(); i++) {
             data[i][0] = periodos.get(i).getNombre();
-            data[i][1] = "" + periodos.get(i).getImporte();
+            data[i][1] = String.valueOf(periodos.get(i).getImporte());
             data[i][2] = "0.0";
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
