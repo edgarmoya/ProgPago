@@ -47,7 +47,6 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         JTableUtil.modTable(jtPeriodos, scrollPeriodos);
 
         buscarEjercicios();
-        accionMostrar();
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +92,7 @@ public class ProgGeneralForm extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jtPeriodos.setToolTipText("Lista de Clientes");
+        jtPeriodos.setToolTipText("Lista de Períodos");
         jtPeriodos.setGridColor(new java.awt.Color(204, 204, 204));
         jtPeriodos.setOpaque(false);
         jtPeriodos.setRowHeight(25);
@@ -153,7 +152,7 @@ public class ProgGeneralForm extends javax.swing.JPanel {
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPeriodos, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
+            .addComponent(scrollPeriodos, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
             .addComponent(botones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         backgroundLayout.setVerticalGroup(
