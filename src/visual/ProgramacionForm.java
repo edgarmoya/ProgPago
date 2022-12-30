@@ -80,7 +80,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         });
 
         btnShowAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mostrar_todo_button.png"))); // NOI18N
-        btnShowAll.setToolTipText("Mostrar todas las programaciones");
+        btnShowAll.setToolTipText("Mostrar programaciones confirmadas");
         btnShowAll.setPreferredSize(new java.awt.Dimension(30, 30));
         btnShowAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -475,16 +475,17 @@ public class ProgramacionForm extends javax.swing.JPanel {
 
     // Comprobar si hay fila seleccionada
     private void comprobarSeleccion() {
-        if (posicion() != -1) {
-            btnEdit.setEnabled(true);
+        if (posicion() != -1) {            
             btnHistory.setEnabled(true);
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             // Comprobar si se puede activar el btnDelete
             try {
                 if (pDAO.isConfirmada(Integer.parseInt(cod)) == 1) {
                     btnDelete.setEnabled(false);
+                    btnEdit.setEnabled(false);
                 } else {
                     btnDelete.setEnabled(true);
+                    btnEdit.setEnabled(true);
                 }
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
