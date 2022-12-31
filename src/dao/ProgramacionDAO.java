@@ -1,8 +1,12 @@
 package dao;
 
+import entidades.Cliente;
 import ppago.ConexionPg;
 import entidades.Programacion;
 import entidades.DestinoDesglose;
+import entidades.Ejercicio;
+import entidades.Moneda;
+import entidades.TipoFinan;
 import excepciones.BDException;
 import excepciones.ConnectionException;
 import java.sql.Array;
@@ -36,11 +40,11 @@ public class ProgramacionDAO {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, prog.getFecha());
                 stmt.setString(2, prog.getObservacion());
-                stmt.setString(3, prog.getTipofinan());
-                stmt.setString(4, prog.getMoneda());
+                stmt.setString(3, prog.getTipofinan().getCod_tipo());
+                stmt.setString(4, prog.getMoneda().getSiglas());
                 stmt.setString(5, "0");
-                stmt.setString(6, prog.getCliente());
-                stmt.setString(7, prog.getEjercicio());
+                stmt.setString(6, prog.getCliente().getCod_cliente());
+                stmt.setString(7, prog.getEjercicio().getEjercicio());
                 stmt.setArray(8, arrayDestinos);
                 stmt.setArray(9, arrayImportes);
                 stmt.setString(10, usuario);
@@ -76,10 +80,23 @@ public class ProgramacionDAO {
                     //Preparar los datos
                     Programacion p = new Programacion();
                     p.setId_prog(rs.getInt("id_prog"));
-                    p.setEjercicio(rs.getString("anno"));
-                    p.setTipofinan(rs.getString("tipo"));
-                    p.setCliente(rs.getString("cliente"));
-                    p.setMoneda(rs.getString("moneda"));
+                    
+                    Ejercicio e = new Ejercicio();
+                    e.setEjercicio(rs.getString("anno"));
+                    p.setEjercicio(e);
+                    
+                    TipoFinan tf = new TipoFinan();
+                    tf.setDescripcion(rs.getString("tipo"));
+                    p.setTipofinan(tf);
+                    
+                    Cliente c = new Cliente();
+                    c.setNombre(rs.getString("cliente"));
+                    p.setCliente(c);
+                    
+                    Moneda m = new Moneda();
+                    m.setSiglas(rs.getString("moneda"));
+                    p.setMoneda(m);
+                    
                     p.setImporte(rs.getDouble("importe"));
                     p.setEstado(rs.getByte("estado"));
                     programaciones.add(p);
@@ -110,10 +127,23 @@ public class ProgramacionDAO {
                     //Preparar los datos
                     Programacion p = new Programacion();
                     p.setId_prog(rs.getInt("id_prog"));
-                    p.setEjercicio(rs.getString("anno"));
-                    p.setTipofinan(rs.getString("tipo"));
-                    p.setCliente(rs.getString("cliente"));
-                    p.setMoneda(rs.getString("moneda"));
+                    
+                    Ejercicio e = new Ejercicio();
+                    e.setEjercicio(rs.getString("anno"));
+                    p.setEjercicio(e);
+
+                    TipoFinan tf = new TipoFinan();
+                    tf.setDescripcion(rs.getString("tipo"));
+                    p.setTipofinan(tf);
+                    
+                    Cliente c = new Cliente();
+                    c.setNombre(rs.getString("cliente"));
+                    p.setCliente(c);
+                    
+                    Moneda m = new Moneda();
+                    m.setSiglas(rs.getString("moneda"));
+                    p.setMoneda(m);
+                    
                     p.setImporte(rs.getDouble("importe"));
                     p.setEstado(rs.getByte("estado"));
                     programaciones.add(p);
@@ -144,10 +174,23 @@ public class ProgramacionDAO {
                 while (rs.next()) {
                     //Preparar los datos
                     p.setId_prog(rs.getInt("id_prog"));
-                    p.setCliente(rs.getString("cliente"));
-                    p.setEjercicio(rs.getString("anno"));
-                    p.setMoneda(rs.getString("moneda"));
-                    p.setTipofinan(rs.getString("tipo"));
+                    
+                    Cliente c = new Cliente();
+                    c.setCod_cliente(rs.getString("cliente"));
+                    p.setCliente(c);
+                    
+                    Ejercicio e = new Ejercicio();
+                    e.setEjercicio(rs.getString("anno"));
+                    p.setEjercicio(e);
+
+                    Moneda m = new Moneda();
+                    m.setSiglas(rs.getString("moneda"));
+                    p.setMoneda(m);
+                    
+                    TipoFinan tf = new TipoFinan();
+                    tf.setCod_tipo(rs.getString("tipo"));
+                    p.setTipofinan(tf);
+                    
                     p.setFecha(rs.getDate("fecha"));
                     p.setObservacion(rs.getString("observacion"));
                 }
@@ -211,11 +254,11 @@ public class ProgramacionDAO {
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, prog.getFecha());
                 stmt.setString(2, prog.getObservacion());
-                stmt.setString(3, prog.getTipofinan());
-                stmt.setString(4, prog.getMoneda());
+                stmt.setString(3, prog.getTipofinan().getCod_tipo());
+                stmt.setString(4, prog.getMoneda().getSiglas());
                 stmt.setString(5, "" + prog.getEstado());
-                stmt.setString(6, prog.getCliente());
-                stmt.setString(7, prog.getEjercicio());
+                stmt.setString(6, prog.getCliente().getCod_cliente());
+                stmt.setString(7, prog.getEjercicio().getEjercicio());
                 stmt.setArray(8, arrayDestinos);
                 stmt.setArray(9, arrayImportes);
                 stmt.setString(10, usuario);

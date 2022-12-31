@@ -3,6 +3,8 @@ package entidades;
 import excepciones.FaltanDatosException;
 import excepciones.IdentificadorException;
 import excepciones.LongitudException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,18 +13,19 @@ import java.util.regex.Pattern;
  * @author Lester
  */
 public class Usuario {
+    
     private String identificador;
     private String nombre;
     private String apellidos;
     private String contrasenna;
-    private String roles;
+    private List<Rol> roles;
     private byte inicio;
     private byte activo;
 
     public Usuario() {
     } 
 
-    public Usuario(String identificador, String nombre, String apellidos, String contrasenna, String roles, byte inicio, byte activo) {
+    public Usuario(String identificador, String nombre, String apellidos, String contrasenna, List<Rol> roles, byte inicio, byte activo) {
         this.identificador = identificador;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -65,11 +68,23 @@ public class Usuario {
     }
 
     public String getRoles() {
-        return roles;
+        String res = "";
+        for (int i = 0; i < roles.size(); i++) {
+            res += roles.get(i);
+            if(i != roles.size()-1)
+                res += ",";
+        }
+        return res;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setRoles(String r) {
+        List<Rol> tmp = new ArrayList<>();
+        String[] s = r.split(",");
+        for (int i = 0; i < s.length; i++) {
+            Rol rol = new Rol(s[i]);
+            tmp.add(rol);          
+        }
+        this.roles = tmp;
     }
 
     public byte getActivo() {

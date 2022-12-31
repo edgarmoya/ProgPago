@@ -8,7 +8,7 @@ import java.sql.Date;
  */
 public class Periodo {
     
-    private int id_periodo;
+    private Ejercicio ejercicio;
     private String nombre;
     private Date fecha_inicio; 
     private Date fecha_fin; 
@@ -18,8 +18,8 @@ public class Periodo {
     public Periodo() {
     }
 
-    public Periodo(int id_periodo, String nombre, Date fecha_inicio, Date fecha_fin, double importe, double acumulado) {
-        this.id_periodo = id_periodo;
+    public Periodo(Ejercicio ejercicio, String nombre, Date fecha_inicio, Date fecha_fin, double importe, double acumulado) {
+        this.ejercicio = ejercicio;
         this.nombre = nombre;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
@@ -27,12 +27,12 @@ public class Periodo {
         this.acumulado = acumulado;
     }
 
-    public int getId_periodo() {
-        return id_periodo;
+    public Ejercicio getEjercicio() {
+        return ejercicio;
     }
 
-    public void setId_periodo(int id_periodo) {
-        this.id_periodo = id_periodo;
+    public void setEjercicio(Ejercicio ejercicio) {
+        this.ejercicio = ejercicio;
     }
 
     public String getNombre() {
@@ -77,7 +77,7 @@ public class Periodo {
 
     @Override
     public String toString() {
-        return "Periodo{" + "id_periodo=" + id_periodo + ", nombre=" + nombre + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + ", importe=" + importe + '}';
+        return "Periodo{" + "ejercicio=" + ejercicio.getEjercicio() + ", nombre=" + nombre + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + ", importe=" + importe + '}';
     }
       
 }

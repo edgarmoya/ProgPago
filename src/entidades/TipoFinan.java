@@ -16,11 +16,12 @@ public class TipoFinan {
     public TipoFinan() {
     }
 
-    public TipoFinan(String cod_tipo, String descripcion) {
-        this.setCod_tipo(cod_tipo);
-        this.setDescripcion(descripcion);
+    public TipoFinan(String cod_tipo, String descripcion, Byte activo) {
+        this.cod_tipo = cod_tipo;
+        this.descripcion = descripcion;
+        this.activo = activo;
     }
-
+    
     public String getCod_tipo() {
         return cod_tipo;
     }

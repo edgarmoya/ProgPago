@@ -9,11 +9,11 @@ import java.sql.Date;
  * @author Lester
  */
 public class Ejercicio {
-    
+
     private int cod_ejercicio;
     private String ejercicio;
-    private Date fecha_inicio; 
-    private Date fecha_fin; 
+    private Date fecha_inicio;
+    private Date fecha_fin;
 
     public Ejercicio() {
     }
@@ -23,7 +23,7 @@ public class Ejercicio {
         this.ejercicio = ejercicio;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
-    }    
+    }
 
     public int getCod_ejercicio() {
         return cod_ejercicio;
@@ -56,7 +56,7 @@ public class Ejercicio {
     public void setFecha_fin(Date fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
-    
+
     // Validar TODO
     public boolean isValido() throws FaltanDatosException, LongitudException {
         // Validar datos no nulos
@@ -81,7 +81,7 @@ public class Ejercicio {
 
     @Override
     public String toString() {
-        return "Ejercicio{" + "cod_ejercicio=" + cod_ejercicio + ", ejercicio=" + ejercicio + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + '}';
+        return "Ejercicio{" + ", ejercicio=" + ejercicio + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + '}';
     }
-    
+
 }

@@ -2,14 +2,13 @@ package entidades;
 
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
  * @author Lester
  */
 public class Destino {
+
     private String id_destino;
     private String nombre;
     private byte activo;
@@ -18,9 +17,9 @@ public class Destino {
     }
 
     public Destino(String id_destino, String nombre, byte activo) {
-        this.setId_destino(id_destino);
-        this.setNombre(nombre);
-        this.setActivo(activo);
+        this.id_destino = id_destino;
+        this.nombre = nombre;
+        this.activo = activo;
     }
 
     public String getId_destino() {
@@ -46,8 +45,8 @@ public class Destino {
     public void setActivo(byte activo) {
         this.activo = activo;
     }
-    
-     // Validar TODO
+
+    // Validar TODO
     public boolean isValido() throws FaltanDatosException, LongitudException {
         // Validar datos no nulos
         if (id_destino.isEmpty() || nombre.isEmpty()) {
@@ -57,7 +56,7 @@ public class Destino {
         if (!validLength()) {
             throw new LongitudException("Compruebe la longitud de los campos antes de continuar.");
         }
-        
+
         return true;
     }
 
