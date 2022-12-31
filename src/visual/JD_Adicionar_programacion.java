@@ -16,11 +16,7 @@ import excepciones.ConnectionException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -128,11 +124,6 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         jtDestinos.setSelectionBackground(new java.awt.Color(228, 235, 245));
         jtDestinos.setSelectionForeground(new java.awt.Color(51, 51, 51));
         jtDestinos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jtDestinos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtDestinosMouseClicked(evt);
-            }
-        });
         scrollDestinos.setViewportView(jtDestinos);
 
         btnAceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -335,10 +326,6 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtDestinosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtDestinosMouseClicked
-
-    }//GEN-LAST:event_jtDestinosMouseClicked
-
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (!editar) {
             // Agregar programacion
@@ -537,16 +524,24 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         Programacion p = new Programacion();
         // cliente
         String cliente = (jcbCliente.getSelectedIndex() != -1) ? jcbCliente.getSelectedItem().toString() : "";
-        p.setCliente(cliente.split(" ")[0]);
+        Cliente c = new Cliente();
+        c.setCod_cliente(cliente.split(" ")[0]);
+        p.setCliente(c);
         // ejercicio
         String ejercicio = (jcbEjercicio.getSelectedIndex() != -1) ? jcbEjercicio.getSelectedItem().toString() : "";
-        p.setEjercicio(ejercicio);
+        Ejercicio e = new Ejercicio();
+        e.setEjercicio(ejercicio);
+        p.setEjercicio(e);
         // moneda
         String moneda = (jcbMoneda.getSelectedIndex() != -1) ? jcbMoneda.getSelectedItem().toString() : "";
-        p.setMoneda(moneda.split(" ")[0]);
+        Moneda m = new Moneda();
+        m.setSiglas(moneda.split(" ")[0]);
+        p.setMoneda(m);
         // tipo
         String tipo = (jcbTipoFinan.getSelectedIndex() != -1) ? jcbTipoFinan.getSelectedItem().toString() : "";
-        p.setTipofinan(tipo.split(" ")[0]);
+        TipoFinan tf = new TipoFinan();
+        tf.setCod_tipo(tipo.split(" ")[0]);
+        p.setTipofinan(tf);
         // fecha
         p.setFecha(java.sql.Date.valueOf(DateUtil.convertStringtoDate(jtfFecha.getText())));
         // observación
@@ -703,10 +698,10 @@ public class JD_Adicionar_programacion extends javax.swing.JDialog {
         btnAceptar.setToolTipText("Editar programación");
 
         // Mostrar datos en campo correspondiente     
-        setJcbCliente(p.getCliente());
-        setJcbEjercicio(p.getEjercicio());
-        setJcbMoneda(p.getMoneda());
-        setJcbTipoFinan(p.getTipofinan());
+        setJcbCliente(p.getCliente().getCod_cliente());
+        setJcbEjercicio(p.getEjercicio().getEjercicio());
+        setJcbMoneda(p.getMoneda().getSiglas());
+        setJcbTipoFinan(p.getTipofinan().getCod_tipo());
         setJtfFecha("" + p.getFecha());
         setJtfObservacion(p.getObservacion());
 

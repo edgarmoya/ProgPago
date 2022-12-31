@@ -10,8 +10,7 @@ public class Historial {
     private String fecha;
     private String operacion;
     
-    public Historial(){
-        
+    public Historial(){      
     }
 
     public Historial(String usuario, String fecha, String operacion) {

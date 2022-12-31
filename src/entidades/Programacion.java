@@ -11,18 +11,18 @@ public class Programacion {
     private int id_prog;
     private Date fecha;
     private String observacion;
-    private String cliente;
-    private String ejercicio;
-    private String tipofinan;
-    private String moneda;
-    private String usuario;
+    private Cliente cliente;
+    private Ejercicio ejercicio;
+    private TipoFinan tipofinan;
+    private Moneda moneda;
+    private Usuario usuario;
     private byte estado;
     private double importe;
 
     public Programacion() {
     }
 
-    public Programacion(int id_prog, Date fecha, String observacion, String cliente, String ejercicio, String tipofinan, String moneda, String usuario, byte estado, double importe) {
+    public Programacion(int id_prog, Date fecha, String observacion, Cliente cliente, Ejercicio ejercicio, TipoFinan tipofinan, Moneda moneda, Usuario usuario, byte estado, double importe) {
         this.id_prog = id_prog;
         this.fecha = fecha;
         this.observacion = observacion;
@@ -59,43 +59,43 @@ public class Programacion {
         this.observacion = observacion;
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public String getEjercicio() {
+    public Ejercicio getEjercicio() {
         return ejercicio;
     }
 
-    public void setEjercicio(String ejercicio) {
+    public void setEjercicio(Ejercicio ejercicio) {
         this.ejercicio = ejercicio;
     }
 
-    public String getTipofinan() {
+    public TipoFinan getTipofinan() {
         return tipofinan;
     }
 
-    public void setTipofinan(String tipofinan) {
+    public void setTipofinan(TipoFinan tipofinan) {
         this.tipofinan = tipofinan;
     }
 
-    public String getMoneda() {
+    public Moneda getMoneda() {
         return moneda;
     }
 
-    public void setMoneda(String moneda) {
+    public void setMoneda(Moneda moneda) {
         this.moneda = moneda;
     }
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 

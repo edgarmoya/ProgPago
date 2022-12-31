@@ -2,6 +2,8 @@ package dao;
 
 import entidades.ClienteImporteDE;
 import entidades.Destino;
+import entidades.Ejercicio;
+import entidades.Moneda;
 import entidades.Periodo;
 import entidades.Programacion;
 import excepciones.BDException;
@@ -175,9 +177,17 @@ public class TableroDAO {
                     //Preparar los datos
                     Programacion p = new Programacion();
                     p.setId_prog(rs.getInt(1));
-                    p.setEjercicio(rs.getString(2));
+                    
+                    Ejercicio e = new Ejercicio();
+                    e.setEjercicio(rs.getString(2));
+                    p.setEjercicio(e);
+                    
                     p.setFecha(rs.getDate(3));
-                    p.setMoneda(rs.getString(4));
+                    
+                    Moneda m = new Moneda();
+                    m.setSiglas(rs.getString(4));
+                    p.setMoneda(m);
+                    
                     p.setEstado(rs.getByte(5));
                     programaciones.add(p);
                 }

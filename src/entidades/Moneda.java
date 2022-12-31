@@ -2,14 +2,13 @@ package entidades;
 
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
  * @author Lester
  */
 public class Moneda {
+    
     private String siglas;
     private String nombre;
     private byte activo;
@@ -18,9 +17,9 @@ public class Moneda {
     }
 
     public Moneda(String siglas, String nombre, byte activo) {
-        this.setSiglas(siglas);
-        this.setNombre(nombre);
-        this.setActivo(activo);
+        this.siglas = siglas;
+        this.nombre = nombre;
+        this.activo = activo;
     }
 
     public String getSiglas() {

@@ -1,15 +1,33 @@
 package visual;
 
 import dao.ProgramacionDAO;
+import entidades.DestinoDesglose;
+import entidades.Organizacion;
+import entidades.Periodo;
 import entidades.Programacion;
 import excepciones.BDException;
 import excepciones.ConnectionException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import utiles.JTableUtil;
 
 /**
@@ -42,6 +60,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
         btnConfirm = new custom_swing.ButtonCircular();
         btnRefresh = new custom_swing.ButtonCircular();
         btnHistory = new custom_swing.ButtonCircular();
+        btnExport = new custom_swing.ButtonCircular();
         scrollProgramacion = new javax.swing.JScrollPane();
         jtProgramaciones = new javax.swing.JTable();
 
@@ -117,6 +136,16 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         });
 
+        btnExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/export_button.png"))); // NOI18N
+        btnExport.setToolTipText("Exportar");
+        btnExport.setEnabled(false);
+        btnExport.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout botonesLayout = new javax.swing.GroupLayout(botones);
         botones.setLayout(botonesLayout);
         botonesLayout.setHorizontalGroup(
@@ -135,6 +164,8 @@ public class ProgramacionForm extends javax.swing.JPanel {
                 .addGap(8, 8, 8)
                 .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
+                .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -143,6 +174,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             .addGroup(botonesLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnHistory, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,7 +241,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollProgramacion, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE))
+                .addComponent(scrollProgramacion, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -327,6 +359,10 @@ public class ProgramacionForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnHistoryActionPerformed
 
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        accionExportar();
+    }//GEN-LAST:event_btnExportActionPerformed
+
     // Eliminar programacion a partir del codigo
     private void accionEliminar(String codigo) {
         int input = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la programación con código \"" + codigo + "\" ?", "Alerta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -361,10 +397,10 @@ public class ProgramacionForm extends javax.swing.JPanel {
         String[][] data = new String[programaciones.size()][7];
         for (int i = 0; i < programaciones.size(); i++) {
             data[i][0] = "" + programaciones.get(i).getId_prog();
-            data[i][1] = programaciones.get(i).getEjercicio();
-            data[i][2] = programaciones.get(i).getTipofinan();
-            data[i][3] = programaciones.get(i).getCliente();
-            data[i][4] = programaciones.get(i).getMoneda();
+            data[i][1] = programaciones.get(i).getEjercicio().getEjercicio();
+            data[i][2] = programaciones.get(i).getTipofinan().getDescripcion();
+            data[i][3] = programaciones.get(i).getCliente().getNombre();
+            data[i][4] = programaciones.get(i).getMoneda().getSiglas();
             data[i][5] = "" + programaciones.get(i).getImporte();
             data[i][6] = (programaciones.get(i).getEstado() == 0) ? "Edición" : "Confirmada";
         }
@@ -407,10 +443,10 @@ public class ProgramacionForm extends javax.swing.JPanel {
         String[][] data = new String[programaciones.size()][7];
         for (int i = 0; i < programaciones.size(); i++) {
             data[i][0] = "" + programaciones.get(i).getId_prog();
-            data[i][1] = programaciones.get(i).getEjercicio();
-            data[i][2] = programaciones.get(i).getTipofinan();
-            data[i][3] = programaciones.get(i).getCliente();
-            data[i][4] = programaciones.get(i).getMoneda();
+            data[i][1] = programaciones.get(i).getEjercicio().getEjercicio();
+            data[i][2] = programaciones.get(i).getTipofinan().getDescripcion();
+            data[i][3] = programaciones.get(i).getCliente().getNombre();
+            data[i][4] = programaciones.get(i).getMoneda().getSiglas();
             data[i][5] = "" + programaciones.get(i).getImporte();
             data[i][6] = (programaciones.get(i).getEstado() == 0) ? "Edición" : "Confirmada";
         }
@@ -477,6 +513,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private void comprobarSeleccion() {
         if (posicion() != -1) {            
             btnHistory.setEnabled(true);
+            btnExport.setEnabled(true);
             String cod = jtProgramaciones.getModel().getValueAt(posicion(), 0).toString();
             // Comprobar si se puede activar el btnDelete
             try {
@@ -494,6 +531,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
             }
         } else {
             btnHistory.setEnabled(false);
+            btnExport.setEnabled(false);
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
         }
@@ -517,6 +555,79 @@ public class ProgramacionForm extends javax.swing.JPanel {
         this.usuario = usuario;
     }
     
+    private void accionExportar() {      
+        if (posicion() != -1) {
+            int prog = Integer.parseInt(jtProgramaciones.getModel().getValueAt(posicion(), 0).toString());
+            exportar(prog);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar la programación deseada antes de continuar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void exportar(int prog) {
+        try {
+            // obtener datos de la organización
+            JD_Organizacion org = new JD_Organizacion(null, true);
+            Organizacion o = org.cargar();          
+            File img = new File("logo.jpg");          
+            
+            Programacion p = getProgramacionSeleccionada();
+            ArrayList<DestinoDesglose> ddesg = new ArrayList<>();
+            ddesg = pDAO.getDestinos(prog);
+            
+            ArrayList<Periodo> list_periodo = new ArrayList<>();
+            list_periodo.add(new Periodo());
+            for (int i = 0; i < ddesg.size(); i++) {
+                Periodo periodo = new Periodo();
+                periodo.setNombre(ddesg.get(i).getDestino());
+                periodo.setImporte(ddesg.get(i).importeTotal());
+                list_periodo.add(periodo);
+            }
+            
+            String reportUrl = "/reportes/reporte_prog.jasper"; //path
+            InputStream reportFile = getClass().getResourceAsStream(reportUrl);          
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(reportFile);
+            JRBeanArrayDataSource ds = new JRBeanArrayDataSource(list_periodo.toArray());           
+
+            Map<String, Object> parameters = new HashMap();
+            parameters.put("ds", ds);
+            if(img.exists()){
+                parameters.put("logotipo", new FileInputStream(img));
+            }else{
+                parameters.put("logotipo", getClass().getResourceAsStream("/imagenes/no_logo.png"));
+            }       
+            parameters.put("org_cod", o.getCodigo());
+            parameters.put("org_nombre", o.getNombre());
+            parameters.put("org_direccion", o.getDireccion());
+            parameters.put("org_telefono", o.getTelefono());
+            parameters.put("org_correo", o.getCorreo());
+            parameters.put("cliente", p.getCliente().getCod_cliente());
+            parameters.put("moneda", p.getMoneda().getSiglas());
+            parameters.put("tipo", p.getTipofinan().getCod_tipo());
+            parameters.put("fecha", p.getFecha());
+            parameters.put("ejercicio", p.getEjercicio().getEjercicio());
+            parameters.put("observacion", p.getObservacion());
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parameters, ds);
+            JasperViewer view = new JasperViewer(jprint, false);
+            view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ConnectionException | BDException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Inserte los datos de la organización correspondiente antes de elaborar un reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+            JD_Organizacion JDOrg = new JD_Organizacion(null, true);
+            JDOrg.setVisible(true);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al elaborar reporte.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JPanel botones;
@@ -524,6 +635,7 @@ public class ProgramacionForm extends javax.swing.JPanel {
     private custom_swing.ButtonCircular btnConfirm;
     private custom_swing.ButtonCircular btnDelete;
     private custom_swing.ButtonCircular btnEdit;
+    private custom_swing.ButtonCircular btnExport;
     private custom_swing.ButtonCircular btnHistory;
     private custom_swing.ButtonCircular btnRefresh;
     private custom_swing.ButtonCircular btnShowAll;

@@ -371,9 +371,9 @@ public class ProgTipoForm extends javax.swing.JPanel {
         String[][] data = new String[programaciones.size()][5];
         for (int i = 0; i < programaciones.size(); i++) {
             data[i][0] = "" + programaciones.get(i).getId_prog();
-            data[i][1] = programaciones.get(i).getEjercicio();
+            data[i][1] = programaciones.get(i).getEjercicio().getEjercicio();
             data[i][2] = DateUtil.convertDatetoString(String.valueOf(programaciones.get(i).getFecha()));
-            data[i][3] = programaciones.get(i).getMoneda();
+            data[i][3] = programaciones.get(i).getMoneda().getSiglas();
             data[i][4] = (programaciones.get(i).getEstado() == 0) ? "En edición" : "Confirmada";
         }
         DefaultTableModel model = new DefaultTableModel(data, columnNames) {
