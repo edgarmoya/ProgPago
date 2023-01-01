@@ -3,6 +3,7 @@ package entidades;
 import excepciones.FaltanDatosException;
 import excepciones.LongitudException;
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +15,7 @@ public class Ejercicio {
     private String ejercicio;
     private Date fecha_inicio;
     private Date fecha_fin;
+    private ArrayList<Periodo> periodos;
 
     public Ejercicio() {
     }
@@ -23,6 +25,7 @@ public class Ejercicio {
         this.ejercicio = ejercicio;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
+        this.periodos = new ArrayList<>();
     }
 
     public int getCod_ejercicio() {
@@ -55,6 +58,14 @@ public class Ejercicio {
 
     public void setFecha_fin(Date fecha_fin) {
         this.fecha_fin = fecha_fin;
+    }
+
+    public ArrayList<Periodo> getPeriodos() {
+        return periodos;
+    }
+
+    public void setPeriodos(ArrayList<Periodo> periodos) {
+        this.periodos = periodos;
     }
 
     // Validar TODO
